@@ -48,7 +48,7 @@ export function RoadSurface({ timeline, trackHalf }: { timeline: Timeline; track
     <group>
       {strips.map(({ side, g }) => (
         <mesh key={side} geometry={g} position={[side === 'R' ? trackHalf : -trackHalf, 0, 0]} receiveShadow>
-          <meshStandardMaterial vertexColors roughness={0.95} metalness={0} />
+          <meshStandardMaterial vertexColors roughness={0.95} metalness={0} envMapIntensity={0.15} color="#8a96a8" />
         </mesh>
       ))}
     </group>

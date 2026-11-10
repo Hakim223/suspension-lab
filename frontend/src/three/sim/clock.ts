@@ -7,6 +7,8 @@ export const simClock = {
   duration: 5,
   wheelAngle: 0,
   explode: 0,
+  /** Latest pose readout for the UI (metres / normalised rack). */
+  readout: { travelL: 0, travelR: 0, rack: 0 },
   /** Set by the timeline scrubber; consumed by the render loop. */
   seekTo: null as number | null,
   listeners: new Set<() => void>(),

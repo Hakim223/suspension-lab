@@ -61,12 +61,16 @@ input[type="range"].range::-moz-range-thumb {
   width: 18px; height: 18px; border-radius: 999px; background: var(--color-accent); border: 3px solid var(--color-bg);
 }
 
+.labels-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .label-3d {
+  position: absolute; left: 0; top: 0; height: 24px; line-height: 16px;
   pointer-events: none; white-space: nowrap; font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
-  padding: 3px 8px; border-radius: 8px; background: rgba(10, 15, 26, 0.82); color: var(--color-ink-2);
-  border: 1px solid var(--color-line-strong); transform: translate(-50%, -140%);
+  padding: 3px 8px; border-radius: 8px; background: rgba(10, 15, 26, 0.86); color: var(--color-ink-2);
+  border: 1px solid var(--color-line-strong); will-change: transform;
 }
-.label-3d[data-active="true"] { color: var(--color-accent-ink); background: var(--color-accent); border-color: var(--color-accent); }
+.label-3d[data-active="true"] { color: var(--color-accent-ink); background: var(--color-accent); border-color: var(--color-accent); z-index: 2; }
+.label-line { position: absolute; left: 0; top: 0; height: 1px; transform-origin: 0 0; background: rgba(125, 211, 252, 0.5); will-change: transform; }
+.label-dot { position: absolute; left: 0; top: 0; width: 6px; height: 6px; border-radius: 99px; background: #7dd3fc; box-shadow: 0 0 0 2px rgba(10,15,26,.8); will-change: transform; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

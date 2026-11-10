@@ -118,6 +118,9 @@ export function SuspensionRig({ model, includes, damageScenario, steerable, time
       ? { kind: damageScenario!.simulation.kind, params: damageScenario!.simulation.params, intensity: s.damageIntensity }
       : null;
     model.update(f);
+    simClock.readout.travelL = f.travel.L;
+    simClock.readout.travelR = f.travel.R;
+    simClock.readout.rack = f.rack;
     onFrame?.(f);
 
     emitAcc.current += dt;

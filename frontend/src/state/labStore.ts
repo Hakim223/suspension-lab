@@ -27,6 +27,7 @@ export interface LabState {
   damageView: DamageView;
   damageIntensity: number;
   cameraResetToken: number;
+  focusToken: number;
   /** Mobile: which sheet is open. */
   mobileSheet: 'none' | 'components' | 'info';
 
@@ -45,6 +46,8 @@ export interface LabState {
   setDamageView: (v: DamageView) => void;
   setDamageIntensity: (v: number) => void;
   resetCamera: () => void;
+  /** Animate the camera to the selected component (right-side instance). */
+  focusSelection: () => void;
   setMobileSheet: (s: LabState['mobileSheet']) => void;
   resetForSuspension: () => void;
 }
@@ -54,7 +57,7 @@ const initial = {
   hoveredComponentId: null,
   hidden: {},
   exploded: false,
-  showLabels: true,
+  showLabels: typeof window === 'undefined' || typeof window.matchMedia !== 'function' ? true : !window.matchMedia('(max-width: 767px)').matches,
   ghostOthers: true,
   mode: 'bump' as AnimationMode,
   playing: false,
@@ -69,6 +72,7 @@ const initial = {
 export const useLab = create<LabState>((set) => ({
   ...initial,
   cameraResetToken: 0,
+  focusToken: 0,
   select: (id) => set({ selectedComponentId: id }),
   hover: (id) => set({ hoveredComponentId: id }),
   toggleHidden: (id) => set((s) => ({ hidden: { ...s.hidden, [id]: !s.hidden[id] } })),
@@ -92,6 +96,7 @@ export const useLab = create<LabState>((set) => ({
   setDamageView: (v) => set({ damageView: v }),
   setDamageIntensity: (v) => set({ damageIntensity: Math.min(1, Math.max(0, v)) }),
   resetCamera: () => set((s) => ({ cameraResetToken: s.cameraResetToken + 1 })),
+  focusSelection: () => set((s) => ({ focusToken: s.focusToken + 1 })),
   setMobileSheet: (sheet) => set({ mobileSheet: sheet }),
   resetForSuspension: () => set({ ...initial }),
 }));
