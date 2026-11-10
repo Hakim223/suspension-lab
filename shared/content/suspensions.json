@@ -1,0 +1,235 @@
+[
+  {
+    "id": "macpherson",
+    "name": "MacPherson Strut",
+    "nameEn": "MacPherson strut",
+    "tagline": "Ringkas, ringan, dan paling umum di roda depan mobil penumpang.",
+    "axlePosition": "depan",
+    "independence": "independen",
+    "summary": "Suspensi independen yang memakai strut (gabungan shock dan per) sebagai penopang atas roda, dan satu lengan bawah sebagai penopang bawah.",
+    "description": "MacPherson strut adalah jenis suspensi depan yang paling banyak dipakai pada mobil penumpang. Bentuknya ringkas karena strut sekaligus menggantikan lengan atas. Ruang yang hemat ini memberi tempat lebih luas untuk mesin melintang pada mobil penggerak roda depan.",
+    "howItWorks": [
+      "Bagian bawah roda ditahan oleh satu lengan bawah (lower arm) yang berengsel ke subframe melalui bushing, dan terhubung ke knuckle melalui ball joint.",
+      "Bagian atas roda ditahan oleh strut yang dibaut ke knuckle dan bertumpu ke bodi melalui strut mount.",
+      "Saat roda menghantam gundukan, lengan bawah berayun naik dan strut memendek: per keong menyerap benturan, shock meredam ayunannya.",
+      "Saat setir dibelokkan, knuckle dan strut berputar bersama pada garis antara ball joint bawah dan strut mount."
+    ],
+    "typicalApplications": [
+      "Roda depan sebagian besar city car, hatchback, dan sedan",
+      "Roda depan banyak MPV dan SUV monokok (unibody)",
+      "Mobil penggerak roda depan dengan mesin melintang"
+    ],
+    "advantages": [
+      "Konstruksi sederhana dengan sedikit komponen",
+      "Ringan dan hemat ruang",
+      "Biaya produksi dan perawatan relatif rendah"
+    ],
+    "disadvantages": [
+      "Perubahan sudut camber saat suspensi bergerak lebih sulit dikendalikan dibanding double wishbone",
+      "Getaran jalan lebih mudah diteruskan ke bodi melalui strut tower",
+      "Tinggi strut membatasi desain kap mesin yang sangat rendah"
+    ],
+    "steerable": true,
+    "modelKey": "macpherson",
+    "sortOrder": 1,
+    "components": [
+      { "componentId": "strut-assembly", "roleDescription": "Menggabungkan shock, per, dan mount; menjadi penopang atas roda sekaligus bagian sumbu kemudi.", "sortOrder": 1 },
+      { "componentId": "shock-absorber", "localName": "Shock Absorber (di dalam strut)", "roleDescription": "Tabung strut berisi peredam; dibaut kaku ke knuckle.", "sortOrder": 2 },
+      { "componentId": "coil-spring", "roleDescription": "Melingkari tabung strut dan menopang berat bagian depan mobil.", "sortOrder": 3 },
+      { "componentId": "strut-mount", "roleDescription": "Mengikat strut ke strut tower; bearing-nya berputar saat setir dibelokkan.", "sortOrder": 4 },
+      { "componentId": "lower-control-arm", "roleDescription": "Satu-satunya lengan pada sistem ini; menahan bagian bawah roda.", "quantityNote": "1 per sisi", "sortOrder": 5 },
+      { "componentId": "lower-arm-bushing", "localName": "Bushing Lower Arm", "roleDescription": "Engsel karet lengan bawah ke subframe.", "quantityNote": "2 per lengan", "sortOrder": 6 },
+      { "componentId": "ball-joint", "localName": "Ball Joint Bawah", "roleDescription": "Menghubungkan lengan bawah ke knuckle; titik bawah sumbu kemudi.", "sortOrder": 7 },
+      { "componentId": "steering-knuckle", "roleDescription": "Pusat roda tempat strut, ball joint, dan tie rod bertemu.", "sortOrder": 8 },
+      { "componentId": "tie-rod-end", "roleDescription": "Mendorong/menarik lengan kemudi knuckle untuk membelokkan roda.", "sortOrder": 9 },
+      { "componentId": "rack-and-pinion", "roleDescription": "Mengubah putaran setir menjadi gerakan menyamping.", "sortOrder": 10 },
+      { "componentId": "stabilizer-bar", "roleDescription": "Menghubungkan suspensi kiri-kanan untuk mengurangi body roll.", "sortOrder": 11 },
+      { "componentId": "stabilizer-link", "roleDescription": "Menghubungkan ujung stabilizer bar ke tabung strut.", "sortOrder": 12 },
+      { "componentId": "wheel-hub", "roleDescription": "Tempat roda berputar, terpasang pada knuckle.", "sortOrder": 13 },
+      { "componentId": "wheel-assembly", "roleDescription": "Roda dan ban sebagai konteks.", "sortOrder": 14 }
+    ]
+  },
+  {
+    "id": "double-wishbone",
+    "name": "Double Wishbone",
+    "nameEn": "Double wishbone",
+    "tagline": "Dua lengan berbentuk segitiga untuk kendali sudut roda yang lebih presisi.",
+    "axlePosition": "depan",
+    "independence": "independen",
+    "summary": "Suspensi independen dengan lengan atas dan lengan bawah yang masing-masing menahan knuckle melalui ball joint.",
+    "description": "Double wishbone memakai dua lengan berbentuk segitiga (mirip tulang garpu ayam, 'wishbone'). Karena posisi roda ditentukan oleh dua lengan, perancang dapat mengatur perubahan sudut roda dengan lebih leluasa. Sistem ini banyak dipakai pada roda depan pickup dan SUV berangka (ladder frame), serta mobil yang mengutamakan pengendalian.",
+    "howItWorks": [
+      "Knuckle dijepit oleh dua lengan: lengan atas (upper arm) dan lengan bawah (lower arm), masing-masing melalui ball joint.",
+      "Lengan atas biasanya lebih pendek dari lengan bawah, sehingga saat roda naik bagian atas roda sedikit tertarik ke dalam (camber negatif) dan ban tetap menapak baik ketika bodi miring.",
+      "Per keong dan shock absorber bertumpu pada lengan bawah dan sasis; keduanya tidak ikut menahan posisi roda.",
+      "Saat setir dibelokkan, knuckle berputar pada garis antara ball joint atas dan bawah."
+    ],
+    "typicalApplications": [
+      "Roda depan banyak pickup dan SUV berangka (ladder frame)",
+      "Mobil sport dan beberapa sedan premium",
+      "Kendaraan yang memerlukan daya angkut dan pengendalian baik"
+    ],
+    "advantages": [
+      "Kontrol sudut camber yang baik sehingga cengkeraman ban lebih konsisten",
+      "Shock absorber tidak menahan gaya samping sehingga bekerja lebih mulus",
+      "Kuat untuk beban berat"
+    ],
+    "disadvantages": [
+      "Lebih banyak komponen sehingga biaya lebih tinggi",
+      "Memerlukan ruang lebih besar",
+      "Penyetelan dan perawatan lebih kompleks"
+    ],
+    "steerable": true,
+    "modelKey": "double-wishbone",
+    "sortOrder": 2,
+    "components": [
+      { "componentId": "upper-control-arm", "roleDescription": "Menahan bagian atas knuckle; lebih pendek dari lengan bawah.", "quantityNote": "1 per sisi", "sortOrder": 1 },
+      { "componentId": "lower-control-arm", "roleDescription": "Menahan bagian bawah knuckle dan menjadi dudukan bawah per/shock.", "quantityNote": "1 per sisi", "sortOrder": 2 },
+      { "componentId": "ball-joint", "localName": "Ball Joint Atas & Bawah", "roleDescription": "Dua ball joint menghubungkan kedua lengan ke knuckle.", "quantityNote": "2 per sisi", "sortOrder": 3 },
+      { "componentId": "lower-arm-bushing", "localName": "Bushing Lengan Atas & Bawah", "roleDescription": "Engsel karet kedua lengan ke sasis.", "sortOrder": 4 },
+      { "componentId": "coil-spring", "roleDescription": "Bertumpu di lengan bawah dan menara sasis; menopang berat mobil.", "sortOrder": 5 },
+      { "componentId": "shock-absorber", "roleDescription": "Meredam ayunan; terpasang di dalam per keong (coilover).", "sortOrder": 6 },
+      { "componentId": "steering-knuckle", "roleDescription": "Dijepit oleh dua ball joint; tempat hub dan tie rod.", "sortOrder": 7 },
+      { "componentId": "tie-rod-end", "roleDescription": "Membelokkan knuckle mengikuti gerakan rack.", "sortOrder": 8 },
+      { "componentId": "rack-and-pinion", "roleDescription": "Mengubah putaran setir menjadi gerakan menyamping.", "sortOrder": 9 },
+      { "componentId": "stabilizer-bar", "roleDescription": "Mengurangi body roll saat menikung.", "sortOrder": 10 },
+      { "componentId": "stabilizer-link", "roleDescription": "Menghubungkan stabilizer bar ke lengan bawah.", "sortOrder": 11 },
+      { "componentId": "wheel-hub", "roleDescription": "Tempat roda berputar.", "sortOrder": 12 },
+      { "componentId": "wheel-assembly", "roleDescription": "Roda dan ban sebagai konteks.", "sortOrder": 13 }
+    ]
+  },
+  {
+    "id": "torsion-beam",
+    "name": "Torsion Beam",
+    "nameEn": "Torsion beam axle",
+    "tagline": "Suspensi belakang sederhana dan kokoh yang hemat ruang.",
+    "axlePosition": "belakang",
+    "independence": "semi-independen",
+    "summary": "Dua trailing arm yang disatukan oleh balok melintang yang dapat terpuntir.",
+    "description": "Torsion beam adalah suspensi belakang semi-independen yang sangat umum pada mobil penggerak roda depan. Konstruksinya sederhana dan ringkas sehingga ruang bagasi dan lantai kabin bisa lebih lega.",
+    "howItWorks": [
+      "Dua trailing arm berengsel ke bodi melalui bushing di bagian depannya; roda terpasang di ujung belakang lengan.",
+      "Kedua lengan disatukan oleh balok melintang (torsion beam).",
+      "Bila kedua roda naik bersama (misalnya melewati polisi tidur), seluruh rakitan berayun pada bushing depan.",
+      "Bila hanya satu roda naik, balok terpuntir. Puntiran ini memberi efek seperti stabilizer bar."
+    ],
+    "typicalApplications": [
+      "Roda belakang banyak city car dan hatchback penggerak roda depan",
+      "Roda belakang banyak MPV kecil dan LCGC",
+      "Sebagian crossover kecil"
+    ],
+    "advantages": [
+      "Sederhana, ringan, dan murah",
+      "Hemat ruang sehingga bagasi lebih luas",
+      "Perawatan relatif mudah; titik aus utama ada di bushing"
+    ],
+    "disadvantages": [
+      "Roda kiri-kanan saling memengaruhi sehingga kenyamanan di jalan rusak terbatas",
+      "Kebebasan pengaturan sudut roda lebih sedikit dibanding multi-link",
+      "Kurang cocok untuk roda belakang penggerak"
+    ],
+    "steerable": false,
+    "modelKey": "torsion-beam",
+    "sortOrder": 3,
+    "components": [
+      { "componentId": "torsion-beam", "roleDescription": "Balok melintang yang menyatukan kedua trailing arm dan bekerja sebagai anti-roll.", "sortOrder": 1 },
+      { "componentId": "trailing-arm", "roleDescription": "Lengan membujur yang membawa roda dan berayun pada bushing depan.", "quantityNote": "1 per sisi", "sortOrder": 2 },
+      { "componentId": "lower-arm-bushing", "localName": "Bushing Trailing Arm", "roleDescription": "Engsel karet seluruh rakitan ke bodi; titik aus paling umum.", "quantityNote": "1 per sisi", "sortOrder": 3 },
+      { "componentId": "coil-spring", "roleDescription": "Duduk di atas lengan dan menopang berat bagian belakang.", "sortOrder": 4 },
+      { "componentId": "shock-absorber", "roleDescription": "Terpasang terpisah dari per, di belakang poros roda.", "sortOrder": 5 },
+      { "componentId": "wheel-hub", "roleDescription": "Dibaut ke ujung trailing arm (stub axle).", "sortOrder": 6 },
+      { "componentId": "wheel-assembly", "roleDescription": "Roda dan ban sebagai konteks.", "sortOrder": 7 }
+    ]
+  },
+  {
+    "id": "multi-link",
+    "name": "Multi-Link",
+    "nameEn": "Multi-link",
+    "tagline": "Beberapa link terpisah untuk keseimbangan kenyamanan dan kestabilan.",
+    "axlePosition": "belakang",
+    "independence": "independen",
+    "summary": "Suspensi independen yang membagi tugas menahan roda ke beberapa link (umumnya empat atau lima).",
+    "description": "Multi-link adalah pengembangan dari double wishbone. Alih-alih dua lengan segitiga, roda ditahan oleh beberapa link lurus yang masing-masing mengatur arah gerakan tertentu. Hasilnya, perancang dapat menyetel kenyamanan dan kestabilan dengan lebih leluasa. Model di aplikasi ini adalah contoh tata letak lima link yang disederhanakan.",
+    "howItWorks": [
+      "Hub carrier (rumah roda belakang) ditahan oleh beberapa link: dua link atas, lengan bawah tempat per, toe link, dan trailing link.",
+      "Link-link lateral menentukan posisi samping dan sudut camber; toe link menjaga arah roda; trailing link menahan gaya maju-mundur.",
+      "Per keong biasanya duduk di lengan bawah, sedangkan shock absorber terpasang terpisah.",
+      "Stabilizer bar menghubungkan suspensi kiri dan kanan."
+    ],
+    "typicalApplications": [
+      "Roda belakang banyak sedan menengah ke atas",
+      "Roda belakang banyak SUV dan crossover modern",
+      "Mobil berpenggerak roda belakang atau empat roda"
+    ],
+    "advantages": [
+      "Keseimbangan kenyamanan dan pengendalian yang sangat baik",
+      "Perubahan sudut roda dapat dirancang dengan teliti",
+      "Getaran dan suara jalan dapat diisolasi dengan baik"
+    ],
+    "disadvantages": [
+      "Banyak komponen dan bushing sehingga biaya lebih tinggi",
+      "Pemeriksaan dan spooring lebih rumit",
+      "Memerlukan ruang lebih besar dibanding torsion beam"
+    ],
+    "steerable": false,
+    "modelKey": "multi-link",
+    "sortOrder": 4,
+    "components": [
+      { "componentId": "multi-link-arms", "localName": "Link Atas & Toe Link", "roleDescription": "Dua link atas dan toe link mengatur camber serta arah roda.", "quantityNote": "3 per sisi", "sortOrder": 1 },
+      { "componentId": "lower-control-arm", "localName": "Lengan Bawah (Spring Link)", "roleDescription": "Lengan bawah tempat per bertumpu.", "sortOrder": 2 },
+      { "componentId": "trailing-arm", "localName": "Trailing Link", "roleDescription": "Menahan gaya maju-mundur hub carrier.", "sortOrder": 3 },
+      { "componentId": "lower-arm-bushing", "localName": "Bushing Link", "roleDescription": "Bushing di setiap ujung link; jumlahnya banyak.", "sortOrder": 4 },
+      { "componentId": "steering-knuckle", "localName": "Hub Carrier (Knuckle Belakang)", "roleDescription": "Rumah roda belakang tempat semua link bertemu; tidak dibelokkan oleh setir.", "sortOrder": 5 },
+      { "componentId": "coil-spring", "roleDescription": "Duduk di lengan bawah, terpisah dari shock.", "sortOrder": 6 },
+      { "componentId": "shock-absorber", "roleDescription": "Meredam ayunan; terpasang terpisah dari per.", "sortOrder": 7 },
+      { "componentId": "stabilizer-bar", "roleDescription": "Mengurangi body roll di bagian belakang.", "sortOrder": 8 },
+      { "componentId": "stabilizer-link", "roleDescription": "Menghubungkan stabilizer bar ke lengan bawah.", "sortOrder": 9 },
+      { "componentId": "wheel-hub", "roleDescription": "Tempat roda berputar.", "sortOrder": 10 },
+      { "componentId": "wheel-assembly", "roleDescription": "Roda dan ban sebagai konteks.", "sortOrder": 11 }
+    ]
+  },
+  {
+    "id": "rigid-axle",
+    "name": "Rigid Axle (Poros Kaku)",
+    "nameEn": "Rigid / solid axle",
+    "tagline": "Satu poros kuat untuk beban berat dan medan berat.",
+    "axlePosition": "belakang",
+    "independence": "dependen",
+    "summary": "Kedua roda dipasang pada satu poros kaku; contoh ini memakai per keong, empat link membujur, dan lateral rod.",
+    "description": "Pada poros kaku (solid axle), roda kiri dan kanan berada di satu poros. Sistem ini sangat kuat dan tahan beban, sehingga banyak dipakai pada roda belakang pickup, SUV berangka, dan kendaraan niaga. Variasinya ada yang memakai per daun (leaf spring) dan ada yang memakai per keong dengan link; model ini menampilkan versi per keong dengan link dan lateral rod.",
+    "howItWorks": [
+      "Kedua roda terpasang di ujung rumah poros (axle housing). Pada penggerak roda belakang, poros berisi gardan dan as roda.",
+      "Empat link membujur (dua bawah, dua atas) menahan poros dari gerakan maju-mundur dan puntiran saat akselerasi/pengereman.",
+      "Lateral rod (Panhard rod) menahan poros dari gerakan menyamping.",
+      "Saat satu roda naik, seluruh poros ikut miring sehingga sudut roda di sisi lain juga berubah."
+    ],
+    "typicalApplications": [
+      "Roda belakang banyak pickup dan SUV berangka",
+      "Roda belakang beberapa MPV penggerak roda belakang",
+      "Kendaraan niaga, truk ringan, dan kendaraan off-road"
+    ],
+    "advantages": [
+      "Sangat kuat dan tahan beban berat",
+      "Konstruksi tahan banting, cocok untuk medan berat",
+      "Ground clearance relatif konstan saat membawa beban"
+    ],
+    "disadvantages": [
+      "Kenyamanan di jalan bergelombang lebih rendah",
+      "Bobot tak berpegas (unsprung mass) besar",
+      "Gerakan satu roda memengaruhi roda lainnya"
+    ],
+    "steerable": false,
+    "modelKey": "rigid-axle",
+    "sortOrder": 5,
+    "components": [
+      { "componentId": "axle-housing", "roleDescription": "Poros tunggal yang membawa kedua roda.", "sortOrder": 1 },
+      { "componentId": "trailing-arm", "localName": "Link Membujur (Atas & Bawah)", "roleDescription": "Empat link yang menahan poros dari gerakan maju-mundur dan puntiran.", "quantityNote": "4 buah", "sortOrder": 2 },
+      { "componentId": "panhard-rod", "roleDescription": "Menahan poros dari gerakan menyamping.", "quantityNote": "1 buah", "sortOrder": 3 },
+      { "componentId": "lower-arm-bushing", "localName": "Bushing Link", "roleDescription": "Bushing di ujung-ujung link dan lateral rod.", "sortOrder": 4 },
+      { "componentId": "coil-spring", "roleDescription": "Duduk di atas poros dan menopang berat bagian belakang.", "sortOrder": 5 },
+      { "componentId": "shock-absorber", "roleDescription": "Meredam ayunan poros.", "sortOrder": 6 },
+      { "componentId": "wheel-hub", "roleDescription": "Ujung poros tempat roda berputar.", "sortOrder": 7 },
+      { "componentId": "wheel-assembly", "roleDescription": "Roda dan ban sebagai konteks.", "sortOrder": 8 }
+    ]
+  }
+]

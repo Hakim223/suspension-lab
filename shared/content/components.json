@@ -1,0 +1,664 @@
+[
+  {
+    "id": "shock-absorber",
+    "name": "Shock Absorber (Peredam Kejut)",
+    "nameEn": "Shock absorber / damper",
+    "category": "peredam",
+    "summary": "Meredam ayunan pegas agar roda tetap menapak dan bodi mobil tidak terus memantul.",
+    "function": "Pegas menyerap benturan, tetapi tanpa peredam pegas akan terus memantul naik-turun. Shock absorber mengubah energi gerak ayunan itu menjadi panas sehingga gerakan cepat berhenti, roda tetap menempel di jalan, dan mobil terasa stabil.",
+    "workingPrinciple": "Di dalam tabung terdapat oli dan piston berlubang kecil (katup). Saat suspensi tertekan atau memanjang, piston memaksa oli melewati lubang-lubang kecil tersebut. Hambatan aliran oli inilah yang memperlambat gerakan. Banyak shock modern juga berisi gas bertekanan untuk mengurangi busa pada oli.",
+    "location": "Berdiri di dekat roda, menghubungkan bagian suspensi yang bergerak (lengan atau knuckle) dengan bodi/sasis. Pada sistem MacPherson, shock menjadi bagian dari strut.",
+    "failureModes": [
+      "Seal bocor sehingga oli merembes keluar",
+      "Katup internal aus sehingga daya redam melemah",
+      "Batang piston (piston rod) tergores atau bengkok",
+      "Karet dudukan (mounting bushing) getas atau sobek"
+    ],
+    "symptoms": [
+      "Mobil terasa terus mengayun setelah melewati polisi tidur",
+      "Bodi limbung atau 'mengapung' pada kecepatan tinggi",
+      "Hidung mobil menukik berlebihan saat mengerem",
+      "Bekas oli atau rembesan di tabung shock",
+      "Keausan ban tidak rata dengan pola bergelombang (cupping)"
+    ],
+    "consequences": [
+      "Jarak pengereman dapat menjadi lebih panjang karena roda kurang menapak",
+      "Kendali mobil berkurang saat bermanuver atau di jalan bergelombang",
+      "Keausan ban dan komponen suspensi lain menjadi lebih cepat"
+    ],
+    "inspection": [
+      "Memeriksa rembesan oli pada tabung dan seal",
+      "Memeriksa kondisi piston rod, boot (karet pelindung), dan bump stopper",
+      "Memeriksa karet dudukan atas dan bawah",
+      "Uji jalan untuk merasakan ayunan berlebih; beberapa bengkel memakai alat uji suspensi"
+    ],
+    "terms": [
+      { "term": "Redaman (damping)", "definition": "Kemampuan menahan dan menghentikan gerakan ayunan." },
+      { "term": "Rebound", "definition": "Gerakan suspensi kembali memanjang setelah tertekan." }
+    ],
+    "sortOrder": 1
+  },
+  {
+    "id": "coil-spring",
+    "name": "Per Keong (Coil Spring)",
+    "nameEn": "Coil spring",
+    "category": "peredam",
+    "summary": "Menopang berat mobil dan menyerap benturan dari permukaan jalan.",
+    "function": "Per keong menahan berat kendaraan sehingga tinggi mobil tetap terjaga, lalu memendek saat roda menghantam gundukan untuk menyerap benturan sebelum sampai ke kabin.",
+    "workingPrinciple": "Kawat baja pegas yang dililit seperti spiral akan memendek bila ditekan dan menyimpan energi. Ketika beban berkurang, energi itu dilepas sehingga per kembali memanjang. Gerakan memanjang-memendek ini kemudian diredam oleh shock absorber.",
+    "location": "Di antara bodi/sasis dan bagian suspensi yang bergerak, misalnya melingkari strut (MacPherson) atau duduk di atas lengan bawah/poros belakang.",
+    "failureModes": [
+      "Per melemah (ambles) setelah pemakaian lama atau beban berlebih",
+      "Per patah, sering di lilitan paling bawah akibat karat",
+      "Lapisan pelindung terkelupas lalu berkarat",
+      "Dudukan karet per (spring seat) aus"
+    ],
+    "symptoms": [
+      "Mobil terlihat lebih rendah atau miring ke satu sisi",
+      "Bunyi 'klotak' atau dentuman saat melewati jalan rusak",
+      "Suspensi sering mentok (bottoming) saat membawa beban",
+      "Ban bergesekan dengan spakbor"
+    ],
+    "consequences": [
+      "Sudut roda (geometri) berubah sehingga ban aus tidak rata",
+      "Patahan per dapat merusak ban atau komponen di sekitarnya",
+      "Pengendalian dan kenyamanan menurun"
+    ],
+    "inspection": [
+      "Mengukur tinggi kendaraan kiri-kanan dan membandingkan dengan spesifikasi",
+      "Memeriksa retak, patah, dan karat pada lilitan",
+      "Memeriksa posisi ujung per pada dudukannya"
+    ],
+    "terms": [
+      { "term": "Ride height", "definition": "Tinggi bodi kendaraan dari permukaan jalan saat diam." },
+      { "term": "Bottoming", "definition": "Suspensi tertekan sampai batas maksimum dan membentur karet pembatas." }
+    ],
+    "sortOrder": 2
+  },
+  {
+    "id": "strut-assembly",
+    "name": "Strut Assembly (Rakitan Strut)",
+    "nameEn": "Strut assembly",
+    "category": "peredam",
+    "summary": "Rakitan shock absorber, per keong, dan strut mount yang sekaligus menjadi bagian struktur suspensi MacPherson.",
+    "function": "Pada suspensi MacPherson, strut bukan hanya peredam. Strut juga ikut menahan posisi roda dan menjadi poros putar roda saat dibelokkan. Karena itu strut menggabungkan tiga peran: menopang beban, meredam ayunan, dan menjadi bagian dari 'tulang' suspensi.",
+    "workingPrinciple": "Bagian bawah strut dibaut kuat ke knuckle (rumah roda). Bagian atas terhubung ke bodi melalui strut mount yang memiliki bantalan sehingga strut dapat berputar ketika setir dibelokkan. Per keong duduk melingkari tabung shock.",
+    "location": "Berdiri tegak di belakang roda depan, dari knuckle hingga menara suspensi (strut tower) di ruang mesin.",
+    "failureModes": [
+      "Shock di dalam strut melemah atau bocor",
+      "Per keong ambles atau patah",
+      "Bantalan (bearing) strut mount aus",
+      "Karet pelindung (boot) dan bump stopper sobek"
+    ],
+    "symptoms": [
+      "Bunyi dari ruang roda saat membelokkan setir di tempat",
+      "Ayunan berlebih setelah melewati gundukan",
+      "Setir terasa berat atau tidak kembali lurus dengan baik"
+    ],
+    "consequences": [
+      "Karena strut ikut menentukan sudut roda, kerusakan dapat mengubah geometri roda",
+      "Pengendalian dan pengereman dapat terpengaruh"
+    ],
+    "inspection": [
+      "Memeriksa setiap bagian strut: rembesan oli, per, mount, boot",
+      "Memeriksa bunyi saat roda dibelokkan dan saat mobil ditekan naik-turun",
+      "Pemeriksaan spooring setelah penggantian strut"
+    ],
+    "terms": [
+      { "term": "Strut tower", "definition": "Bagian bodi berbentuk menara tempat strut dipasang." },
+      { "term": "Spooring (wheel alignment)", "definition": "Penyetelan sudut roda agar sesuai spesifikasi pabrik." }
+    ],
+    "includes": ["shock-absorber", "coil-spring", "strut-mount"],
+    "sortOrder": 3
+  },
+  {
+    "id": "strut-mount",
+    "name": "Strut Mount (Support Strut)",
+    "nameEn": "Strut mount / top mount",
+    "category": "peredam",
+    "summary": "Dudukan atas strut berisi karet dan bantalan yang meredam getaran dan memungkinkan strut berputar saat setir dibelokkan.",
+    "function": "Strut mount mengikat ujung atas strut ke bodi. Karetnya meredam getaran kecil agar tidak masuk ke kabin, dan bantalannya (bearing) memungkinkan strut berputar mengikuti putaran roda saat setir dibelokkan.",
+    "workingPrinciple": "Karet tebal di dalam mount menyerap getaran frekuensi tinggi. Bearing di bawahnya berputar mulus ketika knuckle dan strut berputar terhadap sumbu kemudi.",
+    "location": "Di puncak strut, dibaut ke strut tower di ruang mesin (biasanya terlihat sebagai 2–3 mur di atas menara suspensi).",
+    "failureModes": [
+      "Karet mount getas, retak, atau terpisah",
+      "Bearing aus, berkarat, atau macet",
+      "Mount amblas sehingga strut bergeser naik"
+    ],
+    "symptoms": [
+      "Bunyi 'krek-krek' atau 'tok' saat memutar setir di tempat",
+      "Bunyi dentuman dari atas roda di jalan rusak",
+      "Setir terasa kasar atau berat",
+      "Getaran lebih terasa ke kabin"
+    ],
+    "consequences": [
+      "Gerakan strut dapat bergeser sehingga sudut roda berubah",
+      "Komponen lain menerima beban kejut lebih besar"
+    ],
+    "inspection": [
+      "Memeriksa karet mount dari ruang mesin",
+      "Merasakan gerakan di atas strut saat setir diputar",
+      "Mendengarkan bunyi saat setir diputar penuh kiri-kanan"
+    ],
+    "terms": [
+      { "term": "Bearing", "definition": "Bantalan berisi bola atau rol agar dua bagian dapat berputar dengan sedikit gesekan." }
+    ],
+    "sortOrder": 4
+  },
+  {
+    "id": "lower-control-arm",
+    "name": "Lengan Bawah (Lower Control Arm)",
+    "nameEn": "Lower control arm",
+    "category": "lengan",
+    "summary": "Lengan yang menghubungkan bagian bawah roda ke sasis dan menjaga posisi roda saat bergerak naik-turun.",
+    "function": "Lower arm menahan roda agar tidak bergeser maju-mundur atau ke samping, sambil tetap memperbolehkan roda bergerak naik-turun. Lengan ini menerima gaya besar saat pengereman, akselerasi, dan menikung.",
+    "workingPrinciple": "Sisi dalam lengan berengsel ke sasis melalui bushing karet, sisi luar terhubung ke knuckle melalui ball joint. Saat roda naik, lengan berayun pada engselnya seperti pintu yang membuka ke atas.",
+    "location": "Di bagian bawah, antara rangka/subframe dan knuckle roda.",
+    "failureModes": [
+      "Bushing lengan aus atau sobek",
+      "Ball joint longgar",
+      "Lengan bengkok akibat benturan keras (misalnya menghantam lubang atau trotoar)",
+      "Karat pada lengan berbahan baja"
+    ],
+    "symptoms": [
+      "Bunyi 'gluduk' di jalan rusak",
+      "Setir terasa melayang atau mobil menarik ke satu sisi",
+      "Getaran pada setir saat mengerem",
+      "Ban aus tidak rata"
+    ],
+    "consequences": [
+      "Posisi roda tidak stabil sehingga pengendalian menurun",
+      "Lengan bengkok mengubah geometri roda secara permanen"
+    ],
+    "inspection": [
+      "Mengangkat mobil lalu memeriksa kelonggaran dengan tuas (pry bar)",
+      "Memeriksa bushing dan ball joint secara visual",
+      "Memeriksa lengan dari tanda bengkok atau retak",
+      "Spooring setelah perbaikan"
+    ],
+    "terms": [
+      { "term": "Subframe", "definition": "Rangka tambahan tempat dudukan mesin dan suspensi dibaut." }
+    ],
+    "sortOrder": 5
+  },
+  {
+    "id": "upper-control-arm",
+    "name": "Lengan Atas (Upper Control Arm)",
+    "nameEn": "Upper control arm",
+    "category": "lengan",
+    "summary": "Lengan atas pada suspensi double wishbone yang bersama lengan bawah mengatur sudut roda saat bergerak.",
+    "function": "Upper arm menahan bagian atas knuckle. Karena panjang lengan atas dan bawah berbeda, sudut kemiringan roda (camber) dapat diatur agar ban tetap menapak baik saat mobil menikung.",
+    "workingPrinciple": "Sama seperti lengan bawah: berengsel di sasis melalui bushing dan terhubung ke knuckle melalui ball joint atas. Lengan atas biasanya lebih pendek sehingga ujung atas roda sedikit tertarik ke dalam saat suspensi tertekan.",
+    "location": "Di atas roda, antara sasis dan bagian atas knuckle.",
+    "failureModes": [
+      "Bushing aus",
+      "Ball joint atas longgar",
+      "Lengan bengkok akibat benturan"
+    ],
+    "symptoms": [
+      "Bunyi ketukan dari atas roda",
+      "Setir kurang presisi",
+      "Keausan ban di sisi dalam atau luar"
+    ],
+    "consequences": [
+      "Sudut camber berubah sehingga ban cepat aus",
+      "Stabilitas saat menikung berkurang"
+    ],
+    "inspection": [
+      "Memeriksa kelonggaran ball joint atas dengan roda diangkat",
+      "Memeriksa bushing dan kondisi lengan",
+      "Pemeriksaan sudut camber saat spooring"
+    ],
+    "terms": [
+      { "term": "Camber", "definition": "Kemiringan roda dilihat dari depan; condong ke dalam disebut camber negatif." }
+    ],
+    "sortOrder": 6
+  },
+  {
+    "id": "ball-joint",
+    "name": "Ball Joint (Sendi Peluru)",
+    "nameEn": "Ball joint",
+    "category": "sambungan",
+    "summary": "Sendi berbentuk bola yang menghubungkan lengan suspensi dengan knuckle sehingga roda dapat naik-turun sekaligus dibelokkan.",
+    "function": "Ball joint bekerja seperti sendi bahu manusia: memungkinkan gerakan ke berbagai arah. Roda dapat bergerak naik-turun dan berputar saat setir dibelokkan, tanpa kehilangan sambungan ke lengan.",
+    "workingPrinciple": "Bola baja di ujung pena duduk di dalam mangkuk berlapis bahan gesek rendah dan gemuk. Karet pelindung (boot) menjaga gemuk tetap di dalam dan kotoran tetap di luar.",
+    "location": "Di ujung luar lengan bawah (dan lengan atas pada double wishbone), menempel ke knuckle.",
+    "failureModes": [
+      "Boot sobek sehingga gemuk keluar dan air/kotoran masuk",
+      "Bola dan mangkuk aus sehingga muncul celah (free play)",
+      "Pada kasus parah, ball joint dapat terlepas"
+    ],
+    "symptoms": [
+      "Bunyi 'tok-tok' atau ketukan saat melewati gundukan atau saat berbelok",
+      "Setir terasa longgar atau mobil mengambang",
+      "Keausan ban tidak rata"
+    ],
+    "consequences": [
+      "Ball joint yang terlepas dapat membuat roda kehilangan posisi dan mobil sulit dikendalikan",
+      "Kerusakan ini termasuk masalah keselamatan yang perlu diperiksa segera"
+    ],
+    "inspection": [
+      "Mengangkat roda dan menggoyangnya atas-bawah untuk merasakan celah",
+      "Menggunakan tuas untuk melihat pergerakan pada sambungan",
+      "Memeriksa kondisi boot"
+    ],
+    "terms": [
+      { "term": "Free play (kelonggaran)", "definition": "Gerakan bebas yang tidak seharusnya ada pada sambungan." },
+      { "term": "Boot", "definition": "Karet pelindung berbentuk kantong yang menutup sambungan berisi gemuk." }
+    ],
+    "sortOrder": 7
+  },
+  {
+    "id": "lower-arm-bushing",
+    "name": "Bushing Lengan Suspensi",
+    "nameEn": "Control arm bushing",
+    "category": "sambungan",
+    "summary": "Karet di titik engsel lengan suspensi yang meredam getaran dan memungkinkan lengan berayun tanpa logam bergesekan dengan logam.",
+    "function": "Bushing menjadi bantalan antara lengan suspensi dan sasis. Bushing menahan lengan tetap di tempatnya, menyerap getaran dan suara jalan, serta memungkinkan lengan berayun naik-turun.",
+    "workingPrinciple": "Bushing umumnya berupa selongsong logam dalam dan luar yang diikat oleh karet. Saat lengan berayun, karet sedikit terpuntir. Karena itu bushing mempunyai sedikit kelenturan yang terkendali, bukan celah bebas.",
+    "location": "Di ujung dalam lengan bawah/atas, ujung trailing arm, dan link suspensi lainnya.",
+    "failureModes": [
+      "Karet retak, getas, atau sobek karena usia dan panas",
+      "Karet terlepas dari selongsong logam",
+      "Karet melembek karena terkena oli"
+    ],
+    "symptoms": [
+      "Bunyi 'gluduk' atau 'kletak' di jalan tidak rata",
+      "Mobil terasa limbung atau setir bergetar saat mengerem",
+      "Mobil kurang stabil di kecepatan tinggi",
+      "Ban aus tidak rata"
+    ],
+    "consequences": [
+      "Lengan dapat bergerak di luar posisinya sehingga geometri roda berubah saat berkendara",
+      "Keausan ban dan komponen lain meningkat"
+    ],
+    "inspection": [
+      "Memeriksa karet dari retak dan sobek",
+      "Menggunakan tuas untuk melihat gerakan lengan terhadap dudukannya",
+      "Uji jalan untuk mendengar bunyi"
+    ],
+    "terms": [
+      { "term": "Bushing", "definition": "Bantalan karet (atau poliuretan) pada titik sambungan." }
+    ],
+    "sortOrder": 8
+  },
+  {
+    "id": "stabilizer-bar",
+    "name": "Stabilizer Bar (Batang Anti-Gulung)",
+    "nameEn": "Stabilizer bar / anti-roll bar",
+    "category": "stabilizer",
+    "summary": "Batang baja yang menghubungkan suspensi kiri dan kanan untuk mengurangi kemiringan bodi saat menikung.",
+    "function": "Saat menikung, bodi mobil cenderung miring ke luar. Stabilizer bar menahan perbedaan gerakan antara roda kiri dan kanan sehingga kemiringan bodi (body roll) berkurang.",
+    "workingPrinciple": "Batang berbentuk huruf U ini dibaut ke sasis melalui karet dudukan. Ujung-ujungnya terhubung ke suspensi kiri dan kanan melalui stabilizer link. Bila satu roda naik lebih tinggi dari yang lain, batang terpuntir dan memberikan gaya lawan. Bila kedua roda naik bersamaan, batang hampir tidak terpuntir.",
+    "location": "Melintang di bawah mobil, dekat suspensi depan dan/atau belakang.",
+    "failureModes": [
+      "Karet dudukan (bushing stabilizer) aus",
+      "Batang patah atau retak (jarang)",
+      "Klem dudukan longgar"
+    ],
+    "symptoms": [
+      "Bodi lebih limbung saat menikung",
+      "Bunyi berderit atau ketukan dari bawah mobil"
+    ],
+    "consequences": [
+      "Kestabilan saat menikung dan bermanuver darurat menurun"
+    ],
+    "inspection": [
+      "Memeriksa karet dudukan dan klem",
+      "Memeriksa batang dari retak",
+      "Memeriksa link di kedua ujung"
+    ],
+    "terms": [
+      { "term": "Body roll", "definition": "Kemiringan bodi ke samping saat mobil menikung." },
+      { "term": "Torsi / puntiran", "definition": "Gaya memutar yang membuat batang terpilin." }
+    ],
+    "sortOrder": 9
+  },
+  {
+    "id": "stabilizer-link",
+    "name": "Stabilizer Link (Link Stabil)",
+    "nameEn": "Stabilizer link / sway bar link",
+    "category": "stabilizer",
+    "summary": "Batang penghubung pendek antara ujung stabilizer bar dan suspensi roda.",
+    "function": "Link stabil meneruskan gerakan naik-turun roda ke ujung stabilizer bar sehingga batang dapat bekerja menahan kemiringan bodi.",
+    "workingPrinciple": "Link biasanya memiliki sendi peluru kecil atau bushing di kedua ujung, sehingga dapat mengikuti gerakan suspensi ke berbagai arah tanpa menahan gerakan naik-turun biasa.",
+    "location": "Tegak di dekat roda, dari ujung stabilizer bar ke lengan bawah atau strut.",
+    "failureModes": [
+      "Sendi peluru kecil di ujung link aus atau longgar",
+      "Boot sobek",
+      "Link bengkok atau patah"
+    ],
+    "symptoms": [
+      "Bunyi 'tok-tok' kecil di jalan bergelombang atau saat pelan di jalan rusak",
+      "Bodi terasa lebih limbung saat menikung"
+    ],
+    "consequences": [
+      "Stabilizer bar tidak bekerja optimal sehingga stabilitas berkurang",
+      "Link yang patah dapat mengenai komponen lain"
+    ],
+    "inspection": [
+      "Menggoyang link dengan tangan atau tuas untuk merasakan kelonggaran",
+      "Memeriksa boot pada sendi"
+    ],
+    "terms": [
+      { "term": "Link", "definition": "Batang penghubung dengan sendi di kedua ujungnya." }
+    ],
+    "sortOrder": 10
+  },
+  {
+    "id": "steering-knuckle",
+    "name": "Knuckle (Rumah Roda)",
+    "nameEn": "Steering knuckle / hub carrier",
+    "category": "roda",
+    "summary": "Komponen kokoh tempat roda, rem, dan lengan-lengan suspensi bertemu.",
+    "function": "Knuckle menjadi 'pusat' sudut roda. Hub roda dan rem terpasang di knuckle, sedangkan lengan suspensi, strut, dan tie rod mengikatnya. Pada roda depan, knuckle berputar saat setir dibelokkan.",
+    "workingPrinciple": "Knuckle adalah benda kaku (umumnya besi tuang atau aluminium). Posisinya ditentukan oleh titik-titik sambungan ke lengan dan strut. Tie rod mendorong atau menarik lengan kemudi di knuckle sehingga roda berbelok.",
+    "location": "Di balik velg, di tengah roda.",
+    "failureModes": [
+      "Bengkok akibat benturan keras",
+      "Lubang dudukan aus atau retak (jarang)"
+    ],
+    "symptoms": [
+      "Mobil menarik ke satu sisi dan tidak bisa disetel dengan spooring",
+      "Setir tidak lurus setelah benturan"
+    ],
+    "consequences": [
+      "Geometri roda tidak dapat kembali normal sehingga ban cepat aus dan stabilitas berkurang"
+    ],
+    "inspection": [
+      "Pemeriksaan sudut roda (spooring) dan membandingkan kiri-kanan",
+      "Pemeriksaan visual retak atau bekas benturan"
+    ],
+    "terms": [
+      { "term": "Steering axis (sumbu kemudi)", "definition": "Garis khayal tempat roda berputar saat dibelokkan." }
+    ],
+    "sortOrder": 11
+  },
+  {
+    "id": "tie-rod-end",
+    "name": "Tie Rod & Tie Rod End",
+    "nameEn": "Tie rod / tie rod end",
+    "category": "kemudi",
+    "summary": "Batang penghubung dari rack setir ke knuckle; ujungnya (tie rod end) berupa sendi peluru.",
+    "function": "Tie rod meneruskan gerakan setir ke roda. Ketika setir diputar, rack bergeser dan tie rod mendorong atau menarik knuckle sehingga roda berbelok.",
+    "workingPrinciple": "Tie rod end memiliki sendi peluru agar roda tetap dapat naik-turun sambil tetap dikendalikan. Panjang tie rod dapat disetel untuk mengatur sudut toe saat spooring.",
+    "location": "Melintang dari rumah rack setir ke lengan kemudi pada knuckle, di depan atau di belakang poros roda.",
+    "failureModes": [
+      "Sendi peluru tie rod end aus sehingga longgar",
+      "Boot sobek",
+      "Batang bengkok akibat benturan"
+    ],
+    "symptoms": [
+      "Setir terasa longgar atau ada 'jeda' sebelum roda merespons",
+      "Bunyi ketukan saat berbelok pelan",
+      "Ban aus di tepi (pola keausan toe)",
+      "Setir bergetar"
+    ],
+    "consequences": [
+      "Respons kemudi berkurang",
+      "Pada kasus parah, kendali arah roda dapat hilang",
+      "Termasuk komponen keselamatan yang perlu diperiksa segera bila dicurigai rusak"
+    ],
+    "inspection": [
+      "Menggoyang roda kiri-kanan (posisi jam 3 dan 9) saat roda diangkat",
+      "Memeriksa boot dan kelonggaran pada sendi",
+      "Spooring setelah penggantian"
+    ],
+    "terms": [
+      { "term": "Toe", "definition": "Arah roda dilihat dari atas; toe-in berarti bagian depan roda sedikit mengarah ke dalam." }
+    ],
+    "sortOrder": 12
+  },
+  {
+    "id": "rack-and-pinion",
+    "name": "Rack & Pinion (Rumah Setir)",
+    "nameEn": "Rack and pinion steering",
+    "category": "kemudi",
+    "summary": "Mekanisme yang mengubah putaran setir menjadi gerakan menyamping untuk membelokkan roda.",
+    "function": "Saat setir diputar, roda gigi kecil (pinion) memutar dan menggeser batang bergigi (rack) ke kiri atau ke kanan. Gerakan rack diteruskan ke tie rod dan roda.",
+    "workingPrinciple": "Pinion di ujung poros setir berkaitan dengan gigi pada rack. Pada mobil modern, gerakan ini dibantu oleh power steering hidraulik atau motor listrik (EPS).",
+    "location": "Melintang di bagian depan bawah, biasanya di subframe atau dekat dinding pemisah ruang mesin.",
+    "failureModes": [
+      "Kelonggaran pada gigi atau bushing rack",
+      "Kebocoran oli pada sistem power steering hidraulik",
+      "Boot rack sobek sehingga kotoran masuk",
+      "Inner tie rod (sambungan dalam) aus"
+    ],
+    "symptoms": [
+      "Setir terasa longgar atau berbunyi saat diputar",
+      "Setir berat",
+      "Rembesan oli di sekitar rumah setir (sistem hidraulik)"
+    ],
+    "consequences": [
+      "Kepresisian kemudi berkurang",
+      "Kemudi dapat menjadi berat bila bantuan tenaga bermasalah"
+    ],
+    "inspection": [
+      "Memeriksa kelonggaran setir (free play)",
+      "Memeriksa boot, kebocoran, dan inner tie rod",
+      "Memeriksa dudukan rack"
+    ],
+    "terms": [
+      { "term": "EPS", "definition": "Electric Power Steering: bantuan kemudi menggunakan motor listrik." }
+    ],
+    "sortOrder": 13
+  },
+  {
+    "id": "wheel-hub",
+    "name": "Hub Roda & Bearing",
+    "nameEn": "Wheel hub & bearing",
+    "category": "roda",
+    "summary": "Tempat velg dibaut dan tempat roda berputar dengan mulus berkat bearing.",
+    "function": "Hub memegang roda dan cakram rem, lalu memungkinkan roda berputar bebas dengan gesekan sekecil mungkin melalui bearing roda.",
+    "workingPrinciple": "Bearing berisi bola atau rol baja yang berputar di dalam lintasan. Hub dibaut ke knuckle atau poros, dan velg dipasang ke baut roda di hub.",
+    "location": "Di tengah roda, di antara velg dan knuckle/poros.",
+    "failureModes": [
+      "Bearing aus sehingga berbunyi",
+      "Bearing longgar",
+      "Seal bearing rusak sehingga air masuk"
+    ],
+    "symptoms": [
+      "Dengung yang makin keras seiring kecepatan",
+      "Suara berubah saat mobil berbelok kiri atau kanan",
+      "Roda terasa longgar saat digoyang"
+    ],
+    "consequences": [
+      "Bearing yang rusak parah dapat macet atau menyebabkan roda goyang"
+    ],
+    "inspection": [
+      "Menggoyang roda yang diangkat untuk memeriksa kelonggaran",
+      "Memutar roda dan mendengarkan suara kasar",
+      "Uji jalan untuk membedakan suara bearing dengan suara ban"
+    ],
+    "terms": [
+      { "term": "Wheel bearing", "definition": "Bantalan yang membuat roda berputar mulus." }
+    ],
+    "sortOrder": 14
+  },
+  {
+    "id": "trailing-arm",
+    "name": "Trailing Arm (Lengan Membujur)",
+    "nameEn": "Trailing arm / trailing link",
+    "category": "lengan",
+    "summary": "Lengan yang membujur searah panjang mobil untuk menahan roda atau poros dari gaya maju-mundur.",
+    "function": "Trailing arm menahan roda atau poros agar tidak bergerak maju-mundur ketika mobil berakselerasi, mengerem, atau melewati gundukan, sambil tetap memungkinkan gerakan naik-turun.",
+    "workingPrinciple": "Ujung depan lengan berengsel ke bodi melalui bushing. Roda atau poros berada di ujung belakang, sehingga roda bergerak naik-turun mengikuti busur ayunan lengan.",
+    "location": "Membujur di bawah mobil, di depan poros roda belakang.",
+    "failureModes": [
+      "Bushing ujung lengan aus atau sobek",
+      "Lengan bengkok akibat benturan"
+    ],
+    "symptoms": [
+      "Bunyi dentuman dari belakang di jalan rusak",
+      "Bagian belakang mobil terasa 'menyetir sendiri' atau tidak stabil",
+      "Ban belakang aus tidak rata"
+    ],
+    "consequences": [
+      "Posisi roda belakang berubah sehingga stabilitas di kecepatan tinggi menurun"
+    ],
+    "inspection": [
+      "Memeriksa bushing dengan tuas",
+      "Memeriksa lengan dari bengkok",
+      "Pemeriksaan sudut roda belakang"
+    ],
+    "terms": [
+      { "term": "Membujur (longitudinal)", "definition": "Searah panjang mobil (depan-belakang)." }
+    ],
+    "sortOrder": 15
+  },
+  {
+    "id": "torsion-beam",
+    "name": "Torsion Beam (Balok Puntir)",
+    "nameEn": "Torsion beam",
+    "category": "struktur",
+    "summary": "Balok melintang yang menyatukan dua trailing arm dan dapat sedikit terpuntir agar roda kiri-kanan bisa bergerak berbeda.",
+    "function": "Torsion beam menghubungkan lengan kiri dan kanan. Balok ini cukup kaku untuk menjaga posisi roda, tetapi dapat terpuntir saat satu roda naik lebih tinggi dari roda lainnya, sehingga sekaligus bekerja seperti stabilizer bar.",
+    "workingPrinciple": "Profil balok (sering berbentuk huruf U atau V) dirancang kuat terhadap tekukan tetapi lebih lentur terhadap puntiran. Ketika kedua roda naik bersama, seluruh rakitan berayun pada bushing depan. Ketika hanya satu roda naik, balok terpuntir.",
+    "location": "Melintang di bawah bagian belakang mobil, di antara roda kiri dan kanan.",
+    "failureModes": [
+      "Bushing dudukan aus (paling sering)",
+      "Balok bengkok akibat benturan keras",
+      "Karat pada sambungan las"
+    ],
+    "symptoms": [
+      "Bunyi dari belakang saat melewati jalan rusak",
+      "Bagian belakang terasa goyang saat pindah lajur",
+      "Keausan ban belakang tidak rata"
+    ],
+    "consequences": [
+      "Karena kedua roda terhubung, balok bengkok mengubah sudut kedua roda belakang"
+    ],
+    "inspection": [
+      "Memeriksa bushing dudukan",
+      "Memeriksa balok dari bekas benturan atau retak",
+      "Mengukur sudut roda belakang"
+    ],
+    "terms": [
+      { "term": "Semi-independen", "definition": "Roda kiri-kanan terhubung, tetapi masih bisa bergerak sedikit berbeda." }
+    ],
+    "sortOrder": 16
+  },
+  {
+    "id": "panhard-rod",
+    "name": "Lateral Rod / Panhard Rod",
+    "nameEn": "Panhard rod / lateral rod",
+    "category": "lengan",
+    "summary": "Batang melintang yang menahan poros belakang agar tidak bergeser ke kiri-kanan.",
+    "function": "Pada poros kaku, trailing link menahan gerakan maju-mundur, sedangkan lateral rod menahan poros dari gerakan menyamping saat mobil menikung.",
+    "workingPrinciple": "Satu ujung batang berengsel ke bodi di satu sisi, ujung lainnya ke poros di sisi berlawanan. Karena ujungnya berayun mengikuti busur, poros bergeser sedikit ke samping saat naik-turun; pergeseran kecil ini memang sifat desain Panhard rod.",
+    "location": "Melintang di belakang, di dekat poros roda belakang.",
+    "failureModes": [
+      "Bushing di kedua ujung aus",
+      "Batang atau dudukan bengkok"
+    ],
+    "symptoms": [
+      "Bagian belakang terasa bergeser saat menikung atau pindah lajur",
+      "Bunyi ketukan dari belakang"
+    ],
+    "consequences": [
+      "Poros dapat bergeser menyamping sehingga stabilitas menurun"
+    ],
+    "inspection": [
+      "Memeriksa bushing kedua ujung",
+      "Memeriksa gerakan poros ke samping relatif terhadap bodi"
+    ],
+    "terms": [
+      { "term": "Lateral", "definition": "Menyamping (kiri-kanan)." }
+    ],
+    "sortOrder": 17
+  },
+  {
+    "id": "multi-link-arms",
+    "name": "Lengan Multi-Link",
+    "nameEn": "Multi-link control arms",
+    "category": "lengan",
+    "summary": "Beberapa lengan (link) terpisah yang masing-masing mengatur satu arah gerakan roda.",
+    "function": "Pada suspensi multi-link, tugas menahan roda dibagi ke beberapa link. Pembagian ini memudahkan perancang mengatur kenyamanan dan kestabilan secara terpisah, termasuk sudut camber dan toe saat roda bergerak.",
+    "workingPrinciple": "Setiap link memiliki bushing atau sendi di kedua ujungnya. Kombinasi panjang dan posisi link menentukan lintasan roda. Salah satu link biasanya bertugas sebagai toe link untuk mengatur arah roda belakang.",
+    "location": "Di sekitar hub carrier roda belakang, menghubungkannya ke subframe.",
+    "failureModes": [
+      "Bushing link aus",
+      "Link bengkok akibat benturan",
+      "Baut penyetel (adjuster) berkarat atau bergeser"
+    ],
+    "symptoms": [
+      "Keausan ban belakang tidak rata",
+      "Bunyi dari belakang",
+      "Bagian belakang kurang stabil"
+    ],
+    "consequences": [
+      "Perubahan kecil pada satu link dapat mengubah sudut roda secara signifikan"
+    ],
+    "inspection": [
+      "Memeriksa setiap bushing link",
+      "Memeriksa link dari bengkok",
+      "Spooring roda belakang"
+    ],
+    "terms": [
+      { "term": "Toe link", "definition": "Link yang mengatur arah toe roda belakang." }
+    ],
+    "sortOrder": 18
+  },
+  {
+    "id": "axle-housing",
+    "name": "Poros Kaku (Axle Housing)",
+    "nameEn": "Solid axle housing",
+    "category": "struktur",
+    "summary": "Poros tunggal yang menyatukan roda kiri dan kanan; pada penggerak roda belakang berisi gardan dan as roda.",
+    "function": "Poros kaku menyangga kedua roda dalam satu struktur yang kuat sehingga cocok untuk beban berat. Karena terhubung, gerakan satu roda akan memengaruhi roda di sisi lainnya.",
+    "workingPrinciple": "Kedua roda berada di ujung poros yang sama. Saat satu roda naik, seluruh poros ikut miring. Link dan lateral rod menahan posisi poros, sedangkan per dan shock menopang serta meredam gerakannya.",
+    "location": "Melintang di bawah bagian belakang kendaraan.",
+    "failureModes": [
+      "Kebocoran oli gardan",
+      "Poros bengkok akibat beban berlebih atau benturan",
+      "Dudukan per atau link retak"
+    ],
+    "symptoms": [
+      "Rembesan oli di rumah gardan",
+      "Dengung dari gardan",
+      "Keausan ban belakang tidak rata"
+    ],
+    "consequences": [
+      "Poros bengkok mengubah sudut kedua roda"
+    ],
+    "inspection": [
+      "Memeriksa kebocoran oli dan dudukan",
+      "Memeriksa kelurusan poros"
+    ],
+    "terms": [
+      { "term": "Gardan (differential)", "definition": "Roda gigi yang membagi tenaga ke roda kiri dan kanan agar dapat berputar dengan kecepatan berbeda saat menikung." }
+    ],
+    "sortOrder": 19
+  },
+  {
+    "id": "wheel-assembly",
+    "name": "Roda & Ban",
+    "nameEn": "Wheel & tyre",
+    "category": "roda",
+    "summary": "Satu-satunya bagian mobil yang menyentuh jalan; semua kerja suspensi bertujuan menjaga ban tetap menapak.",
+    "function": "Ban meneruskan gaya pengereman, akselerasi, dan belok ke jalan. Suspensi yang baik menjaga ban tetap menempel dan sudutnya tepat.",
+    "workingPrinciple": "Ban bertekanan angin juga berfungsi sebagai pegas kecil. Pola keausan ban sering menjadi petunjuk awal adanya masalah suspensi atau spooring.",
+    "location": "Di ujung setiap sudut suspensi.",
+    "failureModes": [
+      "Tekanan angin tidak sesuai",
+      "Keausan tidak rata karena geometri roda tidak tepat",
+      "Velg peyang akibat benturan"
+    ],
+    "symptoms": [
+      "Ban aus di satu sisi atau bergelombang",
+      "Setir bergetar di kecepatan tertentu",
+      "Mobil menarik ke satu sisi"
+    ],
+    "consequences": [
+      "Daya cengkeram berkurang sehingga jarak pengereman dapat bertambah"
+    ],
+    "inspection": [
+      "Memeriksa tekanan angin dan pola keausan",
+      "Balancing dan spooring"
+    ],
+    "terms": [
+      { "term": "Balancing", "definition": "Penyeimbangan roda agar tidak bergetar saat berputar." }
+    ],
+    "sortOrder": 20
+  }
+]

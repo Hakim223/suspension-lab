@@ -1,0 +1,14 @@
+[
+  { "term": "Suspensi independen", "definition": "Setiap roda dapat bergerak naik-turun sendiri tanpa langsung memengaruhi roda di sisi lainnya." },
+  { "term": "Kompresi (bump)", "definition": "Gerakan suspensi memendek, misalnya saat roda naik melewati gundukan." },
+  { "term": "Rebound", "definition": "Gerakan suspensi kembali memanjang setelah tertekan." },
+  { "term": "Camber", "definition": "Kemiringan roda dilihat dari depan mobil." },
+  { "term": "Toe", "definition": "Arah roda dilihat dari atas; menentukan apakah ujung depan roda mengarah ke dalam atau ke luar." },
+  { "term": "Caster", "definition": "Kemiringan sumbu kemudi dilihat dari samping; membantu setir kembali lurus." },
+  { "term": "Body roll", "definition": "Kemiringan bodi ke samping saat menikung." },
+  { "term": "Unsprung mass", "definition": "Bobot bagian yang tidak ditopang per, seperti roda, rem, dan sebagian lengan. Semakin ringan, semakin mudah roda mengikuti jalan." },
+  { "term": "Spooring (wheel alignment)", "definition": "Penyetelan sudut roda (camber, caster, toe) sesuai spesifikasi pabrik." },
+  { "term": "Free play", "definition": "Kelonggaran atau gerakan bebas yang tidak seharusnya ada pada sambungan." },
+  { "term": "Bushing", "definition": "Bantalan karet di titik engsel yang meredam getaran dan memungkinkan gerakan terbatas." },
+  { "term": "Ball joint", "definition": "Sendi berbentuk bola yang memungkinkan gerakan ke banyak arah." }
+]

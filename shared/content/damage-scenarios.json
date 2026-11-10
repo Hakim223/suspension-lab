@@ -1,0 +1,186 @@
+[
+  {
+    "id": "bushing-worn",
+    "componentId": "lower-arm-bushing",
+    "title": "Bushing Lengan Aus atau Sobek",
+    "shortTitle": "Bushing aus",
+    "severity": "sedang",
+    "normalCondition": "Karet bushing utuh dan menahan lengan tetap di posisinya. Lengan hanya berayun naik-turun dengan mulus.",
+    "damagedCondition": "Karet retak atau sobek sehingga lengan dapat bergeser maju-mundur dan ke samping di titik engselnya, terutama saat melewati gundukan atau mengerem.",
+    "failureDescription": "Karet bushing menua karena panas, beban berulang, dan kontaminasi oli. Ketika karet retak, celah muncul di antara selongsong logam sehingga lengan tidak lagi tertahan dengan rapat.",
+    "symptoms": [
+      "Bunyi 'gluduk' atau 'kletak' saat melewati jalan rusak",
+      "Setir bergetar atau mobil sedikit menarik saat mengerem",
+      "Mobil terasa kurang stabil di kecepatan tinggi",
+      "Keausan ban tidak rata"
+    ],
+    "safetyImplications": [
+      "Sudut roda dapat berubah-ubah saat berkendara sehingga respons kendaraan kurang dapat diprediksi",
+      "Beban berlebih berpindah ke ball joint dan komponen lain"
+    ],
+    "inspection": [
+      "Pemeriksaan visual retak dan sobek pada karet",
+      "Pemeriksaan gerakan lengan menggunakan tuas saat mobil diangkat",
+      "Uji jalan untuk memastikan sumber bunyi",
+      "Spooring setelah penggantian bushing"
+    ],
+    "simulation": {
+      "kind": "bushing-play",
+      "params": { "playMm": 6, "visualExaggeration": 3 },
+      "recommendedMode": "bump"
+    },
+    "sortOrder": 1
+  },
+  {
+    "id": "ball-joint-play",
+    "componentId": "ball-joint",
+    "title": "Ball Joint dengan Kelonggaran Berlebih",
+    "shortTitle": "Ball joint longgar",
+    "severity": "tinggi",
+    "normalCondition": "Bola duduk rapat di mangkuknya. Knuckle bergerak tepat mengikuti ujung lengan tanpa celah.",
+    "damagedCondition": "Bola dan mangkuk aus sehingga ada celah. Knuckle dapat bergeser relatif terhadap lengan dan menimbulkan ketukan setiap kali arah gaya berubah.",
+    "failureDescription": "Boot yang sobek membuat gemuk hilang dan kotoran masuk. Gesekan yang meningkat mengikis permukaan bola dan mangkuk sehingga muncul kelonggaran yang terus membesar.",
+    "symptoms": [
+      "Bunyi 'tok-tok' saat melewati gundukan atau saat berbelok",
+      "Setir terasa longgar atau mobil mengambang",
+      "Keausan ban di satu sisi"
+    ],
+    "safetyImplications": [
+      "Pada kondisi parah ball joint dapat terlepas sehingga roda kehilangan posisi",
+      "Ini adalah komponen keselamatan: hentikan pemakaian berat dan segera periksakan bila dicurigai"
+    ],
+    "inspection": [
+      "Roda diangkat lalu digoyang atas-bawah (posisi jam 12 dan 6)",
+      "Pengamatan langsung gerakan pada ball joint menggunakan tuas",
+      "Pemeriksaan kondisi boot"
+    ],
+    "simulation": {
+      "kind": "ball-joint-play",
+      "params": { "playMm": 5, "visualExaggeration": 3 },
+      "recommendedMode": "bump"
+    },
+    "sortOrder": 2
+  },
+  {
+    "id": "weak-shock",
+    "componentId": "shock-absorber",
+    "title": "Shock Absorber Lemah",
+    "shortTitle": "Shock lemah",
+    "severity": "tinggi",
+    "normalCondition": "Setelah melewati gundukan, suspensi kembali ke posisi normal dalam sekitar satu kali ayunan.",
+    "damagedCondition": "Daya redam berkurang sehingga suspensi terus mengayun beberapa kali sebelum berhenti, dan roda sempat kehilangan tekanan ke jalan.",
+    "failureDescription": "Seal yang bocor atau katup yang aus membuat oli mengalir terlalu mudah di dalam shock. Hambatan berkurang sehingga energi ayunan tidak teredam dengan baik.",
+    "symptoms": [
+      "Mobil mengayun berulang setelah melewati polisi tidur",
+      "Bodi terasa mengapung di kecepatan tinggi",
+      "Hidung mobil menukik saat mengerem",
+      "Rembesan oli pada tabung shock",
+      "Keausan ban bergelombang"
+    ],
+    "safetyImplications": [
+      "Roda yang memantul kurang menapak sehingga jarak pengereman dapat bertambah",
+      "Stabilitas saat menikung dan manuver darurat menurun"
+    ],
+    "inspection": [
+      "Pemeriksaan rembesan oli dan kondisi seal",
+      "Uji tekan bodi dan uji jalan",
+      "Pengujian dengan alat penguji suspensi bila tersedia",
+      "Penggantian sebaiknya berpasangan kiri-kanan"
+    ],
+    "simulation": {
+      "kind": "weak-damper",
+      "params": { "normalDampingRatio": 0.4, "damagedDampingRatio": 0.07 },
+      "recommendedMode": "bump"
+    },
+    "sortOrder": 3
+  },
+  {
+    "id": "stabilizer-link-loose",
+    "componentId": "stabilizer-link",
+    "title": "Stabilizer Link Rusak",
+    "shortTitle": "Link stabil rusak",
+    "severity": "sedang",
+    "normalCondition": "Link meneruskan gerakan roda ke ujung stabilizer bar tanpa celah, sehingga batang terpuntir saat roda kiri-kanan bergerak berbeda.",
+    "damagedCondition": "Sendi di ujung link longgar. Gerakan roda tidak langsung diteruskan ke stabilizer bar sehingga batang terlambat bekerja dan muncul ketukan.",
+    "failureDescription": "Sendi peluru kecil di ujung link aus atau boot-nya sobek. Celah membuat link bergerak bebas sesaat sebelum menahan beban.",
+    "symptoms": [
+      "Bunyi 'tok-tok' kecil saat pelan di jalan bergelombang",
+      "Bodi lebih limbung saat menikung"
+    ],
+    "safetyImplications": [
+      "Efek anti-gulung berkurang sehingga stabilitas saat manuver mendadak menurun",
+      "Link yang patah dapat mengganggu komponen di sekitarnya"
+    ],
+    "inspection": [
+      "Menggoyang link dengan tangan atau tuas",
+      "Pemeriksaan boot dan kedua ujung sendi"
+    ],
+    "simulation": {
+      "kind": "stabilizer-link-loose",
+      "params": { "playMm": 10, "visualExaggeration": 2 },
+      "recommendedMode": "rough"
+    },
+    "sortOrder": 4
+  },
+  {
+    "id": "strut-mount-worn",
+    "componentId": "strut-mount",
+    "title": "Strut Mount Aus",
+    "shortTitle": "Strut mount aus",
+    "severity": "sedang",
+    "normalCondition": "Karet mount meredam getaran dan bearing berputar halus saat setir dibelokkan. Ujung atas strut tetap di posisinya.",
+    "damagedCondition": "Karet amblas atau retak sehingga ujung atas strut dapat bergeser, dan bearing yang aus membuat putaran strut tersendat.",
+    "failureDescription": "Karet menua dan bearing kehilangan pelumas atau berkarat. Strut tidak lagi tertahan rapat di strut tower.",
+    "symptoms": [
+      "Bunyi 'krek' atau 'tok' saat memutar setir di tempat",
+      "Dentuman dari atas roda di jalan rusak",
+      "Setir terasa kasar atau berat"
+    ],
+    "safetyImplications": [
+      "Posisi atas strut yang bergeser dapat mengubah sudut roda",
+      "Getaran dan beban kejut lebih banyak diteruskan ke komponen lain"
+    ],
+    "inspection": [
+      "Pemeriksaan karet mount dari ruang mesin",
+      "Merasakan gerakan di atas strut saat setir diputar",
+      "Mendengarkan bunyi saat setir diputar penuh"
+    ],
+    "simulation": {
+      "kind": "strut-mount-worn",
+      "params": { "sagMm": 8, "playMm": 5, "visualExaggeration": 3 },
+      "recommendedMode": "steer"
+    },
+    "sortOrder": 5
+  },
+  {
+    "id": "tie-rod-end-damaged",
+    "componentId": "tie-rod-end",
+    "title": "Tie Rod End Rusak",
+    "shortTitle": "Tie rod end rusak",
+    "severity": "tinggi",
+    "normalCondition": "Tie rod meneruskan gerakan rack ke knuckle tanpa jeda. Roda berbelok tepat sesuai putaran setir.",
+    "damagedCondition": "Sendi tie rod end longgar sehingga ada jeda sebelum roda merespons dan roda dapat bergoyang sedikit ke kiri-kanan (perubahan toe) saat melaju.",
+    "failureDescription": "Sendi peluru di ujung tie rod aus, biasanya diawali boot yang sobek. Kelonggaran membuat arah roda tidak lagi ditahan dengan tepat.",
+    "symptoms": [
+      "Setir terasa longgar atau kurang responsif",
+      "Bunyi ketukan saat berbelok pelan",
+      "Ban aus di bagian tepi",
+      "Setir bergetar"
+    ],
+    "safetyImplications": [
+      "Kendali arah roda berkurang; pada kasus parah sambungan dapat terlepas",
+      "Ini adalah komponen keselamatan yang perlu diperiksa segera bila dicurigai rusak"
+    ],
+    "inspection": [
+      "Roda diangkat lalu digoyang kiri-kanan (posisi jam 3 dan 9)",
+      "Pengamatan langsung gerakan pada sendi tie rod end",
+      "Spooring wajib setelah penggantian"
+    ],
+    "simulation": {
+      "kind": "tie-rod-play",
+      "params": { "toeWobbleDeg": 1.2, "visualExaggeration": 3 },
+      "recommendedMode": "steer"
+    },
+    "sortOrder": 6
+  }
+]

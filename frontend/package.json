@@ -1,0 +1,41 @@
+{
+  "name": "@suspension-lab/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p . && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@suspension-lab/shared": "1.0.0",
+    "gsap": "^3.15.1",
+    "lucide-react": "^1.71.0",
+    "react": "~19.3.1",
+    "react-dom": "~19.3.1",
+    "react-router-dom": "^7.18.5",
+    "three": "~0.187.0",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "~0.187.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^31.0.0",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0"
+  }
+}
