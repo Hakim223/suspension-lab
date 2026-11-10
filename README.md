@@ -1,6 +1,6 @@
 # Suspension Lab
 
-Interactive 3D automotive suspension education platform for workshop customers — in Bahasa Indonesia.
+Interactive 3D automotive suspension education platform for customers of **Five Degrees Kaki Kaki** — in Bahasa Indonesia. Branding lives in `frontend/src/config/workshop.ts` and `frontend/public/brand/`.
 Customers can rotate and explode five suspension architectures, tap any component to learn what it
 does and how it fails, watch constrained mechanical animations, and compare normal vs. damaged
 components side by side.

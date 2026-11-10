@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, CircleHelp, FlaskConical, MousePointerClick, Rota
 import { useContent } from '../data/contentStore';
 import { TopBar } from '../components/layout/TopBar';
 import { Notice } from '../components/ui/primitives';
+import { WORKSHOP } from '../config/workshop';
 
 const STEPS = [
   { icon: Rotate3d, title: 'Putar & perbesar', text: 'Seret model 3D untuk melihat dari segala sisi. Cubit atau scroll untuk zoom.' },
@@ -20,12 +21,18 @@ export default function HomePage() {
           <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(#1f2d45_1px,transparent_1px),linear-gradient(90deg,#1f2d45_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_70%_30%,black,transparent_70%)]" />
           <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 md:py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div>
-              <span className="chip"><span className="h-1.5 w-1.5 rounded-full bg-accent" /> Edukasi suspensi & kaki-kaki mobil</span>
+              <div className="flex items-center gap-3">
+                <img src="/brand/logo-light.png" alt={`Logo ${WORKSHOP.name}`} className="h-12 w-auto" />
+                <div className="leading-tight">
+                  <div className="text-[15px] font-semibold">{WORKSHOP.name}</div>
+                  <div className="text-[13px] text-muted">Spesialis suspensi & kaki-kaki mobil</div>
+                </div>
+              </div>
               <h1 className="mt-5 text-[38px] leading-[1.08] font-bold tracking-tight sm:text-[52px]">
                 Kenali kaki-kaki mobil Anda <span className="text-accent">dalam 3D.</span>
               </h1>
               <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-2">
-                Suspension Lab membantu Anda memahami cara kerja suspensi, fungsi setiap komponen, dan tanda-tanda kerusakan — sehingga Anda lebih yakin saat berdiskusi dengan mekanik kami.
+                Suspension Lab dari {WORKSHOP.name} membantu Anda memahami cara kerja suspensi, fungsi setiap komponen, dan tanda-tanda kerusakan — sehingga Anda lebih yakin saat berdiskusi dengan mekanik kami.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link to="/jelajah/macpherson" className="btn btn-primary min-h-12 px-6 text-[16px]" data-testid="cta-explore">
@@ -113,7 +120,7 @@ export default function HomePage() {
         </section>
       </main>
       <footer className="border-t border-line px-5 py-6 text-center text-[13px] text-muted">
-        Suspension Lab · Platform edukasi suspensi kendaraan
+        Suspension Lab · Platform edukasi suspensi kendaraan oleh {WORKSHOP.name}
       </footer>
     </div>
   );

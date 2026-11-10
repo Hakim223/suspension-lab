@@ -41,5 +41,5 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 - ⚠️ Real-device performance (Android tablet GPU) not measured — record results in `performance.md` after first deployment.
 - ⚠️ `backend/Dockerfile` not built (no Docker daemon in the dev environment); Render/Railway use Node buildpacks and don't need it.
 - ⚠️ GLB meshopt compression documented but not exercised with a compressed file (gltfpack was not available).
-- Idea: workshop branding (logo/name/contact) — needs business information from the owner.
+- ✅ Workshop branding: Five Degrees Kaki Kaki name + logo (`frontend/src/config/workshop.ts`, `frontend/public/brand/`). Contact details: add to `WORKSHOP.contact` when available.
 - Idea: analytics of which components customers explore (would need a privacy decision).
