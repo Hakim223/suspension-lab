@@ -10,3 +10,4 @@ playwright-report/
 .DS_Store
 *.blend1
 frontend/public/models/reference/
+*.bundle
