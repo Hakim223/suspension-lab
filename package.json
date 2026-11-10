@@ -19,7 +19,7 @@
     "test:e2e": "npm run test:e2e -w frontend",
     "typecheck": "npm run typecheck -w shared && npm run typecheck -w backend && npm run typecheck -w frontend",
     "db:seed:generate": "tsx scripts/generate-seed.ts",
-    "db:setup": "tsx scripts/db-setup.ts"
+    "db:setup": "tsx backend/src/scripts/dbSetup.ts"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

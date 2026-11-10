@@ -36,7 +36,7 @@ suspension-lab/
 │   ├── e2e/                #   Playwright tests (desktop / tablet / mobile)
 │   └── scripts/glb-tools.ts#   reference-GLB export, GLB validation
 ├── database/               # schema.sql, seed.sql (generated from shared/content)
-├── scripts/                # generate-seed.ts, db-setup.ts
+├── scripts/                # generate-seed.ts
 ├── tools/blender/          # Blender → GLB export/validation helper
 ├── docs/                   # architecture, deployment, asset pipeline, API, testing, troubleshooting, checklist
 ├── vercel.json · render.yaml · backend/Dockerfile · .github/workflows/ci.yml

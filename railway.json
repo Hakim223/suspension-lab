@@ -1,0 +1,15 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "buildCommand": "npm run build -w backend",
+    "watchPatterns": ["backend/**", "shared/**", "database/**", "package-lock.json"]
+  },
+  "deploy": {
+    "startCommand": "node backend/dist/server.js",
+    "preDeployCommand": ["node backend/dist/scripts/dbSetup.js --ensure-schema"],
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 120,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 5
+  }
+}
