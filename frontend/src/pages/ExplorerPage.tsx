@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { FlaskConical, Info, Layers, List } from 'lucide-react';
 import { useSuspension } from '../hooks/useSuspension';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useLab } from '../state/labStore';
 import { simClock } from '../three/sim/clock';
 import { TopBar } from '../components/layout/TopBar';
@@ -30,6 +31,9 @@ export default function ExplorerPage() {
   const mobileSheet = useLab((s) => s.mobileSheet);
   const setMobileSheet = useLab((s) => s.setMobileSheet);
   const [tab, setTab] = useState<Tab>('info');
+  const isPhone = useMediaQuery('(max-width: 639px)');
+  const showLeft = useMediaQuery('(min-width: 1024px)');
+  const showRight = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
     useLab.getState().resetForSuspension();
@@ -94,13 +98,13 @@ export default function ExplorerPage() {
       <TopBar suspensionId={suspension.id} />
       <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-rows-[minmax(0,1fr)_minmax(0,38%)] lg:grid-rows-1 lg:grid-cols-[272px_1fr_372px] xl:grid-cols-[300px_1fr_420px]">
         {/* LEFT: architecture selector + component list */}
-        <aside className="hidden lg:flex min-h-0 flex-col gap-6 overflow-y-auto scroll-thin border-r border-line bg-panel p-4" aria-label="Pilih sistem dan komponen">
+        {showLeft && <aside className="hidden lg:flex min-h-0 flex-col gap-6 overflow-y-auto scroll-thin border-r border-line bg-panel p-4" aria-label="Pilih sistem dan komponen">
           <div>
             <h2 className="section-title mb-2">Jenis suspensi</h2>
             <SuspensionSelector activeId={suspension.id} />
           </div>
           <ComponentList components={components} />
-        </aside>
+        </aside>}
 
         {/* CENTER: viewer + animation controls */}
         <main className="flex min-h-0 flex-col">
@@ -116,11 +120,10 @@ export default function ExplorerPage() {
             </button>
           </div>
           <div className="border-t border-line bg-panel">
-            <div className="hidden sm:block"><AnimationControls steerable={suspension.steerable} /></div>
-            <div className="sm:hidden"><AnimationControls steerable={suspension.steerable} compact /></div>
+            <AnimationControls steerable={suspension.steerable} compact={isPhone} />
           </div>
           {/* Mobile bottom navigation */}
-          <nav className="grid grid-cols-3 gap-1 border-t border-line bg-panel p-1.5 md:hidden pb-[max(0.375rem,env(safe-area-inset-bottom))]" aria-label="Panel">
+          {!showRight && <nav className="grid grid-cols-3 gap-1 border-t border-line bg-panel p-1.5 md:hidden pb-[max(0.375rem,env(safe-area-inset-bottom))]" aria-label="Panel">
             {TABS.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -136,14 +139,14 @@ export default function ExplorerPage() {
                 {label}
               </button>
             ))}
-          </nav>
+          </nav>}
         </main>
 
         {/* RIGHT: information panel */}
-        <aside className="hidden md:flex min-h-0 flex-col border-t lg:border-t-0 lg:border-l border-line bg-panel" aria-label="Informasi">
+        {showRight && <aside className="hidden md:flex min-h-0 flex-col border-t lg:border-t-0 lg:border-l border-line bg-panel" aria-label="Informasi">
           <div className="p-3 border-b border-line">{tabBar}</div>
           <div className="min-h-0 flex-1 overflow-y-auto scroll-thin p-5" role="tabpanel">{tabBody(tab)}</div>
-        </aside>
+        </aside>}
       </div>
 
       <Sheet open={mobileSheet === 'components'} onClose={() => setMobileSheet('none')} title="Sistem & Komponen">

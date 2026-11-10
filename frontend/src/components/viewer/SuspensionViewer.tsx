@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { ContactShadows, OrbitControls } from '@react-three/drei';
 import { Box3, PMREMGenerator, Vector3 } from 'three';
@@ -12,7 +12,7 @@ import { useSuspensionModel } from '../../hooks/useSuspensionModel';
 import { useTimeline } from '../../hooks/useTimeline';
 import { SuspensionRig } from './SuspensionRig';
 import { RoadSurface } from './RoadSurface';
-import { ComponentLabels } from './ComponentLabels';
+import { LabelLayout, LabelsOverlay, type LabelEls, type LabelRegistry } from './ComponentLabels';
 import type { RigFrame, SuspensionModel } from '../../three/rig/types';
 
 export interface ViewerProps {
@@ -114,7 +114,7 @@ function CameraRig({ modelKey, model, includes }: { modelKey: string; model: Sus
   );
 }
 
-function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, onFrame }: ViewerProps) {
+function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, onFrame, registry }: ViewerProps & { registry: LabelRegistry }) {
   const { model } = useSuspensionModel(modelKey);
   const timeline = useTimeline(damageScenario);
   useEffect(() => {
@@ -148,7 +148,7 @@ function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, 
           onFrame={onFrame}
         />
       )}
-      {model && <ComponentLabels model={model} names={names} />}
+      {model && <LabelLayout model={model} names={names} registry={registry} />}
       <RoadSurface timeline={timeline} trackHalf={0.76} />
       <ContactShadows position={[0, -0.002, 0]} scale={4} opacity={0.45} blur={2.4} far={1.2} resolution={512} />
       <gridHelper args={[8, 32, '#1f2d45', '#131c2c']} position={[0, -0.006, 0]} />
@@ -158,20 +158,33 @@ function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, 
 }
 
 export default function SuspensionViewer(props: ViewerProps) {
+  const registry = useRef(new Map<string, LabelEls>());
+  const [model, setModel] = useState<SuspensionModel | null>(null);
+  const { onModel } = props;
+  const handleModel = useCallback(
+    (m: SuspensionModel | null) => {
+      setModel(m);
+      onModel?.(m);
+    },
+    [onModel],
+  );
   return (
-    <Canvas
-      shadows="percentage"
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: false }}
-      camera={{ fov: 38, near: 0.05, far: 30, position: [1.6, 1.1, 2] }}
-      onPointerMissed={(e) => {
-        if (e.type === 'click') useLab.getState().select(null);
-      }}
-      data-testid="viewer-canvas"
-    >
-      <Suspense fallback={null}>
-        <Scene {...props} />
-      </Suspense>
-    </Canvas>
+    <div className="absolute inset-0">
+      <Canvas
+        shadows="percentage"
+        dpr={[1, 1.75]}
+        gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: false }}
+        camera={{ fov: 38, near: 0.05, far: 30, position: [1.6, 1.1, 2] }}
+        onPointerMissed={(e) => {
+          if (e.type === 'click') useLab.getState().select(null);
+        }}
+        data-testid="viewer-canvas"
+      >
+        <Suspense fallback={null}>
+          <Scene {...props} onModel={handleModel} registry={registry} />
+        </Suspense>
+      </Canvas>
+      <LabelsOverlay model={model} names={props.names} registry={registry} />
+    </div>
   );
 }

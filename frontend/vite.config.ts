@@ -13,11 +13,12 @@ export default defineConfig({
     chunkSizeWarningLimit: 1200,
     rolldownOptions: {
       output: {
-        advancedChunks: {
+        codeSplitting: {
+          // 3D libraries are only reachable from the lazily-loaded explorer route.
           groups: [
-            { name: 'three-core', test: /node_modules[\\/]three[\\/]/ },
-            { name: 'r3f', test: /node_modules[\\/](@react-three|three-stdlib|camera-controls|maath|troika)/ },
-            { name: 'react-vendor', test: /node_modules[\\/](react|react-dom|react-router|scheduler)[\\/]/ },
+            { name: 'three-core', test: /node_modules[\\/]three[\\/]/, priority: 30 },
+            { name: 'r3f', test: /node_modules[\\/](@react-three|three-stdlib|three-mesh-bvh|camera-controls|maath|troika[^\\/]*|meshline|stats-gl|@monogrid|@use-gesture|its-fine|suspend-react|react-use-measure|tunnel-rat|detect-gpu|hls\.js|gsap)[\\/]/, priority: 20 },
+            { name: 'react-vendor', test: /node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler|zustand|use-sync-external-store|cookie|set-cookie-parser)[\\/]/, priority: 40 },
           ],
         },
       },
