@@ -131,6 +131,19 @@ test.describe('Resilience', () => {
   });
 });
 
+test.describe('GLB asset pipeline', () => {
+  test('loads GLB models over HTTP and binds every part', async ({ page }) => {
+    const warnings: string[] = [];
+    page.on('console', (m) => m.type() === 'warning' && m.text().includes('[model]') && warnings.push(m.text()));
+    const glb = page.waitForResponse((r) => r.url().endsWith('/models/reference/double-wishbone.glb') && r.status() === 200);
+    await page.goto('/jelajah/double-wishbone?model=glb');
+    await glb;
+    await expect(page.locator('html')).toHaveAttribute('data-model-source', 'glb', { timeout: 30_000 });
+    await expectCanvasRendered(page);
+    expect(warnings).toEqual([]);
+  });
+});
+
 test.describe('Learning pages', () => {
   test('learn page and quiz', async ({ page }) => {
     await page.goto('/belajar');

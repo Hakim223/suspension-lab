@@ -59,4 +59,6 @@ export interface SuspensionModel {
   report(): KinematicReport;
   dispose(): void;
   source: 'procedural' | 'glb';
+  /** GLB node names that were expected but missing (procedural fallback used). */
+  missingNodes: string[];
 }

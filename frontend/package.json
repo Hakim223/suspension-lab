@@ -5,11 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit -p . && vite build",
+    "build": "tsc --noEmit -p . && npm run glb:export-reference && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit -p ."
+    "typecheck": "tsc --noEmit -p .",
+    "glb:export-reference": "tsx scripts/glb-tools.ts export-reference",
+    "glb:validate": "tsx scripts/glb-tools.ts validate",
+    "glb:expected": "tsx scripts/glb-tools.ts expected"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

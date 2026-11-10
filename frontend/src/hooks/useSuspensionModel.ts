@@ -24,21 +24,27 @@ export function useSuspensionModel(modelKey: string) {
     }
     let cancelled = false;
     let current: SuspensionModel | null = null;
+    // `?model=glb` forces the GLB pipeline using the build-generated reference assets
+    // (useful to verify production asset hosting / CDN configuration).
+    const forceGlb = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('model') === 'glb';
+    const glbFile = entry.glb ?? (forceGlb ? `reference/${modelKey}.glb` : undefined);
     // Defer build by a frame so the loading indicator can paint first.
     const raf = requestAnimationFrame(() => {
       if (cancelled) return;
       current = entry.build();
       setState({ key: modelKey, model: current, status: 'ready' });
-      if (entry.glb) {
-        loadGlbSource(entry.glb)
+      if (glbFile) {
+        loadGlbSource(glbFile)
           .then((src) => {
             if (cancelled) return;
             const glbModel = entry.build(src);
+            if (glbModel.missingNodes.length) console.warn(`[model] GLB ${glbFile} is missing nodes (procedural fallback used):`, glbModel.missingNodes);
             current?.dispose();
             current = glbModel;
             setState({ key: modelKey, model: glbModel, status: 'ready', note: 'glb' });
+            document.documentElement.dataset.modelSource = 'glb';
           })
-          .catch((err) => console.warn(`[model] GLB ${entry.glb} unavailable, using procedural model`, err));
+          .catch((err) => console.warn(`[model] GLB ${glbFile} unavailable, using procedural model`, err));
       }
     });
     return () => {

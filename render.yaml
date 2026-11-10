@@ -1,0 +1,28 @@
+# Render Blueprint — backend API only (the frontend is deployed to Vercel or Cloudflare Pages).
+# Secrets (DB_PASSWORD or DATABASE_URL) are set in the Render dashboard, never committed.
+services:
+  - type: web
+    name: suspension-lab-api
+    runtime: node
+    plan: starter
+    region: singapore
+    rootDir: .
+    buildCommand: npm ci && npm run build -w backend
+    startCommand: npm run start -w backend
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: CORS_ORIGINS
+        sync: false # e.g. https://suspension-lab.vercel.app
+      - key: DATABASE_URL
+        sync: false # mysql://user:pass@host:port/db  (or use DB_HOST/DB_USER/DB_PASSWORD/DB_NAME)
+      - key: DB_SSL
+        value: "true"
+      - key: RATE_LIMIT_MAX
+        value: "120"
+      - key: TRUST_PROXY
+        value: "1"

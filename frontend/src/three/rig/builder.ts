@@ -1,6 +1,7 @@
 import { Group, Mesh, Object3D, Vector3, type Material } from 'three';
 import type { KinematicReport, ModelPart, PartDef, RigFrame, Side, SuspensionModel } from './types';
 import { placeBetween, SpringGeometry } from './parts';
+import { mergeStaticMeshes } from './optimize';
 
 /**
  * Source of part objects. The procedural source always uses the factory;
@@ -51,7 +52,10 @@ export class ModelBuilder {
       obj = this.source.lookup(lookupName);
       if (!obj) this.missingFromGlb.push(lookupName);
     }
-    if (!obj) obj = factory();
+    if (!obj) {
+      obj = factory();
+      mergeStaticMeshes(obj);
+    }
     obj.name = def.name;
     obj.userData.partName = def.name;
     obj.userData.componentId = def.componentId;
@@ -90,6 +94,7 @@ export class ModelBuilder {
       root: this.root,
       parts,
       source: this.source.kind,
+      missingNodes: [...this.missingFromGlb],
       update(frame) {
         for (const { object } of parts) {
           const b = base.get(object)!;

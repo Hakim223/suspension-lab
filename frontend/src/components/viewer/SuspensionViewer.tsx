@@ -1,6 +1,6 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { ContactShadows, OrbitControls } from '@react-three/drei';
+import { ContactShadows, OrbitControls, PerformanceMonitor } from '@react-three/drei';
 import { Box3, PMREMGenerator, Vector3 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -114,7 +114,7 @@ function CameraRig({ modelKey, model, includes }: { modelKey: string; model: Sus
   );
 }
 
-function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, onFrame, registry }: ViewerProps & { registry: LabelRegistry }) {
+function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, onFrame, registry, lowQuality }: ViewerProps & { registry: LabelRegistry; lowQuality: boolean }) {
   const { model } = useSuspensionModel(modelKey);
   const timeline = useTimeline(damageScenario);
   useEffect(() => {
@@ -129,7 +129,7 @@ function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, 
       <directionalLight
         position={[2.5, 4, 3]}
         intensity={1.6}
-        castShadow
+        castShadow={!lowQuality}
         shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-2}
         shadow-camera-right={2}
@@ -150,7 +150,7 @@ function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, 
       )}
       {model && <LabelLayout model={model} names={names} registry={registry} />}
       <RoadSurface timeline={timeline} trackHalf={0.76} />
-      <ContactShadows position={[0, -0.002, 0]} scale={4} opacity={0.45} blur={2.4} far={1.2} resolution={512} />
+      {!lowQuality && <ContactShadows position={[0, -0.002, 0]} scale={4} opacity={0.45} blur={2.4} far={1.2} resolution={256} />}
       <gridHelper args={[8, 32, '#1f2d45', '#131c2c']} position={[0, -0.006, 0]} />
       <CameraRig modelKey={modelKey} model={model} includes={includes} />
     </>
@@ -160,6 +160,10 @@ function Scene({ modelKey, steerable, names, includes, damageScenario, onModel, 
 export default function SuspensionViewer(props: ViewerProps) {
   const registry = useRef(new Map<string, LabelEls>());
   const [model, setModel] = useState<SuspensionModel | null>(null);
+  // Adaptive quality: if the device cannot sustain the frame rate, drop pixel ratio and shadows.
+  const [lowQuality, setLowQuality] = useState(() => {
+    try { return new URLSearchParams(window.location.search).get('quality') === 'low'; } catch { return false; }
+  });
   const { onModel } = props;
   const handleModel = useCallback(
     (m: SuspensionModel | null) => {
@@ -169,10 +173,10 @@ export default function SuspensionViewer(props: ViewerProps) {
     [onModel],
   );
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0" data-quality={lowQuality ? 'low' : 'high'}>
       <Canvas
-        shadows="percentage"
-        dpr={[1, 1.75]}
+        shadows={lowQuality ? false : 'percentage'}
+        dpr={lowQuality ? 1 : [1, 1.75]}
         gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: false }}
         camera={{ fov: 38, near: 0.05, far: 30, position: [1.6, 1.1, 2] }}
         onPointerMissed={(e) => {
@@ -180,8 +184,9 @@ export default function SuspensionViewer(props: ViewerProps) {
         }}
         data-testid="viewer-canvas"
       >
+        <PerformanceMonitor onDecline={() => setLowQuality(true)} flipflops={2} />
         <Suspense fallback={null}>
-          <Scene {...props} onModel={handleModel} registry={registry} />
+          <Scene {...props} onModel={handleModel} registry={registry} lowQuality={lowQuality} />
         </Suspense>
       </Canvas>
       <LabelsOverlay model={model} names={props.names} registry={registry} />
