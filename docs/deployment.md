@@ -1,10 +1,22 @@
 # Production deployment
 
-**Status:** all deployment files are prepared and the production build has been verified locally
-(including serving `frontend/dist` with the exact production security headers from `vercel.json` and
-running the e2e suite against it). **No public deployment has been made from the development
-environment** — it had no access to hosting accounts or credentials. Follow the steps below; each
-ends with a verification command.
+**Status: deployed.**
+
+| | URL / setting |
+|---|---|
+| Website (Vercel project `suspension-lab`) | https://suspension-lab-kappa.vercel.app |
+| API (Railway project `suspension-lab`, service `api`) | https://api-production-7e05.up.railway.app |
+| Database | Railway MySQL 8 (template), private network only |
+
+Both auto-deploy on every push to `main`. The Railway `api` service settings (set on the service, not in a file):
+build `npm run build -w backend`, start `node backend/dist/server.js`, **pre-deploy**
+`node backend/dist/scripts/dbSetup.js --ensure-schema` (creates tables if missing, then refreshes content
+in one transaction), health check `/api/health`, variables `DATABASE_URL=${{MySQL.MYSQL_URL}}`,
+`NODE_ENV=production`, `DB_SSL=false` (private network), `PORT=8080`, `TRUST_PROXY=1`, `RATE_LIMIT_MAX=300`,
+`CORS_ORIGINS=https://suspension-lab-kappa.vercel.app,https://suspension-lab-hakim223s-projects.vercel.app`.
+Vercel env: `VITE_API_URL=https://api-production-7e05.up.railway.app`.
+
+The generic steps below remain valid for re-creating the setup or using other providers.
 
 Recommended topology:
 
@@ -72,7 +84,7 @@ curl -s https://YOUR-API.onrender.com/api/suspensions | head -c 300
 > Free/starter instances may sleep when idle; the first request can take ~30 s. The frontend falls back
 > to bundled data after 4 s, so customers are never blocked. Use a paid always-on instance for the kiosk.
 
-**Railway:** New project → Deploy from repo; set *Root Directory* to the repo root, *Build* `npm ci && npm run build -w backend`, *Start* `npm run start -w backend`, same env vars (Railway's MySQL plugin provides `MYSQL_URL`; set `DATABASE_URL=${{MySQL.MYSQL_URL}}`).
+**Railway (current production):** New project → add the MySQL template → add a service from the GitHub repo. In the service settings set *Build* `npm run build -w backend`, *Start* `node backend/dist/server.js`, *Pre-deploy* `node backend/dist/scripts/dbSetup.js --ensure-schema`, *Healthcheck* `/api/health`; variables as in the table above; *Networking → Generate domain* (port 8080). No manual database seeding is needed — the pre-deploy step does it. (Railway's `railway.json` config-as-code is deprecated, so settings live on the service.)
 **Docker hosts:** `docker build -f backend/Dockerfile -t suspension-lab-api .` then run with the env vars above (`-p 4000:4000`). *(The Dockerfile was written but not built in the development environment, which had no Docker daemon.)*
 
 ## 3. Frontend (Vercel — recommended)
@@ -153,7 +165,7 @@ Manual checks:
 
 ## 8. Operations
 
-- **Content updates:** edit `shared/content/*.json` → `npm run db:seed:generate` → commit → deploy frontend → `npm run db:setup -- --seed-only` against production. The API cache refreshes within 60 s.
+- **Content updates:** edit `shared/content/*.json` → `npm run db:seed:generate` → commit and push. Vercel rebuilds the site; Railway's pre-deploy step reloads the content into MySQL. The API cache refreshes within 60 s.
 - **Rollback:** Vercel/Render keep previous deployments — use *Promote/Rollback* in their dashboards.
 - **Logs/monitoring:** Render logs show startup (`database connected` / `UNREACHABLE`) and 5xx errors; add an uptime monitor on `/api/health`.
 - **Secrets:** rotate the DB password in the provider and update `DATABASE_URL` on the API host only.

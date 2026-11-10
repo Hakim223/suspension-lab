@@ -39,7 +39,7 @@ suspension-lab/
 ├── scripts/                # generate-seed.ts
 ├── tools/blender/          # Blender → GLB export/validation helper
 ├── docs/                   # architecture, deployment, asset pipeline, API, testing, troubleshooting, checklist
-├── vercel.json · render.yaml · backend/Dockerfile · .github/workflows/ci.yml
+├── vercel.json · render.yaml (Render alternative) · backend/Dockerfile · .github/workflows/ci.yml
 ```
 
 ## Quick start (local development)
@@ -136,7 +136,6 @@ The top-right badge shows **Online** (content from API) or **Data lokal** (bundl
 
 ## Deployment status
 
-Deployment files are prepared (Vercel / Cloudflare Pages for the frontend, Render / Railway / Docker
-for the API, any managed MySQL 8). **The app has not been deployed to a public URL from this
-environment** because no hosting accounts or credentials were available. The remaining steps are
-listed precisely in [docs/deployment.md](docs/deployment.md).
+**Live:** https://suspension-lab-kappa.vercel.app (API: https://api-production-7e05.up.railway.app).
+Vercel (frontend) and Railway (API + MySQL) redeploy automatically on every push to `main`.
+Details and the verification checklist are in [docs/deployment.md](docs/deployment.md).
