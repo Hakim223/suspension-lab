@@ -48,5 +48,7 @@ Environment: Ubuntu 24.04 container, 4 vCPU Xeon 2.1 GHz, Node 22.23, MySQL 8.0.
 | e2e (desktop + tablet + mobile) | 41 passed, 1 skipped by design (3D tap test on phones, where labels are off by default) |
 | e2e desktop against `dist` served with production CSP headers | 13 passed, 1 skipped (live-API test: the production CSP correctly blocks a plain-HTTP local API) |
 
+| e2e against **live production** (Vercel + Railway), all viewports | 41 passed, 1 skipped by design — incl. live API ("Online") |
+
 Physical tablets/phones were not available in the development environment; the touch/tablet/mobile
 results come from Chromium device emulation. See the manual checklist in `deployment.md`.

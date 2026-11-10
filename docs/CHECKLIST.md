@@ -11,7 +11,7 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | M3 | Viewer (orbit/zoom/pan/touch, selection, highlight, labels, hide/show, exploded, camera reset/focus), animation engine, damage simulator | ✅ |
 | M4 | Indonesian content, explorer/home/learn/quiz pages, responsive desktop/tablet/phone layouts, WebGL fallback, kiosk mode | ✅ |
 | M5 | Unit, integration, GLB round-trip and Playwright e2e tests on three viewports; performance work | ✅ |
-| M6 | Deployment configs (Vercel, Cloudflare Pages, Render, Docker, CI), documentation | ✅ files · ⏳ actual deploy |
+| M6 | Deployment (Vercel + Railway + MySQL), CI, documentation | ✅ |
 
 ## Definition of done
 
@@ -30,7 +30,7 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | MySQL integration | ✅ | 6 integration tests against MySQL 8.0.46 (exact round-trip) |
 | Tests pass | ✅ | see `testing.md` |
 | Production build | ✅ | `npm run build` (frontend + backend) |
-| Deployment verified | ⏳ | No hosting credentials in the dev environment. Production build verified locally behind production headers. Steps: `deployment.md` |
+| Deployment verified | ✅ | Live at https://suspension-lab-kappa.vercel.app (API https://api-production-7e05.up.railway.app, Railway MySQL). Full e2e suite run against production: 41 passed, 1 skipped by design |
 | Documentation | ✅ | README + `docs/` |
 
 ## Known limitations / follow-ups
