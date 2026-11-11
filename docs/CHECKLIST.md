@@ -30,7 +30,7 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | Backend / database | — | Removed by decision: the site is fully static (e2e verifies no API requests are made) |
 | Tests pass | ✅ | see `testing.md` |
 | Production build | ✅ | `npm run build` → `frontend/dist` |
-| Deployment verified | ✅ | Live static site at https://suspension-lab-kappa.vercel.app; e2e suite run against production (results below) |
+| Deployment verified | ✅ | Live static site at https://suspension-lab-kappa.vercel.app; e2e suite against production: 38 passed, 1 skipped by design |
 | Documentation | ✅ | README + `docs/` |
 
 ## Known limitations / follow-ups

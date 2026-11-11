@@ -33,6 +33,6 @@ Environment: Ubuntu 24.04 container, 4 vCPU, Node 22.23, headless Chromium (Play
 | shared content | 9 passed |
 | frontend unit | 49 passed |
 | e2e local static build (desktop + tablet + mobile) | 38 passed, 1 skipped by design (3D tap test on phones, where labels are off by default) |
-| e2e against live production | see `CHECKLIST.md` |
+| e2e against live production (static site, 2026-11-11) | 38 passed, 1 skipped by design |
 
 Physical tablets/phones were not available; the tablet/mobile results use Chromium device emulation.
