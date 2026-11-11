@@ -2,10 +2,9 @@
   "name": "suspension-lab",
   "private": true,
   "version": "1.0.0",
-  "description": "Suspension Lab — platform edukasi suspensi mobil interaktif 3D",
+  "description": "Suspension Lab \u2014 platform edukasi suspensi mobil interaktif 3D (static site)",
   "workspaces": [
     "shared",
-    "backend",
     "frontend"
   ],
   "engines": {
@@ -13,18 +12,14 @@
   },
   "scripts": {
     "dev": "npm run dev -w frontend",
-    "dev:api": "npm run dev -w backend",
-    "build": "npm run build -w frontend && npm run build -w backend",
-    "test": "npm run test -w shared && npm run test -w backend && npm run test -w frontend",
+    "build": "npm run build -w frontend",
+    "preview": "npm run preview -w frontend",
+    "test": "npm run test -w shared && npm run test -w frontend",
     "test:e2e": "npm run test:e2e -w frontend",
-    "typecheck": "npm run typecheck -w shared && npm run typecheck -w backend && npm run typecheck -w frontend",
-    "db:seed:generate": "tsx scripts/generate-seed.ts",
-    "db:setup": "tsx backend/src/scripts/dbSetup.ts"
+    "typecheck": "npm run typecheck -w shared && npm run typecheck -w frontend"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
-    "dotenv": "^17.2.0",
-    "mysql2": "^3.24.6",
     "tsx": "^4.23.15",
     "typescript": "~5.9.3"
   }

@@ -108,18 +108,17 @@ test.describe('Suspension Lab — main customer journey', () => {
 });
 
 test.describe('Resilience', () => {
-  test('works with bundled data when the API is unreachable', async ({ page }) => {
-    await page.route('**/api/**', (r) => r.abort());
+  test('is fully static: no requests to any API or third-party host except fonts', async ({ page, baseURL }) => {
+    const origin = new URL(baseURL!).origin;
+    const external: string[] = [];
+    page.on('request', (r) => {
+      const u = new URL(r.url());
+      if (u.protocol.startsWith('http') && u.origin !== origin && !/^fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)) external.push(r.url());
+    });
     await page.goto('/jelajah/macpherson');
-    await expect(page.getByTestId('data-source')).toContainText('Data lokal');
     await expect(page.getByTestId('viewer')).toHaveAttribute('data-model-ready', 'true', { timeout: 30_000 });
-  });
-
-  test('uses the live API when available', async ({ page }) => {
-    const res = page.waitForResponse((r) => r.url().includes('/api/suspensions') && r.status() === 200, { timeout: 10_000 }).catch(() => null);
-    await page.goto('/');
-    test.skip(!(await res), 'API not running for this e2e run');
-    await expect(page.getByTestId('data-source')).toContainText('Online');
+    await page.goto('/kuis');
+    expect(external).toEqual([]);
   });
 
   test('falls back to a non-3D educational interface without WebGL', async ({ page }, t) => {

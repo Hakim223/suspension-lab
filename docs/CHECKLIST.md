@@ -6,12 +6,13 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 
 | # | Milestone | Status |
 |---|---|---|
-| M1 | Monorepo, shared typed content, MySQL schema + generated seed, Express API (validation, CORS, rate limit, errors), API + DB integration tests | ✅ |
+| M1 | Monorepo, shared typed content with integrity tests | ✅ |
 | M2 | Procedural 3D models for 5 architectures with solved kinematics; rig builder with GLB substitution; kinematic constraint tests | ✅ |
 | M3 | Viewer (orbit/zoom/pan/touch, selection, highlight, labels, hide/show, exploded, camera reset/focus), animation engine, damage simulator | ✅ |
 | M4 | Indonesian content, explorer/home/learn/quiz pages, responsive desktop/tablet/phone layouts, WebGL fallback, kiosk mode | ✅ |
-| M5 | Unit, integration, GLB round-trip and Playwright e2e tests on three viewports; performance work | ✅ |
-| M6 | Deployment (Vercel + Railway + MySQL), CI, documentation | ✅ |
+| M5 | Unit, GLB round-trip and Playwright e2e tests on three viewports; performance work | ✅ |
+| M6 | Static deployment on Vercel, CI, documentation | ✅ |
+| M7 | Simplified to a fully static site: Express API, MySQL, seed tooling and server deploy files removed (content was already bundled) | ✅ |
 
 ## Definition of done
 
@@ -26,11 +27,10 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | Damage scenarios (6) | ✅ | content + sim tests; e2e compare normal/damaged |
 | Indonesian educational content | ✅ | 5 architectures, 20 components, 6 scenarios, glossary, quiz |
 | Responsive layouts | ✅ | e2e desktop 1440×900, tablet 820×1180, Pixel 7; screenshots reviewed |
-| Backend APIs | ✅ | 23 API tests |
-| MySQL integration | ✅ | 6 integration tests against MySQL 8.0.46 (exact round-trip) |
+| Backend / database | — | Removed by decision: the site is fully static (e2e verifies no API requests are made) |
 | Tests pass | ✅ | see `testing.md` |
-| Production build | ✅ | `npm run build` (frontend + backend) |
-| Deployment verified | ✅ | Live at https://suspension-lab-kappa.vercel.app (API https://api-production-7e05.up.railway.app, Railway MySQL). Full e2e suite run against production: 41 passed, 1 skipped by design |
+| Production build | ✅ | `npm run build` → `frontend/dist` |
+| Deployment verified | ✅ | Live static site at https://suspension-lab-kappa.vercel.app; e2e suite run against production (results below) |
 | Documentation | ✅ | README + `docs/` |
 
 ## Known limitations / follow-ups
@@ -39,7 +39,6 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 - ⚠️ Kinematics are planar (front view) for the independent suspensions; caster and real multi-link camber/toe tuning are not modelled. The rigid axle shows roll over-constraint as small link-length changes (bushing compliance).
 - ⚠️ The motion model is a qualitative quarter-car response, not a validated vehicle-dynamics model.
 - ⚠️ Real-device performance (Android tablet GPU) not measured — record results in `performance.md` after first deployment.
-- ⚠️ `backend/Dockerfile` not built (no Docker daemon in the dev environment); Render/Railway use Node buildpacks and don't need it.
 - ⚠️ GLB meshopt compression documented but not exercised with a compressed file (gltfpack was not available).
 - ✅ Workshop branding: Five Degrees Kaki Kaki name + logo (`frontend/src/config/workshop.ts`, `frontend/public/brand/`). Contact details: add to `WORKSHOP.contact` when available.
 - Idea: analytics of which components customers explore (would need a privacy decision).

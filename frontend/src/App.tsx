@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { useContent } from './data/contentStore';
 import { useKioskIdleReset } from './hooks/useKioskIdleReset';
 import HomePage from './pages/HomePage';
 
@@ -35,10 +34,6 @@ export function AppRoutes() {
 }
 
 export default function App() {
-  const load = useContent((s) => s.load);
-  useEffect(() => {
-    void load();
-  }, [load]);
   return (
     <BrowserRouter>
       <AppRoutes />

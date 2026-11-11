@@ -1,20 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Database, HardDrive } from 'lucide-react';
 import { useContent } from '../../data/contentStore';
 import { Brand } from './Brand';
 import { cx } from '../ui/primitives';
-
-export function DataSourceBadge() {
-  const source = useContent((s) => s.source);
-  const status = useContent((s) => s.status);
-  if (status !== 'ready') return null;
-  return (
-    <span className="chip !text-[11.5px]" title={source === 'api' ? 'Konten dimuat dari server' : 'Server tidak terjangkau — memakai data lokal bawaan aplikasi'} data-testid="data-source">
-      {source === 'api' ? <Database size={13} /> : <HardDrive size={13} />}
-      {source === 'api' ? 'Online' : 'Data lokal'}
-    </span>
-  );
-}
 
 const links = [
   { to: '/jelajah', label: 'Jelajah 3D' },
@@ -53,7 +40,6 @@ export function TopBar({ suspensionId }: { suspensionId?: string }) {
           </NavLink>
         ))}
       </nav>
-      <div className="ml-auto md:ml-2"><DataSourceBadge /></div>
     </header>
   );
 }

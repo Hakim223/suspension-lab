@@ -1,7 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = Number(process.env.E2E_PORT ?? 4173);
-const API = process.env.E2E_API_URL ?? 'http://localhost:4000';
 const BASE = process.env.E2E_BASE_URL ?? `http://localhost:${PORT}`;
 
 // Headless Chromium renders WebGL via SwiftShader (software). Real devices use the GPU.
@@ -28,6 +27,5 @@ export default defineConfig({
         url: BASE,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,
-        env: { VITE_API_URL: API },
       },
 });

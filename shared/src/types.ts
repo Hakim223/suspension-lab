@@ -1,9 +1,6 @@
 /**
  * Shared domain types for Suspension Lab.
- * These shapes are used by:
- *  - the frontend (bundled fallback data + API responses),
- *  - the backend (API response contracts),
- *  - the seed generator (content JSON -> seed.sql).
+ * Content in ../content/*.json follows these shapes and is bundled into the static site.
  */
 
 export const SUSPENSION_IDS = [
@@ -139,7 +136,7 @@ export interface QuizQuestion {
   topic: string;
 }
 
-/** API / data-layer aggregate for a suspension with resolved components. */
+/** Data-layer aggregate for a suspension with resolved components. */
 export interface SuspensionWithComponents extends SuspensionType {
   resolvedComponents: Array<SuspensionComponent & { link: SuspensionComponentLink }>;
 }

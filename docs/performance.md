@@ -7,7 +7,7 @@ Secondary: recent iOS/Android phones (Safari/Chrome), desktop Chrome/Edge/Firefo
 
 | Metric | Target | How it is met |
 |---|---|---|
-| Home page JS (gzip) | < 150 kB | 108 kB measured (React + router + content); 3D code is route-split |
+| Home page JS (gzip) | < 150 kB | ≈ 105 kB (React + router + bundled content); 3D code is route-split |
 | Explorer extra JS (gzip) | < 400 kB | ≈ 330 kB (three 209 kB, R3F/drei 90 kB, viewer + page 29 kB) |
 | Time to interactive 3D (tablet, Wi-Fi) | < 3 s warm cache, < 6 s cold | lazy chunks, procedural models (no model download), hashed assets cached 1 year |
 | Frame rate | ≥ 45 fps typical, ≥ 30 fps worst case | 10–31k triangles, 50–121 meshes after merging; kinematics 0.12–0.36 ms/frame on a 2.1 GHz Xeon core (≈ 1–3 ms expected on a tablet CPU); adaptive quality |
@@ -29,7 +29,8 @@ measurable there; validate on the target tablet using Chrome DevTools remote deb
 - **Resource disposal:** `SuspensionModel.dispose()` frees geometries/materials when switching architecture or replacing procedural parts with a GLB; the PMREM environment texture is disposed on unmount.
 - **No network-fetched HDRIs/fonts in the 3D path:** environment lighting uses three's built-in `RoomEnvironment`. (UI fonts load from Google Fonts with system fallbacks.)
 - **Compressed GLB support** via bundled meshopt decoder.
-- **Caching:** hashed assets immutable for a year; models/thumbnails 7 days; API responses 60 s.
+- **Caching:** hashed assets immutable for a year; models/thumbnails/brand images 7 days.
+- **No runtime data fetching:** content is bundled; the only network requests are the site's own files and Google Fonts.
 
 ## Accessibility
 

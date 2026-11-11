@@ -2,29 +2,25 @@
 
 ## Overview
 
+Suspension Lab is a **static single-page application**. There is no server, API or database.
+
 ```
-                ┌──────────────────────────── shared/ ────────────────────────────┐
-                │ types.ts  +  content/*.json (Indonesian, single source of truth)│
-                └───────┬───────────────────────┬─────────────────────────┬──────┘
-          bundled fallback │          scripts/generate-seed.ts        │ type-only imports
-                           ▼                       ▼                         ▼
-┌──────────── frontend (Vite SPA) ─────────────┐   database/seed.sql   ┌──── backend (Express) ────┐
-│ data/contentStore  ── GET /api/* ───────────────────────────────────▶│ routes → controllers →    │
-│   (instant local data, replaced by API data) │                       │ ContentService (60 s cache)│
-│ pages / features / components (Tailwind)     │                       │ → MySqlContentRepository  │
-│ state/labStore (zustand)                     │                       └──────────┬────────────────┘
-│ three/ (3D engine, lazy-loaded)              │                                  ▼
-│   rig/builder, rig/parts, models/*, sim/*    │                           MySQL 8 (utf8mb4)
-└──────────────────────────────────────────────┘
+shared/content/*.json  (Indonesian content, single source of truth, validated by tests)
+        │  imported at build time
+        ▼
+frontend (Vite SPA) ──── npm run build ────▶ frontend/dist (static files) ──▶ any static host / CDN
+  data/contentStore      bundled content, exposed through useContent(selector)
+  pages, features, components (Tailwind)
+  state/labStore (zustand)
+  three/ (3D engine, lazy-loaded)
 ```
 
 ### Key decisions
 
 | Decision | Why |
 |---|---|
-| **Content lives in `shared/content/*.json`**, seed SQL is *generated* from it | One source of truth; CI fails if `seed.sql` drifts (`git diff --exit-code`). The frontend bundles the same JSON, so it works when the API is down. |
-| **Frontend shows bundled data immediately, then swaps in API data** | Kiosk must never show a blank screen. The badge shows `Online` / `Data lokal`. Invalid API payloads are rejected. |
-| **API caches the whole content snapshot for 60 s** | Content is small and rarely changes; DB load stays near zero; concurrent cold requests are de-duplicated. |
+| **Fully static, content bundled at build time** | The content is fixed educational material, so a database adds cost, latency and failure points without benefit. The site works on any static host, loads instantly and cannot "lose" its data source. (An earlier version had an Express + MySQL API; it was removed as unnecessary.) |
+| **Content lives in `shared/content/*.json` with TS types** | Non-developers can edit texts in one place; `shared/tests` enforce that every field required by the UI is present. |
 | **3D models are procedural, but built through a name-based part system** | No licensed CAD assets were available. Every part is a named node (`R_Lower_Arm`, `C_Stabilizer_Bar` …) so a Blender GLB with the same names replaces them without code changes (verified by an automated round-trip test). |
 | **Kinematics are solved, not keyframed** | Each frame, joint positions are solved from geometric constraints (rigid link lengths, strut axis through top mount, tie-rod length). Mechanically impossible poses cannot appear. |
 | **Per-frame work bypasses React** | `useFrame` mutates three.js objects; the timeline UI is throttled to ~12 Hz via an external store; highlight state re-applies only when selection changes. |
@@ -35,8 +31,8 @@
 
 ```
 src/
-├── App.tsx                    routes (lazy pages), content load, kiosk idle reset
-├── data/                      api.ts (fetch + timeout), contentStore.ts (local→API swap)
+├── App.tsx                    routes (lazy pages), kiosk idle reset
+├── data/contentStore.ts       bundled content + useContent(selector)
 ├── state/labStore.ts          selection, hidden parts, exploded, labels, mode/speed/manual, damage
 ├── hooks/                     useSuspension (resolve per-architecture components), useTimeline,
 │                              useSuspensionModel (procedural → optional GLB), useSimClock, useMediaQuery
@@ -85,7 +81,7 @@ Steering is **rack-driven**: the rack moves and each knuckle's steer angle is so
 Viewed from the chassis, the road moves by `−z_b`, so the tyre stays on the road strip. Damping ratio
 0.4 (normal) vs. 0.07 (weak shock, scaled by the intensity slider).
 
-`three/sim/damageEffects.ts` turns a scenario's `params` (from the database) into illustrative offsets —
+`three/sim/damageEffects.ts` turns a scenario's `params` (from `damage-scenarios.json`) into illustrative offsets —
 pivot shift, ball-joint gap, mount sag/shift, link play, toe wobble — applied **only to the right side**,
 so the left side is always a healthy reference.
 
@@ -96,39 +92,6 @@ so the left side is always a healthy reference.
   notice that symptoms can come from other components.
 - Proportions are representative of passenger cars, not of a specific vehicle.
 
-## Backend structure
-
-```
-src/
-├── config/env.ts            zod-validated environment, CORS origin list
-├── config/database.ts       mysql2 pool (DATABASE_URL or discrete vars, optional TLS)
-├── models/rows.ts           row types, JSON column helper
-├── services/repository.ts   ContentRepository interface (MySQL in prod, in-memory in tests)
-├── services/mysqlRepository.ts   SQL → domain mapping
-├── services/contentService.ts    cached snapshot + per-endpoint queries
-├── controllers/contentController.ts
-├── middleware/{errors,validate}.ts   HttpError, 404, DB-unavailable → 503, slug validation → 400
-├── routes/index.ts
-├── app.ts                   helmet, CORS allow-list, JSON limit, rate limit, cache headers
-└── server.ts                listen + graceful shutdown
-```
-
-### Database
-
-`database/schema.sql` (MySQL 8, InnoDB, utf8mb4):
-
-| Table | Purpose |
-|---|---|
-| `suspension_types` | Architecture text + ordered lists (JSON columns), `model_key` for the 3D registry |
-| `components` | Reusable component records (one per type, shared across architectures) |
-| `component_includes` | Composite components (strut assembly → shock, spring, mount) |
-| `suspension_components` | Which components each architecture uses, with architecture-specific name/role (unique pair, FK both sides) |
-| `damage_scenarios` | Many per component; symptoms/safety/inspection lists and `sim_params` (illustrative, not thresholds) |
-| `component_education` | Normalised rows: failure modes, symptoms, consequences, inspection steps, glossary terms |
-
-All tables have surrogate PKs, FKs with explicit `ON DELETE`, indexes on FK/sort columns and
-`created_at`/`updated_at`. 3D files are **not** stored in MySQL — only `model_key`.
-
 ## Extension guide
 
 ### Add a new component
@@ -136,15 +99,14 @@ All tables have surrogate PKs, FKs with explicit `ON DELETE`, indexes on FK/sort
 1. Add an entry to `shared/content/components.json` (all fields required; tests enforce non-empty lists).
 2. Reference it from one or more architectures in `shared/content/suspensions.json` (`components[]` with `roleDescription`).
 3. Give it geometry: in the relevant `frontend/src/three/models/<arch>.ts`, `b.addPair('My_Part', 'my-component-id', [explode x,y,z], () => factory())` and pose it in the driver.
-4. `npm run db:seed:generate` → commit `database/seed.sql` → `npm run db:setup -- --seed-only` on each database.
-5. `npm test`.
+4. `npm test`.
 
 ### Add a new damage scenario
 
 1. Add to `shared/content/damage-scenarios.json` with `componentId`, texts, and `simulation: { kind, params, recommendedMode }`.
 2. Reuse an existing `kind` (only params change) **or** add a new kind to `DAMAGE_SIM_KINDS` (`shared/src/types.ts`) and implement it in `frontend/src/three/sim/damageEffects.ts` (return offsets; the model drivers already consume `CornerDamage`).
 3. It automatically appears for every architecture that contains the component.
-4. Regenerate the seed, run tests.
+4. Run `npm test`.
 
 ### Add a new suspension architecture
 
