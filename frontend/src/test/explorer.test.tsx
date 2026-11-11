@@ -102,8 +102,8 @@ describe('Explorer (fallback renderer)', () => {
 });
 
 describe('Home, learn & quiz pages', () => {
-  it('home lists all five architectures', async () => {
-    renderAt('/');
+  it('consumer home lists all five architectures', async () => {
+    renderAt('/consumer');
     for (const id of ['macpherson', 'double-wishbone', 'torsion-beam', 'multi-link', 'rigid-axle']) {
       expect(await screen.findByTestId(`card-${id}`)).toHaveAttribute('href', `/jelajah/${id}`);
     }

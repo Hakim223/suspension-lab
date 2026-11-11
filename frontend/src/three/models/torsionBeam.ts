@@ -110,7 +110,7 @@ export function buildTorsionBeam(source?: PartSource): SuspensionModel {
       alpha[side] = s.alpha;
       poseRigid(arm[side], s.pose);
       bush[side].position.copy(pivot);
-      wheels.pose(side, s.pose, f.wheelAngle);
+      wheels.pose(side, s.pose, f.wheelAngle, dmg.hubWobble);
       span(spring[side], s.pose.apply(TB.springSeat).add(v3(0, 0.006, 0)), TB.springTop);
       shock.pose(side, s.pose.apply(TB.shockLower), TB.shockTop);
       if (side === 'R') wy = s.W.y;

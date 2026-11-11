@@ -150,7 +150,7 @@ export function buildMultiLink(source?: PartSource): SuspensionModel {
       lowerArm[side].position.copy(p.AL);
       lowerArm[side].quaternion.copy(qL);
       poseRigid(carrier[side], p.carrier);
-      wheels.pose(side, p.carrier, f.wheelAngle);
+      wheels.pose(side, p.carrier, f.wheelAngle, dmg.hubWobble);
 
       const ends: Array<[Vector3, Vector3]> = [];
       const link = (obj: typeof toe.R, chassis: Vector3, carrier0: Vector3, name: string) => {

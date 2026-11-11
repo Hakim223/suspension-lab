@@ -92,7 +92,60 @@ so the left side is always a healthy reference.
   notice that symptoms can come from other components.
 - Proportions are representative of passenger cars, not of a specific vehicle.
 
+## Dual mode
+
+```
+/                     LandingPage (choose mode; “resume” link from the remembered mode)
+/consumer, /jelajah/:id, /belajar, /kuis      Consumer Mode — unchanged pages/components
+/mechanic/*           Mechanic Mode — src/mechanic/pages/*
+```
+
+- **Mode switch** (`components/layout/ModeSwitch.tsx`, `state/modeStore.ts`): the last path of each mode is
+  persisted (localStorage); `/jelajah/:id ↔ /mechanic/arsitektur/:id` map to the same architecture.
+- **Shared session**: both modes drive the same `labStore` (selection, camera focus, animation mode,
+  damage view). `enterSuspension(id)` only resets when the architecture changes, so switching modes on
+  the same architecture keeps the selection. Mechanic-only state (selected component/subcomponent/failure,
+  steering, anatomy, case) lives in `mechanic/state/mechanicStore.ts` (sessionStorage).
+- **Reuse, not duplication**: the Mechanic workbench renders the existing `ViewerHost` → `SuspensionViewer`
+  → procedural models + kinematics, the existing `AnimationControls`, and the existing damage pipeline.
+  A Mechanic failure mode with a `sim` profile is passed to the viewer as a `DamageScenario` keyed
+  `mech:<component>:<failure>`. New simulation kinds were added to the engine additively
+  (`damper-change`, `spring-sag`, `wheel-bearing-play`, `rack-backlash`, bushing `staticShiftMm`);
+  Consumer scenarios are untouched.
+
+### Mechanic data model (`src/mechanic/data/`, pure data — no UI)
+
+| File | Contents |
+|---|---|
+| `types.ts` | `Assembly`, `MechComponent` (subcomponents, failure modes, `model3d`, `anatomy`), `FailureMode` (whatFails, cause, mechanicalEffect, symptoms, inspection, differentiation, indicators, `sim` or `visualNote`), `ArchitectureTech`, steering & diagnostic types |
+| `components/*.ts` | Component library by assembly. `jointFailures.ts` is a factory for ball-and-socket mechanisms (stud wear, liner wear, radial/axial play, boot, grease, contamination, corrosion, seizure) reused by ball joints, tie-rod ends and stabilizer-link joints with application-specific consequences |
+| `architectures.ts` | Per-architecture hierarchy (assemblies → component refs with role/note), load paths, kinematics notes, service notes |
+| `steering.ts` | Mechanical / HPS / EPS systems, parts, failures with `domain` (mekanis/hidraulik/elektrik/elektronik) and a `SteeringFaultModel` for the effort model |
+| `diagnostics.ts` | Complaint categories, diagnostic principles, worked cases |
+| `index.ts` | Lookups; derives architecture-level steering-linkage components from `steering.ts` (no duplicated failure data) |
+
+**Honesty rules encoded in the data:** a failure only gets a 3D `sim` when it changes geometry in a way
+the kinematic model can represent (clearances, sag, damping, backlash); otherwise it carries a
+`visualNote` explaining why nothing moves (e.g. a torn boot or a seized bearing). The UI labels each
+failure “SIM 3D” or “PENJELASAN”. Magnitudes use an explicit `visualExaggeration` factor.
+
+### Steering effort model (`src/mechanic/steering/steeringModel.ts`)
+Quasi-static: rack load = parking scrub (fades with speed) + aligning load + friction; driver torque solved
+so that driver force + assist = rack load; HPS assist from a rotary-valve boost curve (pressure × piston
+area, max ≈ 9 MPa); EPS assist from a speed-dependent gain on sensed torque (sensor offset → hands-off
+pull). Free play is a dead-band. Labelled in the UI as a simplified, representative model.
+
+### Anatomy (`src/mechanic/anatomy/`)
+Procedural, simplified constructions of real sub-parts (labelled “Visualisasi teknis disederhanakan —
+bukan CAD”), each part selectable, with exploded offsets and a clipping-plane cutaway. Failure visuals
+are data (`FailureVisual`: tint, oscillating clearance, static offset, tilt, hide, freeze, scale).
+
 ## Extension guide
+
+### Add a Mechanic failure mode
+Add an entry to the component's `failureModes` (all six explanation fields are required by tests). Add a
+`sim` only if the mechanism changes geometry the model can show; otherwise add a `visualNote`. For
+anatomy, add a matching key in the model's `failures` map.
 
 ### Add a new component
 

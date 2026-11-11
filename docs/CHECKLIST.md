@@ -13,6 +13,7 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | M5 | Unit, GLB round-trip and Playwright e2e tests on three viewports; performance work | ✅ |
 | M6 | Static deployment on Vercel, CI, documentation | ✅ |
 | M7 | Simplified to a fully static site: Express API, MySQL, seed tooling and server deploy files removed (content was already bundled) | ✅ |
+| M8 | Dual mode: landing page, Consumer Mode preserved at `/consumer`, Mechanic Mode (`/mechanic`): architecture workbench with per-mechanism failure simulation, steering module (mechanical/HPS/EPS), component anatomy, diagnostic training; session-preserving mode switch | ✅ |
 
 ## Definition of done
 
@@ -41,4 +42,6 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 - ⚠️ Real-device performance (Android tablet GPU) not measured — record results in `performance.md` after first deployment.
 - ⚠️ GLB meshopt compression documented but not exercised with a compressed file (gltfpack was not available).
 - ✅ Workshop branding: Five Degrees Kaki Kaki name + logo (`frontend/src/config/workshop.ts`, `frontend/public/brand/`). Contact details: add to `WORKSHOP.contact` when available.
+- ⚠️ Mechanic 3D simulation uses the same planar kinematic models as Consumer Mode; failures that change rotation about a part's own axis (e.g. spring wind-up from a seized strut bearing) or produce forces/noise only are explained rather than animated.
+- ⚠️ Anatomy models are simplified procedural constructions (no manufacturer CAD); the steering schematic is a top-view diagram, not to scale.
 - Idea: analytics of which components customers explore (would need a privacy decision).

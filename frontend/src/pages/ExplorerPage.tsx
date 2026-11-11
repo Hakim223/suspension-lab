@@ -36,8 +36,8 @@ export default function ExplorerPage() {
   const showRight = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
-    useLab.getState().resetForSuspension();
-    simClock.reset();
+    // Keep the session when returning from Mechanic Mode on the same architecture.
+    if (useLab.getState().enterSuspension(suspensionId)) simClock.reset();
     setTab('info');
   }, [suspensionId]);
 

@@ -10,7 +10,7 @@ export function useTimeline(damageScenario: DamageScenario | null) {
   const mode = useLab((s) => s.mode);
   const damageView = useLab((s) => s.damageView);
   const intensity = useLab((s) => s.damageIntensity);
-  const isWeak = !!damageScenario && damageView === 'damaged' && damageScenario.simulation.kind === 'weak-damper';
+  const isWeak = !!damageScenario && damageView === 'damaged' && (damageScenario.simulation.kind === 'weak-damper' || damageScenario.simulation.kind === 'damper-change');
   const normal = damageScenario?.simulation.params.normalDampingRatio ?? NORMAL_DAMPING_RATIO;
   const weak = damageScenario?.simulation.params.damagedDampingRatio ?? 0.08;
   const zetaR = isWeak ? normal + (weak - normal) * intensity : NORMAL_DAMPING_RATIO;

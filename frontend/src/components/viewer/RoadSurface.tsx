@@ -33,7 +33,7 @@ export function RoadSurface({ timeline, trackHalf }: { timeline: Timeline; track
       for (let i = 0; i < pos.count; i++) {
         const z = -pos.getZ(i); // PlaneGeometry rotated: +z local -> towards the back; flip so +dz is ahead
         const h = manual ? (side === 'L' ? s.manual.left : s.manual.right) : timeline.roadAhead(side, simClock.t, z);
-        pos.setY(i, h - 0.004);
+        pos.setY(i, h + (side === 'R' ? simClock.travelBiasR : 0) - 0.004);
         const stripe = (((z + dist) % 0.5) + 0.5) % 0.5 < 0.06 ? 0.11 : 0.045;
         const fade = Math.max(0, 1 - Math.abs(z) / (LENGTH / 2)) * 0.85 + 0.15;
         col.setXYZ(i, stripe * fade, (stripe + 0.02) * fade, (stripe + 0.05) * fade);

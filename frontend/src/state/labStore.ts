@@ -13,6 +13,8 @@ export interface ManualControls {
 }
 
 export interface LabState {
+  /** Architecture the current state belongs to (shared by Consumer & Mechanic viewers). */
+  suspensionId: string | null;
   selectedComponentId: string | null;
   hoveredComponentId: string | null;
   hidden: Record<string, boolean>;
@@ -49,7 +51,9 @@ export interface LabState {
   /** Animate the camera to the selected component (right-side instance). */
   focusSelection: () => void;
   setMobileSheet: (s: LabState['mobileSheet']) => void;
-  resetForSuspension: () => void;
+  /** Reset when entering a different architecture; keeps state when re-entering the same one. */
+  resetForSuspension: (id?: string) => void;
+  enterSuspension: (id: string) => boolean;
 }
 
 const initial = {
@@ -69,8 +73,9 @@ const initial = {
   mobileSheet: 'none' as const,
 };
 
-export const useLab = create<LabState>((set) => ({
+export const useLab = create<LabState>((set, get) => ({
   ...initial,
+  suspensionId: null,
   cameraResetToken: 0,
   focusToken: 0,
   select: (id) => set({ selectedComponentId: id }),
@@ -98,5 +103,10 @@ export const useLab = create<LabState>((set) => ({
   resetCamera: () => set((s) => ({ cameraResetToken: s.cameraResetToken + 1 })),
   focusSelection: () => set((s) => ({ focusToken: s.focusToken + 1 })),
   setMobileSheet: (sheet) => set({ mobileSheet: sheet }),
-  resetForSuspension: () => set({ ...initial }),
+  resetForSuspension: (id) => set({ ...initial, suspensionId: id ?? null }),
+  enterSuspension: (id) => {
+    if (get().suspensionId === id) return false;
+    set({ ...initial, suspensionId: id });
+    return true;
+  },
 }));

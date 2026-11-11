@@ -4,7 +4,8 @@ import gsap from 'gsap';
 import type { DamageScenario } from '@suspension-lab/shared';
 import { useLab } from '../../state/labStore';
 import { simClock } from '../../three/sim/clock';
-import type { Timeline } from '../../three/sim/timeline';
+import { TRAVEL_LIMIT, type Timeline } from '../../three/sim/timeline';
+import { cornerDamage } from '../../three/sim/damageEffects';
 import { applyVisualState, expandSelection, prepareMaterials } from '../../three/rig/visualState';
 import type { RigFrame, SuspensionModel } from '../../three/rig/types';
 import { WHEEL_RADIUS } from '../../three/models/common';
@@ -117,6 +118,9 @@ export function SuspensionRig({ model, includes, damageScenario, steerable, time
     f.damage = damageActive
       ? { kind: damageScenario!.simulation.kind, params: damageScenario!.simulation.params, intensity: s.damageIntensity }
       : null;
+    const bias = cornerDamage(f.damage, f, 'R').travelBias;
+    simClock.travelBiasR = bias;
+    if (bias) f.travel.R = Math.min(TRAVEL_LIMIT, f.travel.R + bias);
     model.update(f);
     simClock.readout.travelL = f.travel.L;
     simClock.readout.travelR = f.travel.R;

@@ -19,6 +19,26 @@ export interface CornerDamage {
   linkPlay: number;
   /** Extra toe angle (rad) from a worn tie-rod end. */
   toeWobble: number;
+  /** Static ride-height change seen as extra compression (m) — sagged/broken spring. */
+  travelBias: number;
+  /** Wheel/hub wobble angle (rad) — wheel-bearing play. */
+  hubWobble: number;
+}
+
+/** Effects that act on both sides (e.g. steering-rack backlash moves both tie rods). */
+export interface GlobalDamage {
+  /** Rack position lag (m): the rack trails the steering input by the gear/guide clearance. */
+  rackOffset: number;
+}
+
+export const NO_GLOBAL: Readonly<GlobalDamage> = Object.freeze({ rackOffset: 0 });
+
+export function globalDamage(d: DamageInput | null, frame: RigFrame): GlobalDamage {
+  if (!d || d.intensity <= 0 || d.kind !== 'rack-backlash') return NO_GLOBAL;
+  const ex = (d.params.visualExaggeration ?? 1) * d.intensity;
+  const play = ((d.params.playMm ?? 1) / 1000) * ex;
+  // Clearance is taken up in the direction of motion, so the rack lags the input by half the play.
+  return { rackOffset: -0.5 * play * Math.tanh(frame.rackVel * 6) };
 }
 
 export const NO_DAMAGE: Readonly<CornerDamage> = Object.freeze({
@@ -28,6 +48,8 @@ export const NO_DAMAGE: Readonly<CornerDamage> = Object.freeze({
   mountSquash: 0,
   linkPlay: 0,
   toeWobble: 0,
+  travelBias: 0,
+  hubWobble: 0,
 });
 
 const knock = (v: number, gain: number) => Math.tanh(v * gain);
@@ -45,12 +67,16 @@ export function cornerDamage(d: DamageInput | null, frame: RigFrame, side: Side)
     mountSquash: 0,
     linkPlay: 0,
     toeWobble: 0,
+    travelBias: 0,
+    hubWobble: 0,
   };
   switch (d.kind) {
     case 'bushing-play': {
       const play = ((d.params.playMm ?? 5) / 1000) * ex;
       // Arm shifts fore/aft and sideways inside the torn rubber when load changes direction.
-      out.pivotOffset.set(play * 0.5 * knock(v, 14), 0, -play * knock(v, 14) + play * 0.35 * shimmy(frame.time) * activity);
+      // Permanent set of a deformed bushing: the arm sits displaced even at rest.
+      const set = ((d.params.staticShiftMm ?? 0) / 1000) * ex;
+      out.pivotOffset.set(play * 0.5 * knock(v, 14), 0, -set - play * knock(v, 14) + play * 0.35 * shimmy(frame.time) * activity);
       break;
     }
     case 'ball-joint-play': {
@@ -77,7 +103,21 @@ export function cornerDamage(d: DamageInput | null, frame: RigFrame, side: Side)
       break;
     }
     case 'weak-damper':
-      // Handled by the timeline (reduced damping ratio on the right side).
+    case 'damper-change':
+      // Handled by the timeline (changed damping ratio on the right side).
+      break;
+    case 'spring-sag':
+      // A sagged spring lowers that corner: relative to the body the wheel sits further into bump.
+      out.travelBias = ((d.params.sagMm ?? 15) / 1000) * d.intensity;
+      break;
+    case 'wheel-bearing-play': {
+      const amp = (((d.params.playDeg ?? 0.3) * Math.PI) / 180) * ex;
+      const rolling = Math.min(1, Math.abs(frame.vel.R) * 8 + 0.4);
+      out.hubWobble = amp * (0.6 * Math.sin(frame.time * Math.PI * 2 * 3.1) + 0.4 * knock(frame.rackVel, 6)) * rolling;
+      break;
+    }
+    case 'rack-backlash':
+      // Global effect — see globalDamage().
       break;
   }
   return out;

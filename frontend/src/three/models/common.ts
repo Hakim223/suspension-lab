@@ -1,4 +1,4 @@
-import { BoxGeometry, Group, Mesh, Object3D, Quaternion, Vector3 } from 'three';
+import { BoxGeometry, Euler, Group, Mesh, Object3D, Quaternion, Vector3 } from 'three';
 import { ModelBuilder, span } from '../rig/builder';
 import { AX, AY, rotateAbout, solveRoot, v3, type RigidPose } from '../rig/math';
 import { ballJoint, beam, bushing, hubGroup, MAT, mesh, rodGeometry, segment, sphere, SpringGeometry, wheelGroup } from '../rig/parts';
@@ -79,10 +79,14 @@ export function addWheelAndHub(b: ModelBuilder, W0: Vector3) {
     return g;
   });
   return {
-    pose(side: Side, pose: RigidPose, spin: number) {
+    /** `wobble` (rad) tilts wheel + hub about the wheel centre (bearing play: camber + toe). */
+    pose(side: Side, pose: RigidPose, spin: number, wobble = 0) {
+      const w = wobble ? new Quaternion().setFromEuler(new Euler(0, wobble * 0.6, wobble)) : null;
       poseRigid(wheel[side], pose);
+      if (w) wheel[side].quaternion.multiply(w);
       wheel[side].quaternion.multiply(new Quaternion().setFromAxisAngle(AX, spin));
       poseRigid(hub[side], pose);
+      if (w) hub[side].quaternion.multiply(w);
       hub[side].quaternion.multiply(new Quaternion().setFromAxisAngle(AX, spin));
     },
   };

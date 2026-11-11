@@ -18,6 +18,9 @@
   --color-warn: #f59e0b;
   --color-danger: #f87171;
   --color-ok: #34d399;
+  /* Mechanic Mode accent (amber, technical) */
+  --color-mech: #f5a524;
+  --color-mech-2: #ffcf6e;
 }
 
 @layer base {

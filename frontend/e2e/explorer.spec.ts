@@ -2,8 +2,10 @@ import { expect, test } from '@playwright/test';
 import { expectCanvasRendered, isDesktop, isMobile, openExplorer, openTab, pickComponentFromList } from './helpers';
 
 test.describe('Suspension Lab — main customer journey', () => {
-  test('open app, choose a suspension, 3D model loads', async ({ page }) => {
+  test('open app, choose Consumer Mode and a suspension, 3D model loads', async ({ page }) => {
     await page.goto('/');
+    await page.getByTestId('enter-consumer').click();
+    await expect(page).toHaveURL(/\/consumer$/);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Kenali kaki-kaki mobil');
     await page.getByTestId('card-macpherson').click();
     await expect(page).toHaveURL(/\/jelajah\/macpherson$/);

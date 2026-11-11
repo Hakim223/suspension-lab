@@ -155,7 +155,7 @@ export function buildRigidAxle(source?: PartSource): SuspensionModel {
       // Wheel/hub pose in corner-local coordinates (mirror the world rotation for the left corner).
       const qLocal = side === 'L' ? new Quaternion(axle.q.x, -axle.q.y, -axle.q.z, axle.q.w) : axle.q.clone();
       const localPose = new RigidPose(local(side, W), qLocal, v3(RA.halfTrack, RA.C0.y, 0));
-      wheels.pose(side, localPose, f.wheelAngle);
+      wheels.pose(side, localPose, f.wheelAngle, side === 'R' ? dmg.hubWobble : 0);
 
       const off = side === 'R' ? dmg.pivotOffset : new Vector3();
       const lc = v3(sx * RA.lower.x, RA.lower.chassis.y, RA.lower.chassis.z).add(off);

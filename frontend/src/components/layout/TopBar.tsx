@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useContent } from '../../data/contentStore';
 import { Brand } from './Brand';
+import { ModeSwitch } from './ModeSwitch';
 import { cx } from '../ui/primitives';
 
 const links = [
@@ -40,6 +41,7 @@ export function TopBar({ suspensionId }: { suspensionId?: string }) {
           </NavLink>
         ))}
       </nav>
+      <div className="ml-auto md:ml-2"><ModeSwitch compact={!!suspensionId} /></div>
     </header>
   );
 }

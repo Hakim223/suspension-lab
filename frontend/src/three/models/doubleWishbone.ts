@@ -3,7 +3,7 @@ import { ModelBuilder, span, type PartSource } from '../rig/builder';
 import { AY, AZ, RigidPose, angleXY, circleIntersect, solveRoot, v3 } from '../rig/math';
 import { ballJoint, beam, bushing, MAT, mesh, rodGeometry, segment } from '../rig/parts';
 import type { RigFrame, Side, SuspensionModel } from '../rig/types';
-import { cornerDamage, type CornerDamage } from '../sim/damageEffects';
+import { cornerDamage, globalDamage, type CornerDamage } from '../sim/damageEffects';
 import {
   addShock,
   addStabilizer,
@@ -191,7 +191,7 @@ export function buildDoubleWishbone(source?: PartSource): SuspensionModel {
   b.add({ name: 'C_Crossmember', componentId: null, side: 'C' }, () => contextBeam(v3(-0.3, DW.AL.y, 0), v3(0.3, DW.AL.y, 0), 0.1, 0.08));
 
   return b.finish((f: RigFrame) => {
-    const rackWorld = f.rack * RACK_TRAVEL;
+    const rackWorld = f.rack * RACK_TRAVEL + globalDamage(f.damage, f).rackOffset;
     const poses = {} as Record<Side, DwPose>;
     const betas = {} as Record<Side, number>;
     const linkData = {} as Record<Side, { E: Vector3; K: Vector3; nominal: number }>;
@@ -210,7 +210,7 @@ export function buildDoubleWishbone(source?: PartSource): SuspensionModel {
       bjLower[side].position.copy(p.BLarm);
       bjUpper[side].position.copy(p.BU);
       poseRigid(knuckle[side], p.knuckle);
-      wheels.pose(side, p.knuckle, f.wheelAngle);
+      wheels.pose(side, p.knuckle, f.wheelAngle, dmg.hubWobble);
       const armPose = new RigidPose(p.AL, qL, DW.AL.clone());
       const seat = armPose.apply(M0).add(v3(0, 0.02, 0));
       span(spring[side], seat, DW.springTop);

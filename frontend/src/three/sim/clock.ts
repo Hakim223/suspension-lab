@@ -9,6 +9,8 @@ export const simClock = {
   explode: 0,
   /** Latest pose readout for the UI (metres / normalised rack). */
   readout: { travelL: 0, travelR: 0, rack: 0 },
+  /** Static extra compression of the right corner (sagged spring), shared with the road strip. */
+  travelBiasR: 0,
   /** Set by the timeline scrubber; consumed by the render loop. */
   seekTo: null as number | null,
   listeners: new Set<() => void>(),

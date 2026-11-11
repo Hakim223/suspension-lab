@@ -98,6 +98,11 @@ export const DAMAGE_SIM_KINDS = [
   'stabilizer-link-loose',
   'strut-mount-worn',
   'tie-rod-play',
+  // Additional kinds used by Mechanic Mode failure modes:
+  'damper-change',
+  'spring-sag',
+  'wheel-bearing-play',
+  'rack-backlash',
 ] as const;
 export type DamageSimKind = (typeof DAMAGE_SIM_KINDS)[number];
 

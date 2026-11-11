@@ -1,9 +1,17 @@
 # Suspension Lab
 
 A fully static, interactive 3D automotive suspension education website for customers of **Five Degrees Kaki Kaki** — in Bahasa Indonesia. Branding lives in `frontend/src/config/workshop.ts` and `frontend/public/brand/`.
-Customers can rotate and explode five suspension architectures, tap any component to learn what it
-does and how it fails, watch constrained mechanical animations, and compare normal vs. damaged
-components side by side.
+It has two independent learning experiences, both entered from the landing page (`/`) and switchable
+at any time from the top bar (the switch keeps the current architecture and selection):
+
+- **Consumer Mode** (`/consumer`, `/jelajah/:id`, `/belajar`, `/kuis`) — the original customer-friendly
+  experience: rotate/explode five suspension architectures, tap components, simple explanations,
+  constrained animations and six common damage simulations.
+- **Mechanic Mode** (`/mechanic/*`) — a technical learning environment for mechanics, students and
+  service advisors: architecture → assembly → component → subcomponent → failure mechanism → mechanical
+  effect → symptoms → inspection, per-mechanism failure simulation on the same 3D models, a dedicated
+  steering module (rack & pinion, HPS, EPS), component anatomy (assembled / exploded / cutaway) and
+  diagnostic case training.
 
 > **Honesty notes.** The 3D models are *illustrative procedural models* (clearly labelled in the UI),
 > not engineering CAD of any vehicle. Damage simulations are exaggerated visual explanations, not
@@ -14,7 +22,8 @@ components side by side.
 |---|---|
 | Architectures | MacPherson strut · Double wishbone · Torsion beam · Multi-link · Rigid axle (4-link + Panhard) |
 | Components | 20 component types (18 required + axle housing + wheel), each with function, working principle, location, failure modes, symptoms, consequences, inspection, glossary |
-| Damage scenarios | Worn bushing · Ball-joint play · Weak shock · Loose stabilizer link · Worn strut mount · Worn tie-rod end |
+| Damage scenarios (Consumer) | Worn bushing · Ball-joint play · Weak shock · Loose stabilizer link · Worn strut mount · Worn tie-rod end |
+| Mechanic Mode | 27 components with subcomponents, 123 suspension + 43 steering failure mechanisms (each: what fails, why, mechanical effect, symptoms, inspection, differentiation), 8 anatomy models, 13 diagnostic cases |
 | Viewer | Orbit/zoom/pan (mouse + touch), tap-to-select, highlight + focus mode, labels with leader lines, hide/show, exploded view, camera reset/zoom-to-part |
 | Animation | Speed hump, rough road (stabilizer/beam twist), steering (rack-driven, Ackermann emerges), manual sliders; play/pause/reset/speed/scrub |
 | Stack | React 19 · Vite 8 · TypeScript · Tailwind 4 · three.js r187 · React Three Fiber 9 · drei 10 · GSAP · Lucide — static site, no backend or database |
@@ -30,6 +39,8 @@ suspension-lab/
 │   ├── src/three/          #   3D engine: rig builder, kinematics models, sim timeline, GLB loader
 │   ├── src/components/     #   layout, viewer, component-info, simulation, ui
 │   ├── src/features/       #   suspension-selector, component-explorer, damage-simulator, quiz
+│   ├── src/mechanic/       #   Mechanic Mode: data/ (pure data modules), pages/, components/,
+│   │                       #   steering/ (effort model + schematic), anatomy/ (procedural anatomy models), state/
 │   ├── src/{pages,hooks,state,data}/
 │   ├── e2e/                #   Playwright tests (desktop / tablet / mobile)
 │   └── scripts/glb-tools.ts#   reference-GLB export, GLB validation
@@ -69,8 +80,9 @@ to change texts, edit those JSON files (the content tests check that every requi
 
 ## Useful URLs / modes
 
-- `/` home · `/jelajah/<id>` 3D explorer · `/belajar` basics & glossary · `/kuis` quiz
-- `?kiosk=1` — waiting-room kiosk mode: after 3 min idle the app returns to the home page (persisted for the browser session; `?kiosk=0` to turn off)
+- `/` landing (choose mode) · `/consumer` consumer home · `/jelajah/<id>` 3D explorer · `/belajar` basics · `/kuis` quiz
+- `/mechanic` dashboard · `/mechanic/arsitektur/<id>` architecture workbench · `/mechanic/kemudi[/mechanical|hps|eps]` steering · `/mechanic/anatomi[/<model>]` anatomy · `/mechanic/diagnosis[/<case>]` diagnostics
+- `?kiosk=1` — waiting-room kiosk mode: after 3 min idle the app returns to the landing page (persisted for the browser session; `?kiosk=0` to turn off)
 - `?no3d=1` — force the non-WebGL fallback interface
 - `?quality=low` — force low-quality rendering (no shadows, DPR 1)
 - `?model=glb` — load models through the GLB pipeline (reference assets generated at build) to verify asset hosting

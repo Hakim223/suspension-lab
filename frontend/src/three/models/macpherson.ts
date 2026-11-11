@@ -3,7 +3,7 @@ import { ModelBuilder, span, type PartSource } from '../rig/builder';
 import { AX, AY, AZ, RigidPose, angleXY, solveRoot, v3 } from '../rig/math';
 import { ballJoint, beam, bushing, MAT, mesh, rodGeometry, segment, sphere } from '../rig/parts';
 import type { RigFrame, Side, SuspensionModel } from '../rig/types';
-import { cornerDamage, type CornerDamage } from '../sim/damageEffects';
+import { cornerDamage, globalDamage, type CornerDamage } from '../sim/damageEffects';
 import {
   addStabilizer,
   addSteering,
@@ -230,7 +230,7 @@ export function buildMacPherson(source?: PartSource): SuspensionModel {
   let lastPose: Record<Side, MacPose> | null = null;
 
   return b.finish((f: RigFrame) => {
-    const rackWorld = f.rack * RACK_TRAVEL;
+    const rackWorld = f.rack * RACK_TRAVEL + globalDamage(f.damage, f).rackOffset;
     const poses = {} as Record<Side, MacPose>;
     const betas = {} as Record<Side, number>;
     const linkData = {} as Record<Side, { E: Vector3; K: Vector3; nominal: number }>;
@@ -259,7 +259,7 @@ export function buildMacPherson(source?: PartSource): SuspensionModel {
         const rubber = mount[side].getObjectByName('rubber');
         if (rubber) rubber.scale.y = 1 - 0.45 * dmg.mountSquash;
       }
-      wheels.pose(side, p.knuckle, f.wheelAngle);
+      wheels.pose(side, p.knuckle, f.wheelAngle, dmg.hubWobble);
       ends[side] = { I: p.I, P: p.Psolved };
 
       const nominal = stab.linkLen0(K0);
