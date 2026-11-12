@@ -19,6 +19,12 @@ export interface CornerDamage {
   linkPlay: number;
   /** Extra toe angle (rad) from a worn tie-rod end. */
   toeWobble: number;
+  /** Offset of the knuckle at the UPPER ball joint (double wishbone). */
+  upperBallJointOffset: Vector3;
+  /** Shift of the UPPER arm / upper-link inner pivot (worn upper bushing). */
+  upperPivotOffset: Vector3;
+  /** Lateral play of a rigid axle (worn Panhard-rod bushings), metres. */
+  axleLateral: number;
   /** Static ride-height change seen as extra compression (m) — sagged/broken spring. */
   travelBias: number;
   /** Wheel/hub wobble angle (rad) — wheel-bearing play. */
@@ -48,6 +54,9 @@ export const NO_DAMAGE: Readonly<CornerDamage> = Object.freeze({
   mountSquash: 0,
   linkPlay: 0,
   toeWobble: 0,
+  upperBallJointOffset: new Vector3(),
+  upperPivotOffset: new Vector3(),
+  axleLateral: 0,
   travelBias: 0,
   hubWobble: 0,
 });
@@ -67,6 +76,9 @@ export function cornerDamage(d: DamageInput | null, frame: RigFrame, side: Side)
     mountSquash: 0,
     linkPlay: 0,
     toeWobble: 0,
+    upperBallJointOffset: new Vector3(),
+    upperPivotOffset: new Vector3(),
+    axleLateral: 0,
     travelBias: 0,
     hubWobble: 0,
   };
@@ -76,12 +88,19 @@ export function cornerDamage(d: DamageInput | null, frame: RigFrame, side: Side)
       // Arm shifts fore/aft and sideways inside the torn rubber when load changes direction.
       // Permanent set of a deformed bushing: the arm sits displaced even at rest.
       const set = ((d.params.staticShiftMm ?? 0) / 1000) * ex;
-      out.pivotOffset.set(play * 0.5 * knock(v, 14), 0, -set - play * knock(v, 14) + play * 0.35 * shimmy(frame.time) * activity);
+      if (d.params.lateral) {
+        // Panhard-rod bushings: the whole axle shifts sideways when the lateral load reverses.
+        out.axleLateral = play * (0.7 * knock(v - frame.vel.L, 8) + 0.3 * shimmy(frame.time) * activity);
+        break;
+      }
+      const target = d.params.upper ? out.upperPivotOffset : out.pivotOffset;
+      target.set(play * 0.5 * knock(v, 14), 0, -set - play * knock(v, 14) + play * 0.35 * shimmy(frame.time) * activity);
       break;
     }
     case 'ball-joint-play': {
       const play = ((d.params.playMm ?? 4) / 1000) * ex;
-      out.ballJointOffset.set(play * 0.4 * shimmy(frame.time) * activity, play * knock(v, 16), 0);
+      if (d.params.upper) out.upperBallJointOffset.set(play * knock(v, 16), play * 0.3 * shimmy(frame.time) * activity, 0);
+      else out.ballJointOffset.set(play * 0.4 * shimmy(frame.time) * activity, play * knock(v, 16), 0);
       break;
     }
     case 'strut-mount-worn': {

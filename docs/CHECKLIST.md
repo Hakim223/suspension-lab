@@ -14,6 +14,17 @@ Status legend: ✅ done & verified · ⚠️ done with a documented limitation �
 | M6 | Static deployment on Vercel, CI, documentation | ✅ |
 | M7 | Simplified to a fully static site: Express API, MySQL, seed tooling and server deploy files removed (content was already bundled) | ✅ |
 | M8 | Dual mode: landing page, Consumer Mode preserved at `/consumer`, Mechanic Mode (`/mechanic`): architecture workbench with per-mechanism failure simulation, steering module (mechanical/HPS/EPS), component anatomy, diagnostic training; session-preserving mode switch | ✅ |
+| M9 | QA pass: simulation audit and repairs (see below) | ✅ |
+
+### M9 repairs
+- Upper ball-joint play now acts on the upper joint (was moving the lower joint); upper-link bushing play acts on the upper links (was the lower arm pivot).
+- Added missing simulations: toe-link joint play (carrier yaw), Panhard bushing play (axle lateral shift); tension-rod and strut-seat failures highlight the part that actually moves.
+- Clearances stay visible when the animation is paused (slow shake test) — previously normal and failed looked identical when paused.
+- Strut-mount rubber squash no longer lingers after the failure is cleared.
+- Legend for shared-part failures (rack, Panhard) no longer claims the left side is unaffected.
+- Anatomy: camera resets per model; bushing twists about its bolt axis; oil-leak/seal-failure visuals implemented; wrong-preload shows the pre-twist.
+- Steering schematic redrawn with consistent rear-steer geometry; self-centring metric only shown at speed.
+- Mechanic simulations no longer leak into Consumer Mode on mode switch.
 
 ## Definition of done
 

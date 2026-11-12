@@ -1,6 +1,6 @@
 import { Group, Quaternion, Vector3 } from 'three';
 import { ModelBuilder, span, type PartSource } from '../rig/builder';
-import { AX, AZ, RigidPose, angleXY, circleIntersect, solveRoot, v3 } from '../rig/math';
+import { AX, AY, AZ, RigidPose, angleXY, circleIntersect, solveRoot, v3 } from '../rig/math';
 import { beam, bushing, MAT, mesh, rodGeometry, segment } from '../rig/parts';
 import type { RigFrame, Side, SuspensionModel } from '../rig/types';
 import { cornerDamage } from '../sim/damageEffects';
@@ -51,10 +51,11 @@ export const ML_LINKS = {
   upperRear: { chassis: ML.AU.clone().setZ(ML.upper[1]!.chassisZ), carrier: ML.BU.clone().setZ(ML.upper[1]!.carrierZ) },
 };
 
-export function solveMultiLink(travel: number, pivotOffset: Vector3) {
+export function solveMultiLink(travel: number, pivotOffset: Vector3, upperPivotOffset = new Vector3(), toe = 0) {
   const AL = ML.AL.clone().add(pivotOffset);
+  const AU = ML.AU.clone().add(upperPivotOffset);
   const end = (th: number) => v3(AL.x + LL * Math.cos(th), AL.y + LL * Math.sin(th));
-  const upper = (BL: Vector3) => circleIntersect(ML.AU, LU, BL, KH, true) ?? ML.BU.clone();
+  const upper = (BL: Vector3) => circleIntersect(AU, LU, BL, KH, true) ?? ML.BU.clone();
   const wheelY = (th: number) => {
     const BL = end(th);
     const BU = upper(BL);
@@ -63,7 +64,9 @@ export function solveMultiLink(travel: number, pivotOffset: Vector3) {
   const theta = solveRoot((th) => wheelY(th) - (ML.W.y + travel), TH_L0 - 0.6, TH_L0 + 0.6);
   const BL = end(theta);
   const BU = upper(BL);
-  const carrier = new RigidPose(BL.clone(), qz(angleXY(BL, BU) - KN0), ML.BL.clone());
+  // Toe play (worn toe-link joint): the carrier yaws slightly about its vertical axis.
+  const q = new Quaternion().setFromAxisAngle(AY, toe).multiply(qz(angleXY(BL, BU) - KN0));
+  const carrier = new RigidPose(BL.clone(), q, ML.BL.clone());
   return { AL, theta, BL, BU, carrier, W: carrier.apply(ML.W) };
 }
 
@@ -145,7 +148,8 @@ export function buildMultiLink(source?: PartSource): SuspensionModel {
     const lengths: Record<string, number> = {};
     for (const side of SIDES) {
       const dmg = cornerDamage(f.damage, f, side);
-      const p = solveMultiLink(f.travel[side], dmg.pivotOffset);
+      const p = solveMultiLink(f.travel[side], dmg.pivotOffset, dmg.upperPivotOffset, dmg.toeWobble);
+      const upOff = dmg.upperPivotOffset;
       const qL = qz(p.theta - TH_L0);
       lowerArm[side].position.copy(p.AL);
       lowerArm[side].quaternion.copy(qL);
@@ -161,8 +165,8 @@ export function buildMultiLink(source?: PartSource): SuspensionModel {
       };
       link(toe[side], ML_LINKS.toe.chassis, ML_LINKS.toe.carrier, 'toe');
       link(trailing[side], ML_LINKS.trailing.chassis, ML_LINKS.trailing.carrier, 'trailing');
-      link(upF[side], ML_LINKS.upperFront.chassis, ML_LINKS.upperFront.carrier, 'upperFront');
-      link(upR[side], ML_LINKS.upperRear.chassis, ML_LINKS.upperRear.carrier, 'upperRear');
+      link(upF[side], ML_LINKS.upperFront.chassis.clone().add(upOff), ML_LINKS.upperFront.carrier, 'upperFront');
+      link(upR[side], ML_LINKS.upperRear.chassis.clone().add(upOff), ML_LINKS.upperRear.carrier, 'upperRear');
       const lowerCarrierEnd = p.BL.clone().setZ(ML.lowerZ);
       ends.push([p.AL.clone().setZ(ML.lowerZ), lowerCarrierEnd]);
       if (side === 'R') lengths.lower = p.AL.distanceTo(p.BL);

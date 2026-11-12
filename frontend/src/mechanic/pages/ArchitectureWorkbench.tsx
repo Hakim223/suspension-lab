@@ -72,7 +72,11 @@ export default function ArchitectureWorkbench() {
   // 3D pick → mechanic component (prefer the current one if it maps to the same 3D part).
   useEffect(() => {
     const cur = getMechComponent(useMechanic.getState().componentId);
-    if (!labSelected) return;
+    if (!labSelected) {
+      // Deselected in the 3D view → clear the matching mechanic selection (keeps 3D-less components).
+      if (cur?.model3d && model3dIds.has(cur.model3d) && !useMechanic.getState().failureId) useMechanic.getState().selectComponent(null);
+      return;
+    }
     if (cur?.model3d === labSelected) return;
     const match = archComponents.find((x) => x.c.model3d === labSelected || (labSelected === 'strut-assembly' && x.c.id === 'strut-assembly'));
     if (match) {
@@ -85,7 +89,12 @@ export default function ArchitectureWorkbench() {
   const component = getMechComponent(m.componentId);
   const archRef = archComponents.find((x) => x.c.id === component?.id);
   const failure = component?.failureModes.find((f) => f.id === m.failureId) ?? null;
-  const simAvailable = !!(failure?.sim && component?.model3d && model3dIds.has(component.model3d));
+  /** 3D part shown as failed: the failure's explicit target, else the component's own 3D part. */
+  const simTarget = (f: FailureMode | null | undefined, c: MechComponent | undefined) => {
+    const t = f?.sim ? (f.sim.target ?? c?.model3d) : undefined;
+    return t && model3dIds.has(t) ? t : null;
+  };
+  const simAvailable = !!simTarget(failure, component);
 
   // Viewer labels use mechanic names for each 3D part present in this architecture.
   const viewerComponents: ResolvedComponent[] = useMemo(() => {
@@ -99,7 +108,7 @@ export default function ArchitectureWorkbench() {
   const damageScenario: DamageScenario | null = useMemo(() => {
     if (!component || !failure?.sim || !simAvailable || !m.simActive) return null;
     return {
-      id: simKey(component.id, failure.id), componentId: component.model3d!, title: failure.name, shortTitle: failure.name,
+      id: simKey(component.id, failure.id), componentId: simTarget(failure, component)!, title: failure.name, shortTitle: failure.name,
       severity: failure.severity === 'rendah' ? 'sedang' : failure.severity === 'kritis' ? 'tinggi' : failure.severity,
       normalCondition: '', damagedCondition: '', failureDescription: failure.whatFails, symptoms: failure.symptoms,
       safetyImplications: [], inspection: failure.inspection,
@@ -127,9 +136,11 @@ export default function ArchitectureWorkbench() {
     if (!component) return;
     m.selectFailure(f.id);
     setTab('failure');
-    if (f.sim && component.model3d && model3dIds.has(component.model3d)) {
+    const target = simTarget(f, component);
+    if (target) {
       const lab = useLab.getState();
-      lab.setMode(f.sim.mode === 'steer' && !suspension.steerable ? 'bump' : f.sim.mode);
+      const mode = f.sim!.mode;
+      lab.setMode(mode === 'steer' && !suspension.steerable ? 'bump' : mode);
       lab.setPlaying(true);
       lab.focusSelection();
     }
@@ -259,7 +270,7 @@ export default function ArchitectureWorkbench() {
               </div>
               <div className="mt-0.5 flex flex-wrap gap-x-3 font-mono text-[11px] text-muted">
                 {f.subcomponentId && <span>{subName(f.subcomponentId)}</span>}
-                <span>{f.sim && component.model3d && model3dIds.has(component.model3d) ? 'SIM 3D' : 'PENJELASAN'}</span>
+                <span>{simTarget(f, component) ? 'SIM 3D' : 'PENJELASAN'}</span>
               </div>
             </button>
           </li>
@@ -285,8 +296,12 @@ export default function ArchitectureWorkbench() {
                   <span className="flex justify-between text-[12.5px] text-muted"><span>Tingkat kegagalan</span><span className="font-mono text-ink">{Math.round(intensity * 100)}%</span></span>
                   <input type="range" className="range" min={0} max={1} step={0.05} value={intensity} onChange={(e) => useLab.getState().setDamageIntensity(Number(e.target.value))} aria-label="Tingkat kegagalan" />
                 </label>
-                <p className="mt-1 text-[12.5px] text-muted">Sisi kanan = kondisi gagal, sisi kiri = referensi normal. Besaran gerak diperbesar sesuai faktor visual pada parameter; arah dan jenis gerak sesuai mekanismenya.</p>
-                {failure.sim?.kind === 'rack-backlash' && <p className="mt-1 text-[12.5px] text-warn">Kelonggaran rack/linkage memengaruhi kedua roda sekaligus.</p>}
+                <p className="mt-1 text-[12.5px] text-muted">
+                  {failure.sim?.kind === 'rack-backlash' || failure.sim?.params.lateral
+                    ? 'Komponen ini dipakai bersama kedua sisi, sehingga kegagalannya memengaruhi kedua roda.'
+                    : 'Sisi kanan = kondisi gagal, sisi kiri = referensi normal.'}{' '}
+                  Besaran gerak diperbesar agar terlihat; arah dan jenis gerak mengikuti mekanismenya. Saat animasi dijeda, model melakukan “uji goyang” pelan agar kelonggaran tetap terlihat.
+                </p>
               </>
             ) : (
               <p className="mt-2 text-[13.5px] text-ink-2" data-testid="no-sim-note">

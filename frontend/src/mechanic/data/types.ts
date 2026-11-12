@@ -39,6 +39,8 @@ export interface FailureSimulation {
   kind: DamageSimKind;
   params: Record<string, number>;
   mode: AnimationMode;
+  /** 3D component highlighted as failed when it differs from the component's own `model3d`. */
+  target?: string;
 }
 
 export interface FailureMode {

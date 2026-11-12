@@ -128,10 +128,19 @@ export function ViewerHost({ modelKey, steerable, components, damageScenario }: 
       <Toolbar />
       {damageScenario && (
         <div className="pointer-events-none absolute inset-x-3 bottom-3 z-10 flex justify-between gap-2 text-[12.5px] font-semibold" data-testid="compare-legend">
-          <span className="rounded-lg border border-ok/40 bg-bg/85 px-2.5 py-1.5 text-ok">◀ Kiri: normal (pembanding)</span>
-          <span className={cx('rounded-lg border bg-bg/85 px-2.5 py-1.5', damageView === 'damaged' ? 'border-warn/60 text-warn' : 'border-ok/40 text-ok')}>
-            Kanan: {damageView === 'damaged' ? 'disimulasikan rusak' : 'normal'} ▶
-          </span>
+          {damageScenario.simulation.kind === 'rack-backlash' || damageScenario.simulation.params.lateral ? (
+            // Failures of shared parts (steering rack, Panhard rod) act on both wheels.
+            <span className={cx('mx-auto rounded-lg border bg-bg/85 px-2.5 py-1.5', damageView === 'damaged' ? 'border-warn/60 text-warn' : 'border-ok/40 text-ok')}>
+              {damageView === 'damaged' ? 'Disimulasikan rusak — memengaruhi kedua roda' : 'Kondisi normal'}
+            </span>
+          ) : (
+            <>
+              <span className="rounded-lg border border-ok/40 bg-bg/85 px-2.5 py-1.5 text-ok">◀ Kiri: normal (pembanding)</span>
+              <span className={cx('rounded-lg border bg-bg/85 px-2.5 py-1.5', damageView === 'damaged' ? 'border-warn/60 text-warn' : 'border-ok/40 text-ok')}>
+                Kanan: {damageView === 'damaged' ? 'disimulasikan rusak' : 'normal'} ▶
+              </span>
+            </>
+          )}
         </div>
       )}
       {!hintSeen && loadedKey === modelKey && !damageScenario && (

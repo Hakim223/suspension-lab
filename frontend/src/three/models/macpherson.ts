@@ -255,10 +255,9 @@ export function buildMacPherson(source?: PartSource): SuspensionModel {
       span(rod[side], bodyTop, p.T);
       span(spring[side], S.clone().addScaledVector(yAxis, MAC.springSeat + 0.008), p.T.clone().addScaledVector(yAxis, -0.062));
       mount[side].position.copy(p.T);
-      if (dmg.mountSquash > 0) {
-        const rubber = mount[side].getObjectByName('rubber');
-        if (rubber) rubber.scale.y = 1 - 0.45 * dmg.mountSquash;
-      }
+      // Always written (also with 0) so the squash never lingers after the failure is cleared.
+      const rubber = mount[side].getObjectByName('rubber');
+      if (rubber) rubber.scale.y = 1 - 0.45 * dmg.mountSquash;
       wheels.pose(side, p.knuckle, f.wheelAngle, dmg.hubWobble);
       ends[side] = { I: p.I, P: p.Psolved };
 

@@ -184,7 +184,9 @@ export default function SteeringModule() {
                 {metric('Torsi pengemudi', `${outFailed.driverTorqueNm.toFixed(1)} Nm`, `${outNormal.driverTorqueNm.toFixed(1)} Nm`, 'metric-torque')}
                 {metric('Porsi bantuan', `${Math.round(outFailed.assistShare * 100)}%`, `${Math.round(outNormal.assistShare * 100)}%`)}
                 {metric('Gaya rack', `${(outFailed.rackLoadN / 1000).toFixed(2)} kN`, `${(outNormal.rackLoadN / 1000).toFixed(2)} kN`)}
-                {metric('Self-centering', outFailed.centringN > 0 ? 'kembali' : 'tidak kembali', outNormal.centringN > 0 ? 'kembali' : 'tidak kembali')}
+                {speed < 15
+                  ? metric('Self-centering', '—', 'naikkan kecepatan')
+                  : metric('Self-centering', outFailed.centringN > 0 ? 'kembali' : 'tidak kembali', outNormal.centringN > 0 ? 'kembali' : 'tidak kembali', 'metric-centring')}
               </div>
               {Math.abs(outFailed.handsOffForceN) > 0 && view === 'failed' && (
                 <p className="mt-2 text-[13px] text-warn" data-testid="pull-warning">Lepas tangan: sistem menghasilkan gaya ±{Math.abs(outFailed.handsOffForceN).toFixed(0)} N di rack → kendaraan cenderung menarik / menyetir sendiri.</p>

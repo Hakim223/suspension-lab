@@ -52,7 +52,7 @@ export default function AnatomyPage() {
             <div className="panel relative overflow-hidden h-[52vh] min-h-[340px]" data-testid="anatomy-viewport">
               {isWebGLAvailable() ? (
                 <Suspense fallback={<LoadingOverlay label="Memuat model anatomi…" />}>
-                  <AnatomyViewer model={model} view={st.anatomyView} failure={visual} selectedPart={st.anatomyPartId} playing={playing}
+                  <AnatomyViewer key={model.id} model={model} view={st.anatomyView} failure={visual} selectedPart={st.anatomyPartId} playing={playing}
                     onPick={(id) => st.setAnatomy({ anatomyPartId: id })} />
                 </Suspense>
               ) : (

@@ -113,6 +113,13 @@ export function SuspensionRig({ model, includes, damageScenario, steerable, time
     }
     // Damage "knock" effects keep animating gently even when paused, so the play is visible.
     f.time += running ? dt * s.speed : dt * 0.25;
+    if (damageActive && !running) {
+      // Not driving: emulate a slow manual shake test (load reversing) so clearances remain visible.
+      const w = f.time * 9;
+      f.vel.R = 0.22 * Math.sin(w);
+      f.vel.L = -0.05 * Math.sin(w);
+      if (steerable) f.rackVel = 0.6 * Math.sin(w * 0.8);
+    }
     f.wheelAngle = simClock.wheelAngle;
     f.explode = simClock.explode;
     f.damage = damageActive

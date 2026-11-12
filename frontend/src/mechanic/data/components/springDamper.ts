@@ -252,7 +252,7 @@ export const springDamperComponents: MechComponent[] = [
         symptoms: ['Mobil tiba-tiba lebih rendah', 'Bunyi dentuman / gemeretak'],
         inspection: ['Bersihkan dan periksa dudukan; tusuk area karat'],
         differentiation: ['Per patah memberi gejala serupa — periksa keduanya'],
-        sim: { kind: 'spring-sag', params: { sagMm: 25 }, mode: 'bump' },
+        sim: { kind: 'spring-sag', params: { sagMm: 25 }, mode: 'bump', target: 'coil-spring' },
       },
       {
         id: 'bump-stop-failure', name: 'Bump stop hancur/hilang', subcomponentId: 'bump-stop', severity: 'sedang',

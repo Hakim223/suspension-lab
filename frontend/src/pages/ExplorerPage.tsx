@@ -37,7 +37,10 @@ export default function ExplorerPage() {
 
   useEffect(() => {
     // Keep the session when returning from Mechanic Mode on the same architecture.
-    if (useLab.getState().enterSuspension(suspensionId)) simClock.reset();
+    const lab = useLab.getState();
+    if (lab.enterSuspension(suspensionId)) simClock.reset();
+    // A Mechanic-Mode failure simulation must not leak into the consumer view.
+    if (lab.damageScenarioId?.startsWith('mech:')) lab.setDamageScenario(null);
     setTab('info');
   }, [suspensionId]);
 

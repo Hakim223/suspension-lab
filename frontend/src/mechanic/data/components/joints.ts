@@ -140,7 +140,7 @@ export const jointComponents: MechComponent[] = [
       playLookalikes: ['Bushing lengan atas aus memberi gerak di sisi rangka, bukan di sambungan bola'],
       seizureEffect: 'Knuckle sulit berputar — kemudi berat; bushing lengan atas menerima puntiran berlebih.',
       seizureSymptoms: ['Setir berat', 'Kembali ke tengah lambat'],
-      sim: bjSim,
+      sim: (s) => ({ kind: 'ball-joint-play' as const, params: { playMm: 1.2 * s, upper: 1, visualExaggeration: 4 }, mode: 'bump' as const }),
     }),
   },
   {

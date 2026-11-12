@@ -153,7 +153,7 @@ describe('Anatomy & diagnostics', () => {
       expect(new Set(m.parts.map((p) => p.id)).size, m.id).toBe(m.parts.length);
       expect(m.parts.some((p) => p.cut), m.id).toBe(true);
       expect(anatomyFailures(m).length, m.id).toBeGreaterThan(2);
-      for (const v of Object.values(m.failures)) for (const p of v.parts) expect(m.parts.map((x) => x.id), `${m.id}:${p}`).toContain(p);
+      for (const v of Object.values(m.failures)) for (const p of [...v.parts, ...(v.also ?? []).flatMap((a) => a.parts)]) expect(m.parts.map((x) => x.id), `${m.id}:${p}`).toContain(p);
       for (const p of m.parts) expect(() => p.build()).not.toThrow();
     }
   });

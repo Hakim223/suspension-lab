@@ -18,6 +18,7 @@ interface Props {
 const CUT_PLANE = new Plane(new Vector3(0, 0, -1), 0); // removes the half facing the camera (z > 0)
 const FAIL = new Color('#f87171');
 const SEL = new Color('#f5a524');
+const BLACK = new Color(0);
 
 interface Built {
   root: Group;
@@ -77,20 +78,25 @@ function Scene({ model, view, failure, selectedPart, playing, onPick }: Props) {
     }
   }, [built, view]);
 
+  // All visual rules of the active failure (primary + secondary), flattened.
+  const rules = useMemo(() => (failure ? [failure, ...(failure.also ?? [])] : []), [failure]);
+
   // Colour state (selection / failure tint) — reapplied when inputs change.
   useEffect(() => {
     for (const [id, p] of built.parts) {
-      const failed = !!failure && failure.parts.includes(id);
+      const hit = rules.filter((r) => r.parts.includes(id));
+      const failed = hit.length > 0;
+      const tint = hit.find((r) => r.tint)?.tint;
       for (const m of p.mats) {
         const base = m.userData.base as { color: Color; opacity: number };
         m.color.copy(base.color);
-        if (failed && failure!.tint) m.color.set(failure!.tint);
-        m.emissive.copy(failed ? FAIL : id === selectedPart ? SEL : new Color(0));
-        m.emissiveIntensity = failed ? 0.25 : id === selectedPart ? 0.35 : 0;
+        if (tint) m.color.set(tint);
+        m.emissive.copy(failed && tint ? FAIL : id === selectedPart ? SEL : BLACK);
+        m.emissiveIntensity = failed && tint ? 0.25 : id === selectedPart ? 0.35 : 0;
       }
-      p.obj.visible = !(failed && failure!.hide);
+      p.obj.visible = !hit.some((r) => r.hide);
     }
-  }, [built, failure, selectedPart]);
+  }, [built, rules, selectedPart]);
 
   const tmpQ = useMemo(() => new Quaternion(), []);
   useFrame((_, dt) => {
@@ -104,7 +110,7 @@ function Scene({ model, view, failure, selectedPart, playing, onPick }: Props) {
       p.obj.position.copy(p.base.p).addScaledVector(p.explode, explode.current);
       p.obj.quaternion.copy(p.base.q);
       p.obj.scale.copy(p.base.s);
-      const frozen = !!failure?.freeze && failure.parts.includes(id);
+      const frozen = rules.some((r) => r.freeze && r.parts.includes(id));
       const moving = model.moving.includes(id) && !frozen;
       if (moving) {
         switch (model.motion) {
@@ -118,7 +124,8 @@ function Scene({ model, view, failure, selectedPart, playing, onPick }: Props) {
             p.obj.quaternion.multiply(tmpQ.setFromEuler(model.id === 'wheel-bearing' ? new Euler(t.current * (id === 'balls' ? 0.9 : 1.8) * ms, 0, 0) : new Euler(0, phase * 0.6 * ms, 0)));
             break;
           case 'twist':
-            p.obj.quaternion.multiply(tmpQ.setFromEuler(new Euler(0, 0, phase * 0.3 * ms)));
+            // The arm swings about the bushing (bolt) axis = Y; rubber shown at half the angle.
+            p.obj.quaternion.multiply(tmpQ.setFromEuler(new Euler(0, phase * 0.3 * ms * (id === 'rubber' ? 0.5 : 1), 0)));
             break;
           case 'steer': {
             const ang = phase * 2.4 * ms; // pinion angle (rad)
@@ -134,11 +141,13 @@ function Scene({ model, view, failure, selectedPart, playing, onPick }: Props) {
           }
         }
       }
-      if (failure && failure.parts.includes(id)) {
-        if (failure.offset) p.obj.position.add(new Vector3(...failure.offset));
-        if (failure.move) p.obj.position.add(new Vector3(...failure.move).multiplyScalar(Math.sign(phase) * Math.min(1, Math.abs(phase) * 3)));
-        if (failure.tilt) p.obj.quaternion.multiply(tmpQ.setFromEuler(new Euler(0, 0, failure.tilt)));
-        if (failure.scale) p.obj.scale.multiply(new Vector3(...failure.scale));
+      for (const r of rules) {
+        if (!r.parts.includes(id)) continue;
+        if (r.offset) p.obj.position.add(new Vector3(...r.offset));
+        if (r.move) p.obj.position.add(new Vector3(...r.move).multiplyScalar(Math.sign(phase) * Math.min(1, Math.abs(phase) * 3)));
+        if (r.tilt) p.obj.quaternion.multiply(tmpQ.setFromEuler(new Euler(0, 0, r.tilt)));
+        if (r.rotate) p.obj.quaternion.multiply(tmpQ.setFromEuler(new Euler(...r.rotate)));
+        if (r.scale) p.obj.scale.multiply(new Vector3(...r.scale));
       }
     }
   });
@@ -162,7 +171,6 @@ export default function AnatomyViewer(props: Props) {
       dpr={[1, 1.75]}
       gl={{ antialias: true }}
       onPointerMissed={(e) => e.type === 'click' && props.onPick(null)}
-      key={model.id}
     >
       <color attach="background" args={['#0a0f1a']} />
       <Env />

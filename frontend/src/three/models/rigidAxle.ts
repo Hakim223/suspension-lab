@@ -36,7 +36,7 @@ const LEN_PANHARD = RA.panhard.chassis.distanceTo(RA.panhard.axle);
 /** Mirror a world point to left-corner local coords (corner_L has scale.x = -1). */
 const mx = (p: Vector3) => v3(-p.x, p.y, p.z);
 
-export function solveRigidAxle(hL: number, hR: number, pivotOffsetR = new Vector3()) {
+export function solveRigidAxle(hL: number, hR: number, lateralPlay = 0) {
   const yc = RA.C0.y + (hL + hR) / 2;
   const roll = Math.asin(Math.max(-0.3, Math.min(0.3, (hR - hL) / (2 * RA.halfTrack))));
   // Side-view (Y,Z) solve for fore/aft offset dz and pitch psi.
@@ -71,8 +71,8 @@ export function solveRigidAxle(hL: number, hR: number, pivotOffsetR = new Vector
   const q = new Quaternion().setFromAxisAngle(AZ, roll).multiply(new Quaternion().setFromAxisAngle(AX, psi));
   const poseAt = (dx: number) => new RigidPose(v3(dx, yc, dz), q, RA.C0.clone());
   const dx = solveRoot((d) => poseAt(d).apply(RA.panhard.axle).distanceTo(RA.panhard.chassis) - LEN_PANHARD, -0.1, 0.1);
-  const axle = poseAt(dx);
-  void pivotOffsetR;
+  // Panhard-bushing play lets the axle move sideways beyond the rod's geometric position.
+  const axle = poseAt(dx + lateralPlay);
   return { axle, roll, psi, dz, dx };
 }
 
@@ -143,7 +143,7 @@ export function buildRigidAxle(source?: PartSource): SuspensionModel {
 
   return b.finish((f: RigFrame) => {
     const dmg = cornerDamage(f.damage, f, 'R');
-    const s = solveRigidAxle(f.travel.L, f.travel.R);
+    const s = solveRigidAxle(f.travel.L, f.travel.R, dmg.axleLateral);
     const { axle } = s;
     housing.position.copy(axle.apply(RA.C0));
     housing.quaternion.copy(axle.q);

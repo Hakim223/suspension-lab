@@ -25,17 +25,28 @@ export function SteeringSchematic({ system, epsVariant, swDeg, pinionDeg, out, f
   const stroke = (id: string, base = C.steel) => (failedIds.includes(id) ? C.fail : selectedId === id ? C.sel : base);
   const sw = (id: string) => (failedIds.includes(id) || selectedId === id ? 3 : 1.6);
   const pick = (id: string) => ({ onClick: () => onPick(id), style: { cursor: 'pointer' }, 'data-schematic': id });
-  const shift = out.rackMm * 1.35;
   const road = out.roadWheelDeg;
-  // Ackermann: the inner wheel turns more. Positive road angle = left turn (rack moves right).
+  // Ackermann: the inner wheel turns more. Positive road angle = left turn.
   const leftDeg = road > 0 ? road * 1.1 : road * 0.92;
   const rightDeg = road > 0 ? road * 0.92 : road * 1.1;
+  // Rear-steer layout: rack behind the axle line, steering arms point rearward & inboard.
+  // In this top view (front = up) a left turn swings the arm ends to the right, so the rack moves right.
+  const AXLE_Y = 232;
+  const RACK_Y = 280;
+  const ARM = { in: 22, back: RACK_Y - AXLE_Y };
+  const armEnd = (cx: number, deg: number, side: 'L' | 'R') => {
+    const th = (-deg * Math.PI) / 180; // SVG rotation (clockwise positive)
+    const ax = side === 'L' ? ARM.in : -ARM.in;
+    return { x: cx + ax * Math.cos(th) - ARM.back * Math.sin(th), y: AXLE_Y + ax * Math.sin(th) + ARM.back * Math.cos(th) };
+  };
   const L = { cx: 105, deg: leftDeg };
   const R = { cx: 695, deg: rightDeg };
+  const tieL = armEnd(L.cx, leftDeg, 'L');
+  const tieR = armEnd(R.cx, rightDeg, 'R');
+  // Rack shift drawn so the tie rods keep (approximately) constant length: follows the mean arm-end travel.
+  const shift = (tieL.x - (L.cx + ARM.in) + (tieR.x - (R.cx - ARM.in))) / 2;
   const rackL = 230 + shift;
   const rackR = 570 + shift;
-  const tieL = { x: 150 + Math.sin((leftDeg * Math.PI) / 180) * 26, y: 356 };
-  const tieR = { x: 650 + Math.sin((rightDeg * Math.PI) / 180) * 26, y: 356 };
   const pressure = out.pressureMPa ?? 0;
   const pFrac = Math.min(1, pressure / 9);
   const dash = { strokeDasharray: '10 8', strokeDashoffset: -flowPhase * 40 };
@@ -128,18 +139,20 @@ export function SteeringSchematic({ system, epsVariant, swDeg, pinionDeg, out, f
             <polyline points={`${x},272 ${x + (i ? 8 : -8)},288 ${x + (i ? 16 : -16)},272 ${x + (i ? 24 : -24)},288`} fill="none" stroke={C.muted} strokeWidth="1.5" />
             <circle cx={x} cy="280" r="6" fill="#1e293b" stroke={stroke('inner-tie-rod', C.ink)} strokeWidth={sw('inner-tie-rod')} />
           </g>
-          <line x1={x} y1="280" x2={t.x} y2={t.y} stroke={stroke('tie-rod-end', C.steel)} strokeWidth="4" />
+          <line x1={x} y1={RACK_Y} x2={t.x} y2={t.y} stroke={stroke('tie-rod-end', C.steel)} strokeWidth="4" />
           <g {...pick('tie-rod-end')}>
             <circle cx={t.x} cy={t.y} r="7" fill="#1e293b" stroke={stroke('tie-rod-end', C.ink)} strokeWidth={sw('tie-rod-end')} />
           </g>
         </g>
       ))}
-      {/* Wheels (rotate about kingpin) */}
+      {/* Wheels (rotate about the kingpin on the axle line) with rear-pointing steering arms */}
+      <line x1="105" y1={AXLE_Y} x2="695" y2={AXLE_Y} stroke={C.line} strokeDasharray="3 6" />
+      <text x="150" y={AXLE_Y - 6} fill={C.muted} fontSize="10">garis poros roda · depan ↑</text>
       {[L, R].map((w, i) => (
-        <g key={i} transform={`translate(${w.cx} 330) rotate(${-w.deg})`}>
+        <g key={i} transform={`translate(${w.cx} ${AXLE_Y}) rotate(${-w.deg})`}>
           <rect x="-16" y="-46" width="32" height="92" rx="7" fill="#16181c" stroke={C.muted} />
           <line x1="0" y1="-46" x2="0" y2="-62" stroke={C.sel} strokeWidth="2" />
-          <line x1={i ? -16 : 16} y1="0" x2={i ? -44 : 44} y2="24" stroke={C.steel} strokeWidth="4" />
+          <line x1="0" y1="0" x2={i ? -ARM.in : ARM.in} y2={ARM.back} stroke={C.steel} strokeWidth="4" />
         </g>
       ))}
 
@@ -149,7 +162,7 @@ export function SteeringSchematic({ system, epsVariant, swDeg, pinionDeg, out, f
           <g {...pick('reservoir')}>
             <rect x="92" y="44" width="58" height="40" rx="5" fill="#0f1726" stroke={stroke('reservoir', C.ret)} strokeWidth={sw('reservoir')} />
             <rect x="96" y="60" width="50" height="20" fill="rgba(56,189,248,0.35)" />
-            <text x="96" y="38" fill={C.muted} fontSize="11">reservoir</text>
+            <text x="156" y="68" fill={C.muted} fontSize="11">reservoir</text>
           </g>
           <g {...pick('pump')}>
             <circle cx="122" cy="150" r="24" fill="#0f1726" stroke={stroke('pump', C.ink)} strokeWidth={sw('pump')} />
@@ -212,7 +225,7 @@ export function SteeringSchematic({ system, epsVariant, swDeg, pinionDeg, out, f
         {Math.abs(swDeg - pinionDeg) > 0.5 && <text x="12" y="410" fill={C.fail}>celah bebas: setir bergerak {Math.abs(swDeg - pinionDeg).toFixed(1)}° tanpa diikuti pinion</text>}
         {noise && <text x="560" y="450" fill={C.sel}>♪ {noise}</text>}
       </g>
-      <text x="12" y="40" fill={C.muted} fontSize="11">± {MAX_SW_DEG}° setir = ± 35° roda</text>
+      <text x="560" y="22" fill={C.muted} fontSize="11">± {MAX_SW_DEG}° setir = ± 35° roda</text>
     </svg>
   );
 }

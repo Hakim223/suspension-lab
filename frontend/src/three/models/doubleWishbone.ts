@@ -59,6 +59,8 @@ export interface DwPose {
   BLarm: Vector3;
   BLk: Vector3;
   BU: Vector3;
+  AU: Vector3;
+  BUarm: Vector3;
   knuckle: RigidPose;
   delta: number;
   W: Vector3;
@@ -71,7 +73,11 @@ export interface DwPose {
 export function solveDoubleWishbone(travel: number, rackLocal: number, dmg: CornerDamage): DwPose {
   const AL = DW.AL.clone().add(dmg.pivotOffset);
   const lowerEnd = (th: number) => v3(AL.x + LL * Math.cos(th), AL.y + LL * Math.sin(th));
-  const solveUpper = (BLk: Vector3) => circleIntersect(DW.AU, LU, BLk, KH, true) ?? DW.BU.clone();
+  const AU = DW.AU.clone().add(dmg.upperPivotOffset);
+  // Upper joint on the ARM (circle intersection keeps both arm lengths and the knuckle span).
+  const upperOnArm = (BLk: Vector3) => circleIntersect(AU, LU, BLk, KH, true) ?? DW.BU.clone();
+  // With upper ball-joint play the knuckle's top is displaced relative to the arm end.
+  const solveUpper = (BLk: Vector3) => upperOnArm(BLk).add(dmg.upperBallJointOffset);
   const knucklePhi = (BLk: Vector3, BU: Vector3) => angleXY(BLk, BU) - KN_ANG0;
   const wheelY = (th: number) => {
     const BLk = lowerEnd(th).add(dmg.ballJointOffset);
@@ -92,7 +98,9 @@ export function solveDoubleWishbone(travel: number, rackLocal: number, dmg: Corn
   return {
     AL,
     thetaL,
-    thetaU: angleXY(DW.AU, BU),
+    thetaU: angleXY(AU, upperOnArm(BLk)),
+    AU,
+    BUarm: upperOnArm(BLk),
     BLarm,
     BLk,
     BU,
@@ -140,7 +148,7 @@ export function buildDoubleWishbone(source?: PartSource): SuspensionModel {
     for (const z of DW.lowerBushZ) g.add(bushing(v3(DW.AL.x, DW.AL.y, z), AZ, 0.026, 0.05));
     return g;
   });
-  b.addPair('Upper_Arm_Bushings', 'lower-arm-bushing', [-0.1, 0.24, 0], () => {
+  const upperBushings = b.addPair('Upper_Arm_Bushings', 'lower-arm-bushing', [-0.1, 0.24, 0], () => {
     const g = new Group();
     for (const z of DW.upperBushZ) g.add(bushing(v3(DW.AU.x, DW.AU.y, z), AZ, 0.022, 0.045));
     return g;
@@ -206,9 +214,11 @@ export function buildDoubleWishbone(source?: PartSource): SuspensionModel {
       lowerArm[side].position.copy(p.AL);
       lowerArm[side].quaternion.copy(qL);
       lowerBushings[side].position.copy(dmg.pivotOffset);
+      upperArm[side].position.copy(p.AU);
       upperArm[side].quaternion.copy(qz(p.thetaU - TH_U0));
+      upperBushings[side].position.copy(dmg.upperPivotOffset);
       bjLower[side].position.copy(p.BLarm);
-      bjUpper[side].position.copy(p.BU);
+      bjUpper[side].position.copy(p.BUarm);
       poseRigid(knuckle[side], p.knuckle);
       wheels.pose(side, p.knuckle, f.wheelAngle, dmg.hubWobble);
       const armPose = new RigidPose(p.AL, qL, DW.AL.clone());
@@ -225,7 +235,7 @@ export function buildDoubleWishbone(source?: PartSource): SuspensionModel {
     return {
       links: {
         lowerArmR: poses.R.BLarm.distanceTo(poses.R.AL),
-        upperArmR: poses.R.BU.distanceTo(DW.AU),
+        upperArmR: poses.R.BUarm.distanceTo(poses.R.AU),
         knuckleSpanR: poses.R.knuckleSpan,
         tieRodR: poses.R.Psolved.distanceTo(poses.R.I),
         tieRodL: poses.L.Psolved.distanceTo(poses.L.I),

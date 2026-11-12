@@ -60,9 +60,8 @@ export const useMechanic = create<MechanicState>()(
     }),
     {
       name: 'sl-mechanic',
-      storage: createJSONStorage(() => {
-        try { return window.sessionStorage; } catch { return undefined as unknown as Storage; }
-      }),
+      // Throws when storage is blocked; zustand then runs without persistence.
+      storage: createJSONStorage(() => window.sessionStorage),
     },
   ),
 );

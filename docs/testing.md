@@ -7,6 +7,7 @@
 | Simulation | Vitest | `frontend/src/three/sim/sim.test.ts` | bump compression/rebound within limits; weak damper keeps oscillating (>5× residual energy); rough road excites sides differently; steering sweep; periodicity; tyre stays on road; damage effects only on the right side, scale with params, intensity 0 disables |
 | GLB pipeline | Vitest | `frontend/src/three/rig/glbRoundtrip.test.ts` | export each procedural model to GLB → load via GLTFLoader → every part binds by name (no fallbacks) → identical world poses over several frames |
 | Mechanic data & models | Vitest | `frontend/src/mechanic/mechanic.test.ts` | 5 architecture-specific hierarchies; every referenced component exists with subcomponents & failures; 3D references exist in the rendered models; required subcomponents; every failure has all six explanations; required specific mechanisms (tie-rod end, strut mount, bushing, shock); steering systems/parts/EPS domains; effort model (assist reduces effort, failures increase it, pump wear at idle, EPS offset pull, seizure prevents return, dead-band); anatomy catalog/parts/failures; diagnostic cases cover all categories with valid references |
+| Simulation audit | Vitest | `frontend/src/mechanic/simAudit.test.ts` | every 3D failure simulation in every architecture visibly changes the model; the part that failed is the part that moves (upper vs lower ball joint, upper-link bushing, toe link, Panhard); corner failures never disturb the healthy left side; clearing a failure restores the exact normal pose (no residual effects) |
 | UI | Vitest + Testing Library | `frontend/src/test/` | store logic; explorer: per-architecture component lists, switching type, full info panel, hide/show, damage from component panel, scenario availability, animation controls, steering disabled for rear axles, overview; home cards; quiz completion; 404 page |
 | End-to-end | Playwright (Chromium) | `frontend/e2e/` | desktop 1440×900, tablet 820×1180 (touch), mobile Pixel 7: open app → choose suspension → model renders (canvas pixel check) → select component (list and **tap in 3D**) → info → animation, speed, scrub, manual → exploded/labels/reset → hide/show → damage compare → switch type → all 5 render; **fully static (no API/third-party requests except fonts)**; no-WebGL fallback; GLB over HTTP; learn & quiz |
 
@@ -32,7 +33,8 @@ Environment: Ubuntu 24.04 container, 4 vCPU, Node 22.23, headless Chromium (Play
 | Suite | Result |
 |---|---|
 | shared content | 9 passed |
-| frontend unit (incl. Mechanic data/model and dual-mode UI tests) | 73 passed |
+| frontend unit (incl. Mechanic data/model, simulation audit and dual-mode UI tests) | 184 passed |
+| scripted browser click-through (dev build): 308 architecture failures, 43 steering failures, 58 anatomy overlays, 13 cases, all Consumer scenarios | no runtime or console errors |
 | e2e local static build (desktop + tablet + mobile; Consumer + Mechanic + mode switching) | 56 passed, 1 skipped by design (3D tap test on phones, where labels are off by default) |
 | e2e against live production (dual mode, 2026-11-11) | 56 passed, 1 skipped by design |
 

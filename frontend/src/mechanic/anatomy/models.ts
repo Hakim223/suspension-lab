@@ -50,6 +50,10 @@ export interface FailureVisual {
   /** Overall motion amplitude multiplier (e.g. binding reduces stroke). */
   motionScale?: number;
   scale?: [number, number, number];
+  /** Static rotation (rad, XYZ) — e.g. a bushing clamped while twisted. */
+  rotate?: [number, number, number];
+  /** Secondary effects on other parts (e.g. oil level dropping when the seal leaks). */
+  also?: Array<Omit<FailureVisual, 'note' | 'also'>>;
   note: string;
 }
 
@@ -164,12 +168,12 @@ export const ANATOMY_MODELS: AnatomyModel[] = [
       { id: 'mount-eye', name: 'Mata bawah + bushing', sub: 'mount-bushing', explode: [0, -0.2, 0], build: () => mesh(new TorusGeometry(0.025, 0.012, 12, 24), M.rubber(), -0.03) },
     ],
     failures: {
-      'oil-leak': { parts: ['oil-seal', 'outer-tube'], tint: '#5a3c0c', note: 'Oli merembes dari sil dan membasahi tabung; level oli reservoir turun (ditunjukkan dengan oli reservoir memendek).', scale: [1, 1, 1] },
+      'oil-leak': { parts: ['oil-seal', 'outer-tube'], tint: '#5a3c0c', also: [{ parts: ['reservoir-oil'], scale: [1, 0.45, 1] }, { parts: ['working-oil'], scale: [1, 0.8, 1] }], note: 'Oli merembes dari sil dan membasahi tabung; level oli turun (kolom oli memendek) sehingga piston sebagian bekerja di udara.' },
       'valve-degradation': { parts: ['piston', 'base-valve'], tint: '#f87171', note: 'Shim katup kehilangan kekakuan → oli lewat lebih mudah; gerak piston tetap, gaya redam turun.' },
       'reduced-damping': { parts: ['working-oil', 'reservoir-oil'], tint: '#e9d8a6', note: 'Oli teraerasi/panas (warna pucat) — gaya redam sementara turun.' },
       'rod-damage': { parts: ['piston-rod'], tint: '#9a5b2e', note: 'Krom tergores/berkarat — menggerus sil setiap langkah.' },
       'bent-rod': { parts: ['piston-rod'], tint: '#f87171', tilt: 0.05, note: 'Batang bengkok (kemiringan diperbesar) → gesekan di rod guide dan sil.' },
-      'seal-failure': { parts: ['oil-seal', 'gas'], tint: '#f87171', note: 'Sil gagal menahan gas/oli — oli berbusa.' },
+      'seal-failure': { parts: ['oil-seal'], tint: '#f87171', also: [{ parts: ['gas'], hide: true }, { parts: ['reservoir-oil', 'working-oil'], tint: '#e9d8a6' }], note: 'Tekanan gas hilang (ruang gas kosong) — oli mudah berbusa/teraerasi (warna pucat).' },
       'internal-binding': { parts: ['piston'], tint: '#f87171', motionScale: 0.25, note: 'Piston tersangkut — langkah sangat terbatas.' },
       'mount-bushing-wear': { parts: ['mount-eye'], tint: '#f87171', move: [0.008, 0, 0], note: 'Karet mata bawah aus — mata bergerak terhadap baut.' },
     },
@@ -222,10 +226,10 @@ export const ANATOMY_MODELS: AnatomyModel[] = [
     name: 'Bushing lengan (karet-logam)',
     sources: ['control-arm-bushing', 'trailing-arm-bushing'],
     description: 'Sleeve luar dipres ke lengan; sleeve dalam dijepit baut. Saat lengan berayun, karet terpuntir (bukan berputar). Rongga (void) membuat kekakuan berbeda per arah.',
-    simplification: 'Puntiran karet ditunjukkan sebagai rotasi sleeve dalam; deformasi karet tidak disimulasikan secara elastis.',
+    simplification: 'Lengan (mata lengan + sleeve luar) berayun terhadap sleeve dalam yang dijepit baut; karet digambar mengikuti setengah sudut (puntiran rata-rata), bukan deformasi elastis sebenarnya.',
     motion: 'twist',
-    moving: ['inner-sleeve', 'bolt'],
-    camera: [0.36, 0.22, 0.52],
+    moving: ['arm-eye', 'outer-sleeve', 'rubber'],
+    camera: [0.3, 0.42, 0.42],
     target: [0, 0, 0],
     parts: [
       { id: 'arm-eye', name: 'Mata lengan', explode: [0, 0, -0.25], build: () => group(tube(0.075, 0.09, 0.08, M.dark(), -0.04), mesh(new BoxGeometry(0.06, 0.05, 0.08), M.dark(), 0, 0.12, 0)) },
@@ -242,12 +246,12 @@ export const ANATOMY_MODELS: AnatomyModel[] = [
       { id: 'bolt', name: 'Baut sumbu', explode: [0, 0, 0.26], build: () => cyl(0.011, 0.18, M.chrome(), -0.09, false, 16) },
     ],
     failures: {
-      hardening: { parts: ['rubber'], tint: '#5e5e5e', motionScale: 0.6, note: 'Karet mengeras — puntiran membutuhkan gaya lebih besar (gerak sama, kekakuan naik).' },
+      hardening: { parts: ['rubber'], tint: '#5e5e5e', note: 'Karet mengeras (warna pudar) — sudut ayun sama, tetapi torsi puntir dan getaran yang diteruskan lebih besar.' },
       cracking: { parts: ['rubber'], tint: '#f87171', move: [0.003, 0.002, 0], note: 'Retak menembus sebagian karet → kekakuan arah tertentu turun.' },
       tearing: { parts: ['rubber'], tint: '#f87171', move: [0.01, 0.006, 0], note: 'Karet sobek → sleeve dalam bergerak jauh dari tengah (diperbesar).' },
       separation: { parts: ['rubber', 'inner-sleeve'], tint: '#f87171', move: [0.012, 0.008, 0], note: 'Karet lepas dari sleeve → sleeve dalam bebas bergerak/berputar.' },
       deformation: { parts: ['inner-sleeve', 'bolt'], tint: '#f87171', offset: [0.012, 0, 0], note: 'Compression set → sleeve dalam tidak lagi di tengah (posisi lengan bergeser).' },
-      'wrong-preload': { parts: ['inner-sleeve', 'bolt'], tint: '#f5a524', offset: [0, 0, 0], tilt: 0.3, note: 'Dikencangkan pada posisi menggantung → karet sudah terpuntir pada ride height.' },
+      'wrong-preload': { parts: ['rubber'], tint: '#f5a524', rotate: [0, 0.2, 0], also: [{ parts: ['arm-eye', 'outer-sleeve'], rotate: [0, 0.4, 0] }], note: 'Baut dikencangkan saat lengan menggantung → pada ride height lengan sudah berputar terhadap sleeve dalam dan karet terpuntir terus-menerus (sudut awal ditunjukkan).' },
       'hydro-leak': { parts: ['rubber'], tint: '#6b8fbf', move: [0.005, 0, 0], note: 'Fluida hydro-bushing keluar → peredaman hilang.' },
     },
   },

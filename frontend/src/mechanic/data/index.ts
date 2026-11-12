@@ -25,8 +25,8 @@ const RACK_MM_PER_DEG = 50 / 360;
 
 /** Steering failures that change free play get a matching 3D rack-backlash profile when they have none. */
 function withRackSim(f: SteeringPart['failureModes'][number]): FailureMode {
-  if (f.sim || !f.model.freePlayDeg || f.model.freePlayDeg < 1.5) return f;
-  return { ...f, sim: { kind: 'rack-backlash', params: { playMm: +(f.model.freePlayDeg * RACK_MM_PER_DEG).toFixed(2), visualExaggeration: 3 }, mode: 'steer' } };
+  if (f.sim || !f.model.freePlayDeg || f.model.freePlayDeg < 2) return f;
+  return { ...f, sim: { kind: 'rack-backlash', params: { playMm: +(f.model.freePlayDeg * RACK_MM_PER_DEG).toFixed(2), visualExaggeration: 5 }, mode: 'steer' } };
 }
 
 function fromSteering(id: string, name: string, term: string, partIds: string[], extra: Partial<MechComponent>): MechComponent {
