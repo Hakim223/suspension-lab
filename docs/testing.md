@@ -36,6 +36,6 @@ Environment: Ubuntu 24.04 container, 4 vCPU, Node 22.23, headless Chromium (Play
 | frontend unit (incl. Mechanic data/model, simulation audit and dual-mode UI tests) | 184 passed |
 | scripted browser click-through (dev build): 308 architecture failures, 43 steering failures, 58 anatomy overlays, 13 cases, all Consumer scenarios | no runtime or console errors |
 | e2e local static build (desktop + tablet + mobile; Consumer + Mechanic + mode switching) | 56 passed, 1 skipped by design (3D tap test on phones, where labels are off by default) |
-| e2e against live production (dual mode, 2026-11-11) | 56 passed, 1 skipped by design |
+| e2e against live production (after QA pass, 2026-11-12) | 56 passed, 1 skipped by design; click-through audit: no errors |
 
 Physical tablets/phones were not available; the tablet/mobile results use Chromium device emulation.
